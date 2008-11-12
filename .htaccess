@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteRule ^print/(.*) /display.php?p=$1
+RewriteRule ^open/(.*) /index.php?o=$1
+

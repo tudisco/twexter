@@ -1,0 +1,32 @@
+
+#main_body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#usertag {
+	position:absolute;
+	z-index:155;
+	width:200px;
+	top:2px;
+	right:10px;
+	font-family: sans-serif;
+	font-size: small;
+	font-weight: bold;
+	text-align: right;
+	color: grey;
+	padding-right: 20px;
+	background: transparent url(../images/userlogin/s-system-users.png);
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+#new_doc_butt {
+        width:16px;
+        height:16px;
+        padding: 5px;
+        margin-left: 5px;
+        background: transparent url(../images/buttons/document-new.png) 0 0 no-repeat;
+        z-index: 3999;
+        position:absolute;
+}

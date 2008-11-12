@@ -1,0 +1,64 @@
+
+#url_link_address {
+    z-index: 2000;
+    position:absolute;
+}
+
+.url_link_address_actionButton {
+    background: transparent url(../images/urllink/eye-grey.gif) 0 0 no-repeat;
+    width:22px;
+    height:22px;
+    padding: 5px;
+    float: left;
+}
+
+.url_link_address_actionButtonReady {
+    background: transparent url(../images/urllink/eye-black.gif) 0 0 no-repeat;
+    width:22px;
+    height:22px;
+    padding: 5px;
+    float: left;
+}
+
+.url_link_address_actionButtonOver {
+    background: transparent url(../images/urllink/eye-color.gif) 0 0 no-repeat;
+}
+
+.url_link_address_saveButton {
+    background: transparent url(../images/buttons/document-save.png) 0 0 no-repeat;
+    display:none;
+    width:22px;
+    height:22px;
+    padding: 5px;
+    float: left;
+}
+
+.url_link_address_adressBar {
+    width: 0px;
+    height:22px;
+    display: none;
+    float: left;
+}
+
+.url_link_address_adressBar input {
+    width: 0px;
+}
+
+/*  URL DISPLAY STYLES  */
+
+.url_res_display {
+    border: 2px solid lightgrey;
+    padding:15px;
+    bottom: 10px;
+    top: 55px;
+    z-index:127;
+    position: absolute;
+    visibility: hidden;
+    -moz-border-radius : 7px;
+    -webkit-border-radius: 7px;
+}
+
+.url_res_display_iframe {
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,106 @@
+
+/* Special Tools Pop Up WIndow - chunking,tranlating */
+.tools_popup {
+    visibility: hidden;
+    position: absolute;
+    background: grey;
+    z-index: 5000;
+    height: 100px;
+    top: 65px;
+    left: 10px;
+    right: 10px;
+    -moz-border-radius : 5px;
+    -webkit-border-radius: 5px;
+}
+
+.tools_popup_chunk {
+    margin: 10px;
+    float:left;
+    width: 200px;
+}
+
+.tools_popup_trans {
+    margin: 10px;
+    float: left;
+    width: 200px;
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+}
+
+#tools_popup_sel_trans {
+    margin-left: 5px;
+    color: darkred;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+}
+
+
+.chunk_length {
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+}
+
+#tools_popup_chunk_len {
+    margin-left: 5px;
+    color: darkred;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+}
+
+.chunk_start {
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+    padding-left: 64px;
+    cursor: pointer;
+}
+
+.chunk_undo {
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+    padding-left: 64px;
+    cursor: pointer;
+}
+
+.chunk_optbutt {
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+    font-size: 15px;
+    padding-left: 64px;
+    cursor: pointer;
+}
+
+.chunk_start:hover {
+    color: orange;
+}
+
+.chunk_undo:hover {
+    color: orange;
+}
+
+.chunk_optbutt:hover {
+    color: red;
+}
+
+.tools_popup_chunk_options {
+    display: none;
+    margin: 10px;
+}
+
+.chunk_both, .chunk_before, .chunk_after {
+    float: left;
+    margin: 10px;
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif, monospace;
+    height: 250px;
+}
+
+.chunk_both textarea, .chunk_before textarea, .chunk_after textarea {
+    height: 200px;
+    width: 200px;
+}

@@ -1,0 +1,89 @@
+#edit_toolbar {
+    /*border: solid 1px yellow;*/
+    z-index: 99;
+    height: 32px;
+    /*width: 50%;*/
+}
+
+#edit_toolbar #edit_switch {
+    width:17px;
+    height:17px;
+    background: transparent url(../images/edittools/switch.gif) 0 0 no-repeat;
+    float: left;
+}
+
+#edit_toolbar #edit_switch.flip{
+    background: transparent url(../images/edittools/switch.gif) 0 -17px no-repeat;
+}
+
+#edit_toolbar #pref {
+    width:22px;
+    height:22px;
+    float: left;
+    padding: 5px;
+    background: transparent url(../images/edittools/preferences.png) 0 0 no-repeat;
+}
+
+#edit_toolbar #print {
+    width:22px;
+    height:22px;
+    float: left;
+    padding: 5px;
+    background: transparent url(../images/edittools/document-print.png) 0 0 no-repeat;
+}
+
+#edit_toolbar #print:hover {
+    background: transparent url(../images/edittools/document-print.png) -1px -1px no-repeat;
+}
+
+#edit_toolbar #pref:hover {
+    background: transparent url(../images/edittools/preferences.png) -1px -1px no-repeat;
+}
+
+#edit_toolbar #newdoc {
+    width:22px;
+    height:22px;
+    float: left;
+    padding: 5px;
+    background: transparent url(../images/edittools/document-new.png) 0 0 no-repeat;
+}
+
+#edit_toolbar #newdoc:hover {
+    background: transparent url(../images/edittools/document-new.png) -1px -1px no-repeat;
+}
+
+#edit_toolbar #savedoc {
+    width:22px;
+    height:22px;
+    float: left;
+    padding: 5px;
+    background: transparent url(../images/edittools/document-save.png) 0 0 no-repeat;
+}
+
+#edit_toolbar #savedoc:hover {
+    background: transparent url(../images/edittools/document-save.png) -1px -1px no-repeat;
+}
+
+#edit_toolbar .c_lang_left {
+    float: left;
+    position: relative;
+    margin-top: 5px;
+    color: brown;
+    background-color: white;
+}
+
+#edit_toolbar .c_lang_right {
+    float: left;
+    position: relative;
+    margin-top: 5px;
+    color: brown;
+    background-color: white;
+}
+
+#edit_toolbar select {
+    font-family: sans-serif;
+    font-size: small;
+    color: Brown;
+    background-color: white;
+    border: solid 1px black;
+}

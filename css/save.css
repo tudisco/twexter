@@ -1,0 +1,41 @@
+
+.save_form {
+    z-index: 351;
+    position: absolute;
+    background-color: lightblue;
+    border: solid medium;
+    visibility: hidden;
+}
+
+.save_form .title {
+    background-color: blue;
+    color:white;
+    padding: 3px;
+    padding-left: 30px;
+    font-family: sans-serif;
+    font-weight: bold;
+    /* background: transparent url(../images/userlogin/system-users.png) 3px 1px no-repeat; */
+}
+
+.save_form .body {
+    background-color: cornsilk;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: sans-serif;
+}
+
+.save_form .body .field label {
+    padding-right: 5px;
+}
+
+.save_form .body .field_textarea textarea {
+    right: 5px;
+    left: 5px;
+    height: 150px;
+}
+
+.save_form .body .field_textarea label {
+    display:block;
+}

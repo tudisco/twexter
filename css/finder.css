@@ -1,0 +1,168 @@
+
+.finder {
+    z-index: 353;
+    position: absolute;
+    background-color: white;
+    /*border: solid medium;*/
+    visibility: hidden;
+    top: 55px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+
+#finder_searchbox {
+    float: left;
+    width:250px;
+    font-family: monospace;
+    border: solid 2px grey;
+    -moz-border-radius : 4px;
+    -webkit-border-radius : 4px;
+}
+
+#finder_field_search {
+    padding: 2px;
+    border: none;
+    width:215px;
+}
+
+.finder_sort {
+    width:100%;
+}
+
+.finder_sort .sortname {
+    float: left;
+    width: 22px;
+    height: 22px;
+    margin-left: 50px;
+}
+
+.finder_sort .sortdate {
+    float: right;
+    width: 22px;
+    height: 22px;
+    margin-right: 50px;
+}
+
+.finder_sort .sort_none {
+    background: transparent url(../images/finder/sort_none.gif) 0 0 no-repeat;
+}
+
+.finder_sort .sort_down {
+    background: transparent url(../images/finder/sort_down.gif) 0 0 no-repeat;
+}
+
+.finder_sort .sort_up {
+    background: transparent url(../images/finder/sort_up.gif) 0 0 no-repeat;
+}
+
+
+.finder_slop {
+    float: left;
+}
+
+.finder_slop_text {
+    background-color: white;
+    border: solid 1px black;
+    margin-right: 5px;
+}
+
+.finder_slop_twxt {
+    background-color: white;
+    border: solid 1px black;
+    margin-right: 5px;
+}
+
+.finder_slop_switch_old {
+    width: 22px;
+    height: 22px;
+    padding-left: 5px;
+    padding-right: 15px;
+    background: transparent url(../images/finder/switch.gif) 0 -17px no-repeat;
+}
+
+.findlite {
+   background-color: LemonChiffon;
+    color: BlueViolet;
+}
+
+.finder_search_cancel {
+    /*visibility: hidden;*/
+}
+
+.finder_filelist {
+    position: relative;
+    background-color: transparent;
+    /*border: solid 1px darkgrey;*/
+    padding: 5px;
+    overflow: auto;
+    font-family: monospace;
+}
+
+.filelisting {
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
+}
+
+.filelisting .file_title_row .title {
+    font-size: large;
+    text-align: left;
+    color: blue;
+    float:left;
+}
+
+.filelisting .file_title_row .title .ver {
+    font-size: small;
+    color: lightgrey;
+}
+
+.filelisting .file_title_row .title .user {
+    font-size: small;
+    color: lightblue;
+}
+
+.filelisting .file_title_row .creation {
+    float: right;
+}
+
+.filelisting .file_title_row .creation .m {
+    color: blue;
+}
+
+.filelisting .file_title_row .creation .y {
+    color: grey;
+}
+
+.filelisting .file_title_row .creation .d {
+    color: grey;
+}
+
+.filelisting .file_title_row .creation .t {
+    color: BlueViolet;
+    padding-left: 5px;
+}
+
+.filelisting .file_title_row .creation .a {
+    color: pink;
+}
+
+.filelisting .creation {
+    color: goldenrod;
+    text-align: right;
+}
+
+.filelisting .desc {
+    color: #B5AA84;
+}
+
+.finder_filelist .file_hover {
+    background-color: AntiqueWhite;
+    border-top: solid 1px GoldenRod ;
+    border-bottom: solid 1px GoldenRod ;
+}
+
+.finder_filelist .file_select {
+    background-color: Gold ;
+    border-top: solid 1px GoldenRod ;
+    border-bottom: solid 1px GoldenRod ;
+}

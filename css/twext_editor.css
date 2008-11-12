@@ -1,0 +1,61 @@
+
+.twext_editor {
+    /*width: 48%;*/
+    overflow: auto;
+    border: 2px solid lightgrey;
+    padding:0px;
+    bottom: 10px;
+    top: 55px;
+    z-index:135;
+    position: absolute;
+    overflowY: hidden;
+    -moz-border-radius : 7px;
+    -webkit-border-radius: 7px;
+}
+
+.twext_editor .etable {
+    top:0;
+    bottom:0;
+}
+
+.twext_editor .etable .left {
+    background: black;
+}
+
+.twext_editor .etable .left .edit {
+    text-align: right;
+    color: white;
+    background: black;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    border-style:none;
+    width: 100%;
+    /*overflow: hidden;*/
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    overflow:-moz-scrollbars-horizontal;
+}
+
+.twext_editor .etable .right {
+    background: white;
+}
+
+.twext_editor .etable .right .edit {
+    text-align: left;
+    background: white;
+    color: black;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    border-style:none;
+    width: 100%;
+    /*overflow: hidden;*/
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    overflow:-moz-scrollbars-horizontal;
+}

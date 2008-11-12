@@ -1,0 +1,47 @@
+
+.chunk {
+	float:left;
+	text-align:center;
+	padding-right: 0.4em; /* Spacing Between Chunks */
+	height: 25px;
+}
+
+.chunk .text{
+	font-family: Arial;
+	white-space: nowrap;
+	font-size: 25px;
+	color: darkblue;
+	font-weight: normal;
+	text-transform: none;
+}
+
+.chunk .twext{
+	font-family: Arial;
+	white-space: nowrap;
+	font-size: 11px;
+	color: lightgrey;
+	margin-top: -7px;
+	font-weight: normal;
+	text-transform: uppercase;
+}
+
+.line-break {
+	height:1px;
+	width:100%;
+	clear: both;
+}
+
+.para-break {
+	height:30px;
+	width:100%;
+	clear: both;
+}
+
+/* Below is just for testing etc. */
+
+.my_box {
+	width:75%;
+	border: medium solid rgb(250,0,255);
+	overflow: auto;
+	padding:0.3em;
+}

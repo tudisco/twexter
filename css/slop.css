@@ -1,0 +1,75 @@
+
+.slop_popup {
+    position: absolute;
+    z-index: 6000;
+    padding: 3px;
+    border: solid 2px grey;
+    background-color: black;
+    /*width:250px;*/
+    /*height:250px;*/
+    visibility: hidden;
+    -moz-border-radius : 5px;
+    -webkit-border-radius: 5px;
+}
+
+.lang_user_container {
+    width: 100px;
+}
+
+.lang_all_container {
+    overflow:auto;
+    height:200px;
+    background-color: white;
+    border: solid 2px grey;
+    -moz-border-radius : 4px;
+    -webkit-border-radius: 4px;
+    padding: 2px;
+    font-family: monospace, sans-serif, serif;
+}
+
+.lang_user_container {
+    overflow:auto;
+    background-color: white;
+    border: solid 2px grey;
+    -moz-border-radius : 4px;
+    -webkit-border-radius: 4px;
+    padding: 2px;
+    font-family: monospace, sans-serif, serif;
+}
+
+.slop_lang_search {
+    background-color: white;
+    border: solid 2px grey;
+    margin-bottom: 4px;
+    -moz-border-radius : 4px;
+    -webkit-border-radius: 4px;
+    font-family: monospace, sans-serif, serif;
+    vertical-align:middle;
+}
+
+.slop_lang_search .slop_search_field {
+    border-style: none;
+}
+
+
+
+.slopfindlite {
+    background-color: yellow;
+    color: darkred;
+}
+
+.slop_list_user-item, .slop_list_all-item {
+    cursor: pointer;
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
+}
+
+.slop_item_sel {
+    background-color: lightblue;
+}
+
+.slop_item_over{
+    border-bottom: solid 1px Cyan;
+    border-top: solid 1px Cyan;
+    background-color: LightCyan;
+}

@@ -1,0 +1,24 @@
+
+.twext_out {
+    /*width: 48%;*/
+    overflow: auto;
+    border: 2px solid lightgrey;
+    padding:15px;
+    bottom: 10px;
+    top: 55px;
+    z-index:130;
+    position: absolute;
+    overflowY: hidden;
+    -moz-border-radius : 7px;
+    -webkit-border-radius: 7px;
+}
+
+.outMask {
+    background-color: darkgrey;
+    color: white;
+    padding:15px;
+    bottom: 10px;
+    top: 55px;
+    z-index:1260;
+    border: solid 2px black;
+}

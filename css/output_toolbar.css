@@ -1,0 +1,23 @@
+
+#output_tool {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    /*border: solid 2px green;*/
+    z-index: 200;
+}
+
+#output_tool th {
+    font-family: sans-serif;
+    color: DimGrey;
+    font-size: small;
+}
+
+#output_tool td select {
+    font-family: sans-serif;
+    font-size: small;
+    color: Brown;
+    background-color: LightGoldenRodYellow;
+    border: solid 1px black;
+}
