@@ -6,21 +6,23 @@ set_include_path(realpath(dirname(__FILE__).'/../libs') . PATH_SEPARATOR .
 require_once 'Zend/Db.php';
 require_once 'Zend/Registry.php';
 require_once 'Zend/Db/Table/Abstract.php';
+$dbconf = parse_ini_file(dirname(__FILE__)."/db.ini", true);
+if($dbconf===false) die("No database config");
 
 if(strpos($_SERVER['HTTP_HOST'],'read.fm')){
     $_db_params = array(
-        'host'           => 'localhost',
-        'username'       => 'xc9_twext',
-        'password'       => 'r56Qv81kepvT',
-        'dbname'         => 'xc9_twext',
+        'host'           => $dbconf['readfm']['host'],
+        'username'       => $dbconf['readfm']['username'],
+        'password'       => $dbconf['readfm']['password'],
+        'dbname'         => $dbconf['readfm']['dbname'],
         'profiler' 		 => false
     ); 
 }else{
     $_db_params = array(
-        'host'           => 'localhost',
-        'username'       => 'root',
-        'password'       => '',
-        'dbname'         => 'twexter',
+        'host'           => $dbconf['local']['host'],
+        'username'       => $dbconf['local']['username'],
+        'password'       => $dbconf['local']['password'],
+        'dbname'         => $dbconf['local']['dbname'],
         'profiler' 		 => true
     );    
 }
