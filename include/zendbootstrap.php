@@ -14,15 +14,7 @@ if(strpos($_SERVER['HTTP_HOST'],'read.fm')){
         'password'       => 'r56Qv81kepvT',
         'dbname'         => 'xc9_twext',
         'profiler' 		 => false
-    );   
-}else if(strpos($_SERVER['HTTP_HOST'],'twext.com')){
-    $_db_params = array(
-        'host'           => 'mysql.tuba.net',
-        'username'       => 'tudisco',
-        'password'       => 'tudisco321*',
-        'dbname'         => 'retwext',
-        'profiler' 		 => false
-    );
+    ); 
 }else{
     $_db_params = array(
         'host'           => 'localhost',

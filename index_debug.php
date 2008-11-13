@@ -46,33 +46,33 @@ if(!is_numeric($docid)) $docid = 'null';
 	?>
 </script>
 
-<script type="text/javascript" src="js/ext_2.2b.js"></script>
+<script type="text/javascript" src="js/lib/ext_2.2b.js"></script>
 <!-- <script type="text/javascript" src="../javascript/ext.js"></script> -->
-<script type="text/javascript" src="js/debug.js"></script>
+<script type="text/javascript" src="js/utils/debug.js"></script>
 
 <script type="text/javascript" src="js/settings.js"></script>
 
-<script type="text/javascript" src="js/util.js"></script>
-<script type="text/javascript" src="js/libtwexter.js"></script>
+<script type="text/javascript" src="js/utils/util.js"></script>
+<script type="text/javascript" src="js/lib/libtwexter.js"></script>
 <!-- <script type="text/javascript" src="../javascript/persist-all-min.js"></script> -->
-<script type="text/javascript" src="js/x_button.js"></script>
+<script type="text/javascript" src="js/ui/x_button.js"></script>
 <script type="text/javascript" src="js/simple.js"></script>
-<script type="text/javascript" src="js/output.js"></script>
+<script type="text/javascript" src="js/ui/output.js"></script>
 <script type="text/javascript" src="js/local_data.js"></script>
-<script type="text/javascript" src="js/editor.js"></script>
-<script type="text/javascript" src="js/editor_toolbar.js"></script>
-<script type="text/javascript" src="js/output_toolbar.js"></script>
-<script type="text/javascript" src="js/user_login.js"></script>
-<script type="text/javascript" src="js/save.js"></script>
-<script type="text/javascript" src="js/finder.js"></script>
-<script type="text/javascript" src="js/login_button.js"></script>
-<script type="text/javascript" src="js/slop_select.js"></script>
-<script type="text/javascript" src="js/slop_popup.js"></script>
-<script type="text/javascript" src="js/slop_list.js"></script>
-<script type="text/javascript" src="js/tools_popup.js"></script>
+<script type="text/javascript" src="js/ui/editor.js"></script>
+<script type="text/javascript" src="js/ui/editor_toolbar.js"></script>
+<script type="text/javascript" src="js/ui/output_toolbar.js"></script>
+<script type="text/javascript" src="js/ui/user_login.js"></script>
+<script type="text/javascript" src="js/ui/save.js"></script>
+<script type="text/javascript" src="js/ui/finder.js"></script>
+<script type="text/javascript" src="js/ui/login_button.js"></script>
+<script type="text/javascript" src="js/ui/slop_select.js"></script>
+<script type="text/javascript" src="js/ui/slop_popup.js"></script>
+<script type="text/javascript" src="js/ui/slop_list.js"></script>
+<script type="text/javascript" src="js/ui/tools_popup.js"></script>
 
-<script type="text/javascript" src="js/url_link.js"></script>
-<script type="text/javascript" src="js/top_tool_bar.js"></script>
+<script type="text/javascript" src="js/ui/url_link.js"></script>
+<script type="text/javascript" src="js/ui/top_tool_bar.js"></script>
 
 <script type="text/javascript" src="js/translator.js"></script>
 
