@@ -10,7 +10,7 @@ $groupsSources = array(
         ,"{$base}/js/ui/x_button.js"
         ,"{$base}/js/simple.js"
         ,"{$base}/js/ui/output.js"
-        ,"{$base}/js/ui/local_data.js"
+        ,"{$base}/js/data/local_data.js"
         ,"{$base}/js/ui/editor.js"
         ,"{$base}/js/ui/editor_toolbar.js"
         ,"{$base}/js/ui/output_toolbar.js"

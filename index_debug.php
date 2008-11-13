@@ -58,7 +58,7 @@ if(!is_numeric($docid)) $docid = 'null';
 <script type="text/javascript" src="js/ui/x_button.js"></script>
 <script type="text/javascript" src="js/simple.js"></script>
 <script type="text/javascript" src="js/ui/output.js"></script>
-<script type="text/javascript" src="js/local_data.js"></script>
+<script type="text/javascript" src="js/data/local_data.js"></script>
 <script type="text/javascript" src="js/ui/editor.js"></script>
 <script type="text/javascript" src="js/ui/editor_toolbar.js"></script>
 <script type="text/javascript" src="js/ui/output_toolbar.js"></script>
