@@ -22,15 +22,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 Ext.namespace('twexter', 'twexter.simple');
 
 /** Main Application Controler */
-twexter.simple = function(){
-	twexter.simple.superclass.constructor.call(this);
+twexter.xnavui = function(){
+	twexter.xnavui.superclass.constructor.call(this);
 	this.addEvents({
 		"show_editor": true,
 		"show_login": true
 	});
 };
 
-twexter.simple.prototype = {
+twexter.xnavui.prototype = {
 	
 	/** Current State !! Not Being Used */
 	state: null,
@@ -96,10 +96,10 @@ twexter.simple.prototype = {
 	
 	/** Initialize general events */
 	init_general_events: function(){
-		this.newDocButton = this.topButtonBar.addManualButton('new_doc_butt','',0);
+		//this.newDocButton = this.topButtonBar.addManualButton('new_doc_butt','',0);
 		this.topButtonBar.setButtonMarginLeft(0,5);
 		this.topButtonBar.posButtons();
-		this.newDocButton.on('click', this.onNewDocument, this);
+		//this.newDocButton.on('click', this.onNewDocument, this);
 	},
 	
 	/** Initialize the login button control */
@@ -115,31 +115,30 @@ twexter.simple.prototype = {
 	
 	init_urlLinkButt: function(){
 		/*{*/console.info("__Going to add Url Resource Bar__");/*}*/
-		this.urlLinkButt = new twexter.url_link_addr_bar();
+		//this.urlLinkButt = new twexter.url_link_addr_bar();
 		//this.pos_urllinkButton();
-		this.topButtonBar.addButton(this.urlLinkButt.getEl(), 2);
+		//this.topButtonBar.addButton(this.urlLinkButt.getEl(), 2);
 		this.topButtonBar.posButtons();
 		
-		this.urlLinkButt.on('save_doc', this.onSaveDocument, this);
+		//this.urlLinkButt.on('save_doc', this.onSaveDocument, this);
 		
 		//Button Events
-		this.urlLinkButt.on("posUrlLink", function(){
+		/*this.urlLinkButt.on("posUrlLink", function(){
 			//this.pos_urllinkButton();
 			this.topButtonBar.posButtons();
-		}, this);
+		}, this);*/
 		
-		this.urlLinkButt.on("showUrlResource", this.onShowUrlResource, this);
-		this.urlLinkButt.on("hideUrlResource", this.onHideUrlResource, this);
+		//this.urlLinkButt.on("showUrlResource", this.onShowUrlResource, this);
+		//this.urlLinkButt.on("hideUrlResource", this.onHideUrlResource, this);
 		
-		this.urlLinkButt.on("urlResourceChange", function(ctl, url){
+		/*this.urlLinkButt.on("urlResourceChange", function(ctl, url){
 			this.urlDisplay.setUrl(url);
 			this.doc_url = url;
 		}, this);
 		
 		this.urlLinkButt.on("clearUrlDisplay", function(){
 			this.urlDisplay.clearUrl();
-		}, this);
-		
+		}, this);*/
 		
 		//URL DISPLAY CONTROL
 		this.urlDisplay = new twexter.url_link_display();
@@ -958,7 +957,7 @@ twexter.simple.prototype = {
 			
 			//URL Resource Stuff
 			this.urlDisplay.clearUrl();
-			this.urlLinkButt.documentLoaded(this.doc_id);
+			//this.urlLinkButt.documentLoaded(this.doc_id);
 			
 			var trans = doc.trans;
 			
@@ -1023,11 +1022,11 @@ twexter.simple.prototype = {
 			delete this.OutMask;
 			
 			//Url Link Stuff
-			this.urlLinkButt.documentNew();
+			//this.urlLinkButt.documentNew();
 			this.urlDisplay.clearUrl();
 			
 			if(this.doc_url && !Ext.isEmpty(this.doc_url)){
-				this.urlLinkButt.setUrl(this.doc_url);
+				//this.urlLinkButt.setUrl(this.doc_url);
 				this.urlDisplay.clearUrl();
 				this.urlDisplay.setUrl(this.doc_url);
 			}
@@ -1161,8 +1160,8 @@ twexter.simple.prototype = {
 	hideUrlDisplay : function(){
 		/*{*/console.info("Going to hide URL display");/*}*/
 		this.urlDisplay.hide();
-		this.urlLinkButt.hideAddrBar(false);
-		this.pos_urllinkButton();
+		//this.urlLinkButt.hideAddrBar(false);
+		//this.pos_urllinkButton();
 	},
 	
 	onHideUrlResource: function(){
@@ -1197,8 +1196,8 @@ twexter.simple.prototype = {
 	}
 };
 
-Ext.extend(twexter.simple, Ext.util.Observable, twexter.simple.prototype);
+Ext.extend(twexter.xnavui, Ext.util.Observable, twexter.xnavui.prototype);
 
 //Start it on ready
-SIMPLE = new twexter.simple();
+SIMPLE = new twexter.xnavui();
 Ext.onReady(SIMPLE.init, SIMPLE);
