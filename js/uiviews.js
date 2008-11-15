@@ -17,9 +17,10 @@ twexter.uiviews.prototype = {
     bodyId: MAIN_BODY,
     ctrls: {},
     currentView: null,
+    resizeTask: false,
     
     init: function(){
-        
+        Ext.EventManager.onWindowResize(this.onResize, this);
     },
     
     addCtrl: function(name, ctrl){
@@ -53,11 +54,15 @@ twexter.uiviews.prototype = {
     },
     
     onResize: function(){
-        
+        if(!this.resizeTask){
+	    this.resizeTask = new Ext.util.DelayedTask(this.onResizeDelayed, this);
+	    this.resizeBuffer = 60;
+	}
+	this.resizeTask.delay(this.resizeBuffer);
     },
     
     onResizeDelayed: function(){
-        
+        this.positionControls();
     },
     
     doResize: function(){
@@ -69,12 +74,53 @@ twexter.uiviews.prototype = {
         var view_name = this.currentView;
         var view = this.views[view_name];
         var gview = this.views.always;
+        var toolbar2space = false;
         
         if(Ext.type(view)!='object' || Ext.type(gview)!='object'){
             throw "General View or View is not an object";
         }
         
+        var vs = (Ext.type(this.views['settings'])=='object') ? this.views['settings'] : false;
         
+        if(vs !== false){
+            if(vs['topbar2space']===false){
+                toolbar2space = false;
+            }else{
+                toolbar2space = true;
+            }
+        }
+        
+        for (var v in view){
+            if(Ext.type(this.ctrls[v])=='object'){
+                var ctrl = this.ctrls[v]
+                var vs = view[v];
+                var vs_type = Ext.type(vs);
+                if(vs_type=='string'){
+                    
+                }else if(vs_type=='object'){
+                    
+                }else if(vs_type=='array'){
+                    
+                }
+            }
+        }
+        
+    },
+    
+    posCtrlString: function(ctrl, str){
+        
+    },
+    
+    posCtrlObject: function(ctrl, obj){
+        
+    },
+    
+    posCtrlArray: function(ctrl, arr){
+        
+    },
+    
+    getPositionOf: function(ctrl){
+        //Return the position of a control.
     }
     
 }
