@@ -58,3 +58,40 @@ URLDISPLAY_HEIGHT_DIFF = 40;
 
 //Chunking Tools Setting
 CHUNKTOOLS_TOP = 170;
+
+
+VIEW_STATES = {
+    always:{
+        menubar: 'tr',
+        xnav: 'tl',
+        sidebar: {visible: true, width:COL_LEFT_SIZE, dock:'bl'}
+    },
+    doc_nourl:{
+        settings: {topbar2space:false},
+        output: {visible: true, dock:'c', part:'all'},
+        urldisplay: {visible: false},
+        editortools: {visible:false},
+        editor: {visible: false}
+    },
+    doc_url:{
+        settings: {topbar2space:false},
+        output: {visible: true, dock:'c', part:'l'},
+        urldisplay: {visible: true, dock:'c', part:'r'},
+        editortools: {visible:false},
+        editor: {visible: false}
+    },
+    edit_preview:{
+        settings: {topbar2space:true},
+        output: {visible: true, dock: 'c', part:'r'},
+        urldisplay: {visible: false},
+        editortools: {visible: true, doc:'tr2'},
+        editor: {visible: true, dock:'c', part:'l'}
+    },
+    edit_full: {
+        settings: {topbar2space:true},
+        output: {visible:false},
+        urldisplay: {visible: false},
+        editortools: {visible: true, doc:'tr2'},
+        editor: {visible: true, dock:'c', part:'all'}
+    }
+}
