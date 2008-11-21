@@ -2,6 +2,7 @@
     /*border: solid 1px yellow;*/
     z-index: 99;
     height: 32px;
+    position:absolute;
     /*width: 50%;*/
 }
 

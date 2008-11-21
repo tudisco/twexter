@@ -271,7 +271,7 @@ twexter.data.prototype = {
     sendDataOutToolbar: function(outToolbar){
         var t = ['text','twxt'];
         var o = ['font', 'fontsize', 'fontcolor', 'fontweight', 'fontspace'];
-        /*{*/console.debug("going to load out toolbar options");/*}*/
+        /*{*/console.group("Loading default toolbar options");/*}*/
         
         var text_style = '.chunk .text';
         var twxt_style = '.chunk .twext';
@@ -293,6 +293,8 @@ twexter.data.prototype = {
                 sc++;
             }, this);
         }, this);
+        
+        /*{*/console.groupEnd();/*}*/
         
         //** Obsolete **//
         /**Ext.each(t, function(i){
@@ -362,7 +364,7 @@ twexter.data.prototype = {
             if(this.editor_undo.length > 25){
                 this.editor_undo.shift();
             }
-            /*{*/console.dir(this.editor_undo);/*}*/
+            /* console.dir(this.editor_undo); */
         }
         
     },
@@ -373,7 +375,7 @@ twexter.data.prototype = {
             /*{*/console.log('NO UNDOs.');/*}*/
             return false;
         }
-        /*{*/console.dir(this.editor_undo);/*}*/
+        /*console.dir(this.editor_undo);*/
         
         var ct = twexter.detect_chunk_style(left,right);
         var s = this.makeXscroll(left,right,ct);

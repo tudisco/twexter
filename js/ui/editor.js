@@ -329,6 +329,16 @@ twexter.editor.prototype = {
         this.positionEditors();
     },
     
+    hide : function(){
+        this.setVisible(false);  
+    },
+    
+    show : function(){
+        this.setVisible(true);
+    },
+    
+    setPosition: Ext.emptyFn,
+    
     setTextArray: function(t){
         if(Ext.isArray(t)){
             this.setText(t[0]);
@@ -342,7 +352,7 @@ twexter.editor.prototype = {
     setTextStruct: function(struct){
         if(!Ext.isArray(struct)){
             /*{*/console.error("Struct isn't an array");/*}*/
-            /*{*/console.dir(struct);/*}*/
+            /*console.dir(struct);*/
             return;
         }
         var s = struct;

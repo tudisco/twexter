@@ -76,7 +76,11 @@ twexter.xnavui.prototype = {
 		window.onresize = this.onResize.createDelegate(this, []);
 		/*{*/console.info("starting application");/*}*/
 		
+		this.uiviews = new twexter.uiviews({views:VIEW_STATES});
+		this.uiviews.setView("doc_nourl");
+		
 		this.topButtonBar = new twexter.top_tool_bar();
+		this.uiviews.addCtrl('menubar', this.topButtonBar);
 		
 		this.init_login();
 		this.init_urlLinkButt();
@@ -89,6 +93,8 @@ twexter.xnavui.prototype = {
 		
 		this.init_keys();
 		
+		this.uiviews.positionControls();
+		
 		if(USER_LOGED_IN){
 			this.onUserAuth(null, USER_DATA.userid, USER_DATA.name_first, USER_DATA.name_last);
 		}
@@ -98,7 +104,7 @@ twexter.xnavui.prototype = {
 	init_general_events: function(){
 		//this.newDocButton = this.topButtonBar.addManualButton('new_doc_butt','',0);
 		this.topButtonBar.setButtonMarginLeft(0,5);
-		this.topButtonBar.posButtons();
+		//this.topButtonBar.posButtons();
 		//this.newDocButton.on('click', this.onNewDocument, this);
 	},
 	
@@ -142,6 +148,7 @@ twexter.xnavui.prototype = {
 		
 		//URL DISPLAY CONTROL
 		this.urlDisplay = new twexter.url_link_display();
+		this.uiviews.addCtrl('urldisplay', this.urlDisplay);
 		
 	},
 	
@@ -149,6 +156,9 @@ twexter.xnavui.prototype = {
 	init_editor: function(){
 		//The Editor
 		this.editor = new twexter.editor();
+		
+		this.uiviews.addCtrl('editor', this.editor);
+		
 		this.editor.init();
 		this.editor.setVisible(false);
 		this.editor.on('change', this.onEditorChange, this);
@@ -156,8 +166,12 @@ twexter.xnavui.prototype = {
 		
 		//Here we can also do the editor toolbar
 		this.editor_bar = new twexter.editor_tools();
+		
+		this.uiviews.addCtrl('editortools', this.editor_bar);
+		
 		this.editor_bar.init();
-		this.editor_bar.setVisible(false);
+		//this.editor_bar.setVisible(false);
+		
 		this.editor_bar.on('new_document_click', this.onNewDocument, this);
 		//this.editor_bar.on('user_click', this.onUserLogin, this);
 		this.editor_bar.on('save_document_click', this.onSaveDocument, this);
@@ -205,12 +219,16 @@ twexter.xnavui.prototype = {
 	init_output: function(){
 		this.output = new twexter.out();
 		this.output.init();
+		this.uiviews.addCtrl('output', this.output);
 		this.pos_output(this.output_align);
 		
 		//Lets do tool bar also
 		this.output_bar = new twexter.out_tools(this.output, {});
+		
+		this.uiviews.addCtrl('stylecontrol', this.output_bar);
+		
 		this.output_bar.init();
-		this.output_bar.setVisible(false);
+		//this.output_bar.setVisible(false);
 	},
 	
 	/** Initialize the local data storage control */
@@ -241,6 +259,11 @@ twexter.xnavui.prototype = {
 	init_xbutton: function(){
 		this.xbutton = new twexter.xbutton(null);
 		this.xbutton.init();
+		
+		this.uiviews.addCtrl('xnav', this.xbutton);
+		this.uiviews.addCtrlMargin('xnav', 't', 10);
+		this.uiviews.addCtrlMargin('xnav', 'l', 10);
+		
 		//Top
 		this.xbutton.setSideActive('t',true,1);
 		//this.xbutton.setSideActive('t',true,2);
@@ -364,12 +387,14 @@ twexter.xnavui.prototype = {
 		
 		//Is there a URL resource available
 		if(!Ext.isEmpty(this.urlDisplay.url)){
-			this.output_align = 'l';
-			this.urlDisplay.show();
+			this.uiviews.setView('doc_url');
+			//this.output_align = 'l';
+			//this.urlDisplay.show();
 			//this.pos_urlDisplay();
 		}else{
-			this.output_align = 'c';
-			this.hideUrlDisplay();
+			this.uiviews.setView('doc_nourl');
+			//this.output_align = 'c';
+			//this.hideUrlDisplay();
 		}
 		
 		if(this.finddlg){
@@ -378,7 +403,7 @@ twexter.xnavui.prototype = {
 		this.editor.setVisible(false);
 		this.editor_bar.setVisible(false);
 		this.output_bar.setVisible(false);
-		this.output.setVisible(true);
+		//this.output.setVisible(true);
 		this.onResize2();
 	},
 	
@@ -389,12 +414,14 @@ twexter.xnavui.prototype = {
 		
 		//Is there a URL resource available
 		if(!Ext.isEmpty(this.urlDisplay.url)){
-			this.output_align = 'l';
-			this.urlDisplay.show();
+			this.uiviews.setView('doc_url');
+			//this.output_align = 'l';
+			//this.urlDisplay.show();
 			//this.pos_urlDisplay();
 		}else{
-			this.output_align = 'c';
-			this.hideUrlDisplay();
+			this.uiviews.setView('doc_nourl');
+			//this.output_align = 'c';
+			//this.hideUrlDisplay();
 		}
 		
 		if(this.finddlg){
@@ -403,7 +430,7 @@ twexter.xnavui.prototype = {
 		this.editor.setVisible(false);
 		this.editor_bar.setVisible(false);
 		this.output_bar.setVisible(false);
-		this.output.setVisible(true);
+		//this.output.setVisible(true);
 		if(pageTracker){ pageTracker._trackPageview("/actions/view"); }
 		this.onResize2();
 	},
@@ -411,41 +438,51 @@ twexter.xnavui.prototype = {
 	/** on Xbutton click to left state */
 	onXleft: function(xbtn, count){
 		/*{*/console.info("** ON X LEFT **");/*}*/
-		this.hideUrlDisplay();
-		this.output_align = 'r';
-		if(this.finddlg){ this.finddlg.hide(); }
+		
+		this.uiviews.setView('edit_preview');
+		
+		//this.hideUrlDisplay();
+		//this.output_align = 'r';
+		//if(this.finddlg){ this.finddlg.hide(); }
 		if (count == 2){
-			if(!Ext.isEmpty(this.editor_tools)){
-				/*{*/console.log("MAKING SURE EDIT TOOLS IS CLOSED");/*}*/
-				this.editor_tools.hide();
-				this.etools_visible = false;
-			}
-			this.output.setVisible(false);
+			
+			this.uiviews.setView('edit_full');
+			
+			//if(!Ext.isEmpty(this.editor_tools)){
+			//	/*{*/console.log("MAKING SURE EDIT TOOLS IS CLOSED");/*}*/
+			//	this.editor_tools.hide();
+			//	this.etools_visible = false;
+			//}
+			//this.output.setVisible(false);
 			this.edit_full_screen = true;
 			this.liveUpdate = false;
 			if(pageTracker){ pageTracker._trackPageview("/actions/slop_edit_full"); }
 		}else{
-			this.output.setVisible(true);
+			//this.output.setVisible(true);
 			this.edit_full_screen = false;
 			this.liveUpdate = true;
 			if(pageTracker){ pageTracker._trackPageview("/actions/slop_edit"); }
 		}
-		this.editor.setVisible(true);
-		this.editor_bar.setVisible(true);
-		this.output_bar.setVisible(false);
-		this.onResize2();
+		//this.editor.setVisible(true);
+		//this.editor_bar.setVisible(true);
+		//this.output_bar.setVisible(false);
+		this.uiviews.positionControls();
+		//this.onResize2();
 	},
 	
 	/** On Xbutton click to right state */
 	onXright: function(){
+		
+		this.uiviews.setView("finder");
+		
 		/*{*/console.info("** ON X RIGHT **");/*}*/
-		this.hideUrlDisplay();
+		//this.hideUrlDisplay();
 		this.liveUpdate = true;
-		this.output_align = 'c';
+		//this.output_align = 'c';
 		this.editor.setVisible(false);
 		this.editor_bar.setVisible(false);
 		this.output_bar.setVisible(false);
-		this.output.setVisible(false);
+		//this.output.setVisible(false);
 		
 		if(!this.finddlg){
 			
@@ -464,13 +501,14 @@ twexter.xnavui.prototype = {
 			else{
 				this.finddlg = new twexter.finder();
 			}
+			this.uiviews.addCtrl('finder', this.finddlg);
 			this.finddlg.on('hidden', this.onFindDlgHidden, this);
 			this.finddlg.on('document_selected', this.onLoadDocument, this);
 			this.finddlg.init();
 		}
 		var stext = this.editor_bar.comboLeftLang.getValue();
 		var stwxt = this.editor_bar.comboRightLang.getValue();
-		this.finddlg.show(stext, stwxt);
+		this.finddlg.setLang(stext, stwxt);
 		if(pageTracker){ pageTracker._trackPageview("/actions/finder"); }
 		
 		
@@ -479,14 +517,17 @@ twexter.xnavui.prototype = {
 	
 	/** On Xbutton click to bottom state */
 	onXbottom: function(){
+		
+		this.uiviews.setView('style_preview');
+		
 		/*{*/console.info("** ON X BOTTOM **");/*}*/
-		this.hideUrlDisplay();
+		//this.hideUrlDisplay();
 		this.liveUpdate = true;
-		this.output_align = 'c';
-		if(this.finddlg){ this.finddlg.hide(); }
-		this.editor.setVisible(false);
-		this.editor_bar.setVisible(false);
-		this.output.setVisible(true);
+		//this.output_align = 'c';
+		//if(this.finddlg){ this.finddlg.hide(); }
+		//this.editor.setVisible(false);
+		//this.editor_bar.setVisible(false);
+		//this.output.setVisible(true);
 		
 		//Output Tool Bar
 		this.output_bar.setVisible(true);
@@ -642,20 +683,30 @@ twexter.xnavui.prototype = {
 	
 	/** Delayed resize event */
 	onResize2: function(){
-		/*{*/console.log("resize event fired");/*}*/
-		this.xbutton.setPosition('tl');
-		this.pos_urllinkButton();
-		this.pos_output(this.output_align);
-		this.pos_urlDisplay();
-		this.pos_editor();
-		this.checkEditTools();
-		this.topButtonBar.posButtons();
+		
+		this.uiviews.positionControls();
+		
+		/*{*/console.group("resize event fired");/*}*/
+		/*{*/console.time("resize2");/*}*/
+		//this.xbutton.setPosition('tl');
+		//this.pos_urllinkButton();
+		//this.pos_output(this.output_align);
+		//this.pos_urlDisplay();
+		//this.pos_editor();
+		//this.checkEditTools();
+		//this.topButtonBar.posButtons();
+		/*{*/console.timeEnd("resize2");/*}*/
+		console.groupEnd();
 	},
 	
-	/** Event fired when th editor has changed */
+	/** Event fired when the editor has changed */
 	onEditorChange: function(left, right){
-		/*{*/console.debug("editor update");/*}*/
+		/*{*/
+		console.group("editor update");
+		console.time("outputUpdate");
+		/*}*/
 		var s;
+		
 		if(this.liveUpdate){
 			
 			var style = twexter.detect_chunk_style(left,right);
@@ -677,7 +728,13 @@ twexter.xnavui.prototype = {
 			
 			this.output.update(this.htmlExporter.getOutput(s));
 		}
+		//TODO: Should this be here?
 		this.editor_has_changed = true;
+		
+		/*{*/
+		console.timeEnd("outputUpdate");
+		console.groupEnd();
+		/*}*/
 	},
 	
 	/** On new document */
@@ -1113,6 +1170,7 @@ twexter.xnavui.prototype = {
 	},
 	
 	/** Checks to see if editor tools is visible and resizes other controls */
+	//TODO:Probably need to remove.
 	checkEditTools: function(){
 		if(!this.editor.el.isVisible()){
 			this.etools_visible = false;

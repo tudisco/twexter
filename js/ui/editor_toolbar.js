@@ -120,6 +120,16 @@ twexter.editor_tools.prototype = {
         }
     },
     
+    show: function(){
+        this.setVisible(true);
+    },
+    
+    hide: function(){
+        this.setVisible(false);
+    },
+    
+    setPosition: Ext.emptyFn,
+    
     getTextLang: function(){
         return this.comboLeftLang.getValue();  
     },

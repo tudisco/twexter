@@ -62,9 +62,15 @@ CHUNKTOOLS_TOP = 170;
 
 VIEW_STATES = {
     always:{
-        menubar: 'tr',
+        menubar: {dock:'tr', callafter:'posButtons'},
         xnav: 'tl',
-        sidebar: {visible: true, width:COL_LEFT_SIZE, dock:'bl'}
+        sidebar: {visible: true, width:COL_LEFT_SIZE, dock:'bl'},
+        finder: {visible: false},
+        editortools: {visible: false},
+        output: {visible:false},
+        urldisplay: {visible: false},
+        editor: {visible: false},
+        stylecontrol: {visible: false}
     },
     doc_nourl:{
         settings: {topbar2space:false},
@@ -76,22 +82,34 @@ VIEW_STATES = {
     doc_url:{
         settings: {topbar2space:false},
         output: {visible: true, dock:'c', part:'l'},
-        urldisplay: {visible: true, dock:'c', part:'r'},
+        urldisplay: {visible: true, dock:'c', part:'r', callafter:'pos_iframe'},
         editortools: {visible:false},
         editor: {visible: false}
+    },
+    style_preview: {
+        settings: {topbar2space:false,bottom_margin:100},
+        output: {visible: true, dock:'c', part:'all'},
+        urldisplay: {visible: false},
+        editortools: {visible:false},
+        editor: {visible: false},
+        stylecontrol: {visible: true, dock:'b'}
     },
     edit_preview:{
         settings: {topbar2space:true},
         output: {visible: true, dock: 'c', part:'r'},
         urldisplay: {visible: false},
-        editortools: {visible: true, doc:'tr2'},
-        editor: {visible: true, dock:'c', part:'l'}
+        editortools: {visible: true, dock:'tr2', align:'l'},
+        editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}
     },
     edit_full: {
         settings: {topbar2space:true},
         output: {visible:false},
         urldisplay: {visible: false},
-        editortools: {visible: true, doc:'tr2'},
-        editor: {visible: true, dock:'c', part:'all'}
+        editortools: {visible: true, dock:'tr2', align:'l'},
+        editor: {visible: true, dock:'c', part:'all', callafter:'positionEditors'}
+    },
+    finder: {
+        settings: {topbar2space:false},
+        finder: {visible:true, dock:'c', part:'all'}
     }
 }

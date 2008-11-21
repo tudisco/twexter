@@ -91,7 +91,7 @@ twexter.out.prototype = {
 		}
 	},
 	
-	setTop: function(top){
+	/*setTop: function(top){
 		Ext.util.CSS.updateRule('.'+this.className, 'top', top,+'px');
 	},
 	
@@ -105,7 +105,7 @@ twexter.out.prototype = {
 	
 	setBottom: function(bottom){
 		Ext.util.CSS.updateRule('.'+this.className, 'bottom', bottom,+'px');
-	},
+	},*/
 	
 	update: function(html){
 		this.lastHtml = html;
@@ -229,6 +229,14 @@ twexter.out.prototype = {
 		}else{
 			this.el.hide();
 		}
+	},
+	
+	hide: function(){
+		this.setVisible(false);
+	},
+	
+	show: function(){
+		this.setVisible(true);
 	}
 };
 

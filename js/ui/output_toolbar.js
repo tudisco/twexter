@@ -238,6 +238,14 @@ twexter.out_tools.prototype = {
         }
     },
     
+    show: function(){
+        this.setVisible(true);
+    },
+    
+    hide: function(){
+        this.setVisible(false);
+    },
+    
     setStyleChange: function(side, selector, event){
        
         if(Ext.type(event) != 'string' || Ext.type(side) != 'string'){ return; }
@@ -353,7 +361,13 @@ twexter.out_tools.prototype = {
             else if(type==tw){ this.comboTwextLineSpace.dom.value = val; }
             this.output.setChunkStyle(type, {space:val});
         }
-    }
+    },
+    
+    getEl: function(){
+        this.el;
+    },
+    
+    setPosition: Ext.emptyFn
 };
 
 Ext.extend(twexter.out_tools,  Ext.util.Observable, twexter.out_tools.prototype);

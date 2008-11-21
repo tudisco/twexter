@@ -34,13 +34,19 @@ twexter.top_tool_bar = function(config){
 
 twexter.top_tool_bar.prototype = {
     
+    id: 'top_menu',
     bodyId: MAIN_BODY,
+    el:null,
     buttons: [null,null,null,null,null,null],
     manButtons: [null,null,null,null,null,null],
     buttonMargins: [],
     
     addButton: function(el, pos){
         this.buttons[pos] = el;
+    },
+    
+    init: function(){
+        this.el = Ext.get(MAIN_BODY).createChild({id:this.id,cls:this.id});  
     },
     
     posButtons: function(){
@@ -69,6 +75,23 @@ twexter.top_tool_bar.prototype = {
             /*{*/console.info("Button %s set to X:%s", idx, x);/*}*/
         }, this);
     },
+    
+    getEl: function(){
+        //TODO: functio0n needs help
+        this.el;
+    },
+    
+    show: function(){
+        //TODO: this control needs help
+        this.el.show();
+    },
+    
+    hide: function(){
+        //TODO: this control needs help
+        this.el.hide();
+    },
+    
+    setPosition: Ext.emptyFn,
     
     addManualButton: function(id,cls,pos){
         var abutt = Ext.get(this.bodyId).createChild({

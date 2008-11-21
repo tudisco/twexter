@@ -139,7 +139,7 @@ twexter.xbutton.prototype = {
 			/*{*/console.error("xbutton not found!");/*}*/
 		}
 		
-		this.setPosition('tl');
+		//this.setPosition('tl');
 	},
         
         /**
@@ -243,7 +243,8 @@ twexter.xbutton.prototype = {
          * Event Handler - On Xnav Click
          */
         onClick: function(ev){
-		/*{*/console.info("Xbutton Click");/*}*/
+                
+		/*{*/console.group("Xbutton Click");/*}*/
 		var x = ev.getPageX() - this.xbutton.getX();
 		var y = ev.getPageY() - this.xbutton.getY();
 		/*{*/console.debug("click x:%s y:%s", x, y);/*}*/
@@ -309,6 +310,8 @@ twexter.xbutton.prototype = {
 		/*{*/console.debug("The State: %s", this.state);/*}*/
 		this.changeButtonClass(this.state);
 		this.fireStateEvent(this.state);
+                
+                /*{*/console.groupEnd();/*}*/
 	},
 	
         /**
@@ -462,6 +465,14 @@ twexter.xbutton.prototype = {
                 this.state = this.ST_NONE;
                 this.changeButtonClass(this.state);
 		this.fireStateEvent(this.state);
+        },
+        
+        show: function(){
+                this.getEl().show();
+        },
+        
+        hide: function(){
+                this.getEl().hide();
         }
 };
 

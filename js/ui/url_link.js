@@ -268,14 +268,20 @@ twexter.url_link_display.prototype = {
     
     show: function(){
         this.el.show();
+        this.iframe.show();
     },
     
     hide: function(){
         this.el.hide();
+        this.iframe.hide();
     },
     
     getEl: function(){
         return this.el;
+    },
+    
+    setPosition: function(arr){
+       //Curently not being used.  
     },
     
     setUrl: function(url){

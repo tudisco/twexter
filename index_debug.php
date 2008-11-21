@@ -57,6 +57,7 @@ if(!is_numeric($docid)) $docid = 'null';
 <!-- <script type="text/javascript" src="../javascript/persist-all-min.js"></script> -->
 <script type="text/javascript" src="js/ui/x_button.js"></script>
 <script type="text/javascript" src="js/simple.js"></script>
+<script type="text/javascript" src="js/uiviews.js"></script>
 <script type="text/javascript" src="js/ui/output.js"></script>
 <script type="text/javascript" src="js/data/local_data.js"></script>
 <script type="text/javascript" src="js/ui/editor.js"></script>

@@ -265,6 +265,17 @@ twexter.finder.prototype = {
             });
         }
         
+	/*{*/
+	this.dataview.on('beforerender', function(){
+	    conolse.log("Before filelist render");
+	    console.time('filelistrender');
+	});
+	this.dataview.on('render', function(){
+	    console.timeEnd('filelistrender');
+	    conolse.log("After filelist render");
+	});
+	/*}*/
+	
         this.dataview.on('beforerender', this.sizeFileList, this);
         this.dataview.on('click', this.onItemClick, this);
     },
@@ -374,10 +385,11 @@ twexter.finder.prototype = {
             this.taskRunner = new Ext.util.TaskRunner();
         }
         this.taskRunner.start(this.task);
-        
+    },
+    
+    setLang: function(stext, stwxt){
         var t = stext || false;
         var x = stwxt || false;
-        
         this.loadDocuments(t, x);
     },
     
@@ -387,6 +399,10 @@ twexter.finder.prototype = {
         this.store.clearFilter();
         this.searchfield.dom.value = '';
         this.taskRunner.stopAll();
+    },
+    
+    setPosition: function(arr){
+        //Not being used
     },
     
     onSlopChange: function(text, twxt){
