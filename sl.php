@@ -25,6 +25,7 @@ $groupsSources = array(
         ,"{$base}/js/ui/url_link.js"
         ,"{$base}/js/ui/top_tool_bar.js"
         ,"{$base}/js/translator.js"
+        ,"{$base}/js/uiviews.js"
     )
     ,'css' => array(
         "{$base}/css/simple.css"

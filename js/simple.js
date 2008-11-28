@@ -67,18 +67,21 @@ twexter.xnavui.prototype = {
 	init: function(){
 		
 		
+		//Load Google Language API
 		google.load("language", "1", {callback:function(){
 			LANG_GOOG_API = true;
 			/*{*/console.debug("***GOOGLE API LOADED***");/*}*/
 		}});
 		
-		
+		//TODO: Remove This
 		window.onresize = this.onResize.createDelegate(this, []);
 		/*{*/console.info("starting application");/*}*/
 		
+		//Create the layout class
 		this.uiviews = new twexter.uiviews({views:VIEW_STATES});
 		this.uiviews.setView("doc_nourl");
 		
+		//Create the top tool bar
 		this.topButtonBar = new twexter.top_tool_bar();
 		this.uiviews.addCtrl('menubar', this.topButtonBar);
 		
@@ -102,8 +105,10 @@ twexter.xnavui.prototype = {
 	
 	/** Initialize general events */
 	init_general_events: function(){
+		//TODO: need to add new menu here
+		
 		//this.newDocButton = this.topButtonBar.addManualButton('new_doc_butt','',0);
-		this.topButtonBar.setButtonMarginLeft(0,5);
+		//this.topButtonBar.setButtonMarginLeft(0,5);
 		//this.topButtonBar.posButtons();
 		//this.newDocButton.on('click', this.onNewDocument, this);
 	},
@@ -119,32 +124,13 @@ twexter.xnavui.prototype = {
 		this.topButtonBar.posButtons();
 	},
 	
+	//TODO: Rename, the url link button control not going to be used
 	init_urlLinkButt: function(){
 		/*{*/console.info("__Going to add Url Resource Bar__");/*}*/
-		//this.urlLinkButt = new twexter.url_link_addr_bar();
-		//this.pos_urllinkButton();
-		//this.topButtonBar.addButton(this.urlLinkButt.getEl(), 2);
-		this.topButtonBar.posButtons();
 		
-		//this.urlLinkButt.on('save_doc', this.onSaveDocument, this);
 		
-		//Button Events
-		/*this.urlLinkButt.on("posUrlLink", function(){
-			//this.pos_urllinkButton();
-			this.topButtonBar.posButtons();
-		}, this);*/
+		this.topButtonBar.posButtons();	
 		
-		//this.urlLinkButt.on("showUrlResource", this.onShowUrlResource, this);
-		//this.urlLinkButt.on("hideUrlResource", this.onHideUrlResource, this);
-		
-		/*this.urlLinkButt.on("urlResourceChange", function(ctl, url){
-			this.urlDisplay.setUrl(url);
-			this.doc_url = url;
-		}, this);
-		
-		this.urlLinkButt.on("clearUrlDisplay", function(){
-			this.urlDisplay.clearUrl();
-		}, this);*/
 		
 		//URL DISPLAY CONTROL
 		this.urlDisplay = new twexter.url_link_display();
@@ -188,28 +174,28 @@ twexter.xnavui.prototype = {
 		var s = '#edit_toolbar .c_lang_left';
 		var o = this.output_bar;
 		o.setStyleChange(t,s, 'font_change');
-		o.setStyleChange(t,s, 'font_size_change');
+		//o.setStyleChange(t,s, 'font_size_change');
 		o.setStyleChange(t,s, 'font_color_change');
 		o.setStyleChange(t,s, 'font_weight_change');
 		o.setStyleChange(t,s, 'font_cap_change');
 		t = 'twxt';
 		s = '#edit_toolbar .c_lang_right';
 		o.setStyleChange(t,s, 'font_change');
-		o.setStyleChange(t,s, 'font_size_change');
+		//o.setStyleChange(t,s, 'font_size_change');
 		o.setStyleChange(t,s, 'font_color_change');
 		o.setStyleChange(t,s, 'font_weight_change');
 		o.setStyleChange(t,s, 'font_cap_change');
 		t = 'text';
 		s = '.finder_slop_text';
 		o.setStyleChange(t,s, 'font_change');
-		o.setStyleChange(t,s, 'font_size_change');
+		//o.setStyleChange(t,s, 'font_size_change');
 		o.setStyleChange(t,s, 'font_color_change');
 		o.setStyleChange(t,s, 'font_weight_change');
 		o.setStyleChange(t,s, 'font_cap_change');
 		t = 'twxt';
 		s = '.finder_slop_twxt';
 		o.setStyleChange(t,s, 'font_change');
-		o.setStyleChange(t,s, 'font_size_change');
+		//o.setStyleChange(t,s, 'font_size_change');
 		o.setStyleChange(t,s, 'font_color_change');
 		o.setStyleChange(t,s, 'font_weight_change');
 		o.setStyleChange(t,s, 'font_cap_change');
@@ -388,23 +374,15 @@ twexter.xnavui.prototype = {
 		//Is there a URL resource available
 		if(!Ext.isEmpty(this.urlDisplay.url)){
 			this.uiviews.setView('doc_url');
-			//this.output_align = 'l';
-			//this.urlDisplay.show();
-			//this.pos_urlDisplay();
 		}else{
 			this.uiviews.setView('doc_nourl');
-			//this.output_align = 'c';
-			//this.hideUrlDisplay();
 		}
 		
 		if(this.finddlg){
 			this.finddlg.hide();
 		}
-		this.editor.setVisible(false);
-		this.editor_bar.setVisible(false);
-		this.output_bar.setVisible(false);
-		//this.output.setVisible(true);
-		this.onResize2();
+		this.uiviews.positionControls();
+		if(pageTracker){ pageTracker._trackPageview("/actions/view_nosel"); }
 	},
 	
 	/** On Xbutton click to top state */
@@ -415,24 +393,15 @@ twexter.xnavui.prototype = {
 		//Is there a URL resource available
 		if(!Ext.isEmpty(this.urlDisplay.url)){
 			this.uiviews.setView('doc_url');
-			//this.output_align = 'l';
-			//this.urlDisplay.show();
-			//this.pos_urlDisplay();
 		}else{
 			this.uiviews.setView('doc_nourl');
-			//this.output_align = 'c';
-			//this.hideUrlDisplay();
 		}
 		
 		if(this.finddlg){
 			this.finddlg.hide();
 		}
-		this.editor.setVisible(false);
-		this.editor_bar.setVisible(false);
-		this.output_bar.setVisible(false);
-		//this.output.setVisible(true);
 		if(pageTracker){ pageTracker._trackPageview("/actions/view"); }
-		this.onResize2();
+		this.uiviews.positionControls();
 	},
 	
 	/** on Xbutton click to left state */
@@ -440,34 +409,20 @@ twexter.xnavui.prototype = {
 		/*{*/console.info("** ON X LEFT **");/*}*/
 		
 		this.uiviews.setView('edit_preview');
-		
-		//this.hideUrlDisplay();
-		//this.output_align = 'r';
-		//if(this.finddlg){ this.finddlg.hide(); }
+
 		if (count == 2){
 			
 			this.uiviews.setView('edit_full');
 			
-			//if(!Ext.isEmpty(this.editor_tools)){
-			//	/*{*/console.log("MAKING SURE EDIT TOOLS IS CLOSED");/*}*/
-			//	this.editor_tools.hide();
-			//	this.etools_visible = false;
-			//}
-			//this.output.setVisible(false);
 			this.edit_full_screen = true;
 			this.liveUpdate = false;
 			if(pageTracker){ pageTracker._trackPageview("/actions/slop_edit_full"); }
 		}else{
-			//this.output.setVisible(true);
 			this.edit_full_screen = false;
 			this.liveUpdate = true;
 			if(pageTracker){ pageTracker._trackPageview("/actions/slop_edit"); }
 		}
-		//this.editor.setVisible(true);
-		//this.editor_bar.setVisible(true);
-		//this.output_bar.setVisible(false);
 		this.uiviews.positionControls();
-		//this.onResize2();
 	},
 	
 	/** On Xbutton click to right state */
@@ -476,13 +431,7 @@ twexter.xnavui.prototype = {
 		this.uiviews.setView("finder");
 		
 		/*{*/console.info("** ON X RIGHT **");/*}*/
-		//this.hideUrlDisplay();
 		this.liveUpdate = true;
-		//this.output_align = 'c';
-		this.editor.setVisible(false);
-		this.editor_bar.setVisible(false);
-		this.output_bar.setVisible(false);
-		//this.output.setVisible(false);
 		
 		if(!this.finddlg){
 			
@@ -512,7 +461,7 @@ twexter.xnavui.prototype = {
 		if(pageTracker){ pageTracker._trackPageview("/actions/finder"); }
 		
 		
-		this.onResize2();
+		this.uiviews.positionControls();
 	},
 	
 	/** On Xbutton click to bottom state */
@@ -522,18 +471,12 @@ twexter.xnavui.prototype = {
 		
 		/*{*/console.info("** ON X BOTTOM **");/*}*/
 		//this.hideUrlDisplay();
-		this.liveUpdate = true;
-		//this.output_align = 'c';
-		//if(this.finddlg){ this.finddlg.hide(); }
-		//this.editor.setVisible(false);
-		//this.editor_bar.setVisible(false);
-		//this.output.setVisible(true);
 		
 		//Output Tool Bar
-		this.output_bar.setVisible(true);
+		//this.output_bar.setVisible(true);
 		if(pageTracker){ pageTracker._trackPageview("/actions/sytle");}
 		
-		this.onResize2();
+		this.uiviews.positionControls();
 	},
 	
 	pos_urllinkButton : function(){
@@ -547,6 +490,8 @@ twexter.xnavui.prototype = {
 		var x = sr-uw;
 		console.debug("Url Bar Location: [%s,%s]", x, 0);
 		this.urlLinkButt.setPos([x,0]);*/
+		
+		//TODO: Make sure callafter set for this control in uiviews
 		this.topButtonBar.posButtons();
 	},
 	
@@ -554,7 +499,7 @@ twexter.xnavui.prototype = {
 	 * Position Output scrren on resize
 	 */
 	pos_output: function(align){
-		
+		//TODO: this function needs to bu removed
 		var bwidth, left, right;
 		
 		align = align || 'c';
@@ -601,6 +546,7 @@ twexter.xnavui.prototype = {
 	},
 	
 	pos_urlDisplay: function(align){
+		//TODO this function needs to be removed
 		align = align || 'r';
 		var el = this.urlDisplay.getEl();
 		
