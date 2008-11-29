@@ -450,6 +450,32 @@ twexter.xbutton.prototype = {
 			}
 		}
 	},
+        
+        setButtonState: function(side, click){
+                var state = null;
+                
+                switch(side){
+                        case 'l':
+                                state = this.ST_LEFT;
+                        break;
+                        case 'r':
+                                state = this.ST_RIGHT;
+                        break;
+                        case 't':
+                                state = this.ST_TOP;
+                        break;
+                        case 'b':
+                                state = this.ST_BOTTOM;
+                        break;
+                }
+                
+                if(state != null && !isNaN(click)){
+                        this.state = state
+                        this.click_count = click;
+                        this.changeButtonClass(this.state);
+                        this.fireStateEvent(this.state);
+                }
+        },
 	
 	/**
          * On Mouse out event to stop hovering.

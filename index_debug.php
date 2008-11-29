@@ -33,6 +33,7 @@ if(!is_numeric($docid)) $docid = 'null';
 <link rel="stylesheet" href="css/twext_new.css" type="text/css">	
 <link href="css/slop.css" rel="stylesheet" type="text/css">
 <link href="css/tools_popup.css" rel="stylesheet" type="text/css">
+<link href="css/top_tool_bar.css" rel="stylesheet" type="text/css">
 	
 <link href="css/url_link.css" rel="stylesheet" type="text/css">
 
@@ -71,6 +72,7 @@ if(!is_numeric($docid)) $docid = 'null';
 <script type="text/javascript" src="js/ui/slop_popup.js"></script>
 <script type="text/javascript" src="js/ui/slop_list.js"></script>
 <script type="text/javascript" src="js/ui/tools_popup.js"></script>
+
 
 <script type="text/javascript" src="js/ui/url_link.js"></script>
 <script type="text/javascript" src="js/ui/top_tool_bar.js"></script>

@@ -15,10 +15,10 @@
 	font-weight: bold;
 	text-align: right;
 	color: grey;
-	padding-right: 20px;
+	/*padding-right: 20px;
 	background: transparent url(../images/userlogin/s-system-users.png);
 	background-position: right;
-	background-repeat: no-repeat;
+	background-repeat: no-repeat;*/
 }
 
 #new_doc_butt {

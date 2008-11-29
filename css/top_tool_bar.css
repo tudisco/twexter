@@ -2,3 +2,106 @@
     z-index: 550;
     position: absolute;
 }
+
+.topButtonHi {
+    color: #FFFFFF;
+    background-color: grey;
+}
+
+.TopFindButton{
+    width: 75px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3999;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}
+
+.TopNewButton {
+    width: 75px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3999;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}
+
+.TopPrintButton {
+    width: 75px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3999;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}
+
+.TopEditButton {
+    width: 75px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3401;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}
+
+.TopStyleButton {
+    width: 75px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3992;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}
+
+.TopTransButton {
+    width: 100px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3990;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}
+
+.TopHelpButton {
+    width: 75px;
+    height: 20px;
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 16px;
+    color: #D6D7BD;
+    text-align: center;
+    z-index: 3988;
+    position:absolute;
+    top: 2px;
+    right: 10px;
+}

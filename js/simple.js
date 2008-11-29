@@ -107,10 +107,49 @@ twexter.xnavui.prototype = {
 	init_general_events: function(){
 		//TODO: need to add new menu here
 		
-		//this.newDocButton = this.topButtonBar.addManualButton('new_doc_butt','',0);
+		//this.newDocButton = this.topButtonBar.addManualButton('new_doc_butt','',2);
 		//this.topButtonBar.setButtonMarginLeft(0,5);
 		//this.topButtonBar.posButtons();
 		//this.newDocButton.on('click', this.onNewDocument, this);
+		
+		var hc = "topButtonHi";
+		
+		this.topNewDocButton = this.topButtonBar.addManualButton('TopNewButton','TopNewButton','NEW',5);
+		disableSelection(this.topNewDocButton.dom);
+		this.topNewDocButton.addClassOnOver(hc);
+		this.topNewDocButton.on('click', this.onNewDocument, this);
+		
+		this.topStyleButton = this.topButtonBar.addManualButton('TopStyleButton','TopStyleButton','STYLE',4);
+		disableSelection(this.topStyleButton.dom);
+		this.topStyleButton.addClassOnOver(hc);
+		this.topStyleButton.on('click', function(){
+			this.xbutton.setButtonState('b', 1);
+		}, this)
+		
+		this.topTransButton = this.topButtonBar.addManualButton('TopTransButton','TopTransButton','TRANSLATE',7);
+		disableSelection(this.topTransButton.dom);
+		this.topTransButton.addClassOnOver(hc);
+		
+		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','HELP',2);
+		disableSelection(this.topHelpButton.dom);
+		this.topHelpButton.addClassOnOver(hc);
+		
+		this.topFindButton = this.topButtonBar.addManualButton('TopFindButton','TopFindButton','FIND',3);
+		disableSelection(this.topFindButton.dom);
+		this.topFindButton.on('click', function(){
+			this.xbutton.setButtonState('r', 1);
+		}, this);
+		this.topHelpButton.addClassOnOver(hc);
+		
+		this.topEditButton = this.topButtonBar.addManualButton('TopEditButton','TopEditButton','EDIT',6);
+		disableSelection(this.topEditButton.dom);
+		this.topEditButton.on('click', function(){
+			this.xbutton.setButtonState('l', 1);
+		}, this);
+		this.topEditButton.addClassOnOver(hc);
+		
+		
+		
 	},
 	
 	/** Initialize the login button control */
@@ -285,12 +324,52 @@ twexter.xnavui.prototype = {
 				scope: this,
 				stopEvent: true
 			};
+			
+		var goToEdit = {
+			key: Ext.EventObject.F7,
+			ctrl: false,
+			fn: function(){
+				this.xbutton.setButtonState('l', 1);
+			},
+			scope: this,
+			stopEvent: true
+		}
+		
+		var goToEditFull = {
+			key: Ext.EventObject.F8,
+			ctrl: false,
+			fn: function(){
+				this.xbutton.setButtonState('l', 2);
+			},
+			scope: this,
+			stopEvent: true
+		}
+		
+		var goToView = {
+			key: Ext.EventObject.F6,
+			ctrl: false,
+			fn: function(){
+				this.xbutton.setButtonState('t', 1);
+			},
+			scope: this,
+			stopEvent: true
+		}
+		
+		var goToFind = {
+			key: Ext.EventObject.F9,
+			ctrl: false,
+			fn: function(){
+				this.xbutton.setButtonState('r', 1);
+			},
+			scope: this,
+			stopEvent: true
+		}
 		
 		this.keyMapEditorl = new Ext.KeyMap(this.editor.TextAreaLeft.dom, undoEvent);
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
 		
 		this.keyMap = new Ext.KeyMap(document, [
-			undoEvent,
+			undoEvent,goToEdit,goToEditFull,goToView,goToFind,
 			{
 				key: Ext.EventObject.S,
 				ctrl: true,
@@ -351,7 +430,7 @@ twexter.xnavui.prototype = {
 				scope: this
 			},
 			{
-				key: Ext.EventObject.F3,
+				key: Ext.EventObject.F4,
 				stopEvent: true,
 				fn: function(){
 					if(!Ext.isEmpty(LANG_TRANS_CODE) && !Ext.isEmpty(LANG_SOURCE_CODE)){
@@ -364,10 +443,28 @@ twexter.xnavui.prototype = {
 		]);
 	},
 	
+	
+	setMenuSelStyle: function(button){
+		var color = '#D6D7BD';
+		var selcolor = "#000000";
+		var css = Ext.util.CSS;
+		css.updateRule('.TopNewButton', 'color', color);
+		css.updateRule('.TopPrintButton', 'color', color);
+		css.updateRule('.TopEditButton', 'color', color);
+		css.updateRule('.TopStyleButton', 'color', color);
+		css.updateRule('.TopTransButton', 'color', color);
+		css.updateRule('.TopHelpButton', 'color', color);
+		css.updateRule('.TopFindButton', 'color', color);
+		if(button!=null){
+			css.updateRule('.'+button, 'color', selcolor);
+		}
+	},
+	
 	/** On Xbutton Click to None State */
 	onXnone: function(){
 		/*{*/console.info("** ON X NONE **");/*}*/
 		//this.hideUrlDisplay();
+		this.setMenuSelStyle(null);
 		this.liveUpdate = true;
 		this.editor.clearHighlight();
 		
@@ -388,6 +485,7 @@ twexter.xnavui.prototype = {
 	/** On Xbutton click to top state */
 	onXtop: function(){
 		/*{*/console.info("** ON X TOP **");/*}*/
+		this.setMenuSelStyle(null);
 		this.liveUpdate = true;
 		
 		//Is there a URL resource available
@@ -407,7 +505,7 @@ twexter.xnavui.prototype = {
 	/** on Xbutton click to left state */
 	onXleft: function(xbtn, count){
 		/*{*/console.info("** ON X LEFT **");/*}*/
-		
+		this.setMenuSelStyle('TopEditButton');
 		this.uiviews.setView('edit_preview');
 
 		if (count == 2){
@@ -427,7 +525,7 @@ twexter.xnavui.prototype = {
 	
 	/** On Xbutton click to right state */
 	onXright: function(){
-		
+		this.setMenuSelStyle('TopFindButton');
 		this.uiviews.setView("finder");
 		
 		/*{*/console.info("** ON X RIGHT **");/*}*/
@@ -466,7 +564,7 @@ twexter.xnavui.prototype = {
 	
 	/** On Xbutton click to bottom state */
 	onXbottom: function(){
-		
+		this.setMenuSelStyle('TopStyleButton');
 		this.uiviews.setView('style_preview');
 		
 		/*{*/console.info("** ON X BOTTOM **");/*}*/
@@ -710,8 +808,10 @@ twexter.xnavui.prototype = {
 		this.editor_has_changed = false;
 		this.data.clearLastDoc();
 		this.data.clearUndo();
-		this.urlLinkButt.documentNew();
+		
 		this.urlDisplay.clearUrl();
+		
+		this.xbutton.setButtonState('l', 1);
 	},
 	
 	/**

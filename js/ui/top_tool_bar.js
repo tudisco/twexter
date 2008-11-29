@@ -50,7 +50,7 @@ twexter.top_tool_bar.prototype = {
     },
     
     posButtons: function(){
-        /*{*/console.debug("Position Top Button Bar");/*}*/
+        /*{*/console.group("Position Top Button Bar");/*}*/
         var right = 10;
         var twidth = 0;
         var bwidth = Ext.get(this.bodyId).getWidth()-right;
@@ -62,6 +62,7 @@ twexter.top_tool_bar.prototype = {
             twidth+=w;
             var x = bwidth - twidth;
             item.setX(x);
+            console.debug("Going to tes button to ",x);
 	    if(Ext.isArray(this.buttonMargins[idx])){
 		if(this.buttonMargins[idx]['l']){
 		    twidth+=Ext.num(this.buttonMargins[idx]['l'],0);
@@ -74,6 +75,7 @@ twexter.top_tool_bar.prototype = {
 	    }
             /*{*/console.info("Button %s set to X:%s", idx, x);/*}*/
         }, this);
+        /*{*/console.groupEnd();/*}*/
     },
     
     getEl: function(){
@@ -93,11 +95,14 @@ twexter.top_tool_bar.prototype = {
     
     setPosition: Ext.emptyFn,
     
-    addManualButton: function(id,cls,pos){
+    addManualButton: function(id,cls,txt,pos){
         var abutt = Ext.get(this.bodyId).createChild({
 	    id:id,
             cls:cls
 	});
+        if(!Ext.isEmpty(txt) && Ext.type(txt)=='string'){
+            abutt.update(txt);
+        }
         this.manButtons[pos] = abutt;
         this.addButton(abutt, pos);
         return abutt;
