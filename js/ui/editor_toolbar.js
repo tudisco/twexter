@@ -31,7 +31,8 @@ twexter.editor_tools = function(config){
         "user_click" : true,
         "options_click" : true,
         "lang_change" : true,
-        "print_doc" : true
+        "print_doc" : true,
+        "urllink_change" : true
     });
 };
 
@@ -47,7 +48,10 @@ twexter.editor_tools.prototype = {
     id_switch: 'edit_switch',
     id_lang_left: 'c_lang_left',
     id_lang_right: 'c_lang_right',
+    id_linkbutt: 'linkbutton',
+    id_linkinput: 'linkinput',
     langs: [['english','english'],['spanish','spanish'],['diiiste','diiiste']],
+    url:null,
     
     init: function(){
         var nl = "\n";
@@ -61,6 +65,8 @@ twexter.editor_tools.prototype = {
                 '<div id="{id_pref}"></div>',
                 '<div id="{id_newdoc}"></div>',
                 '<div id="{id_savedoc}"></div>',
+                '<div id="{id_linkbutt}"></div>',
+                '<input type="text" id="{id_linkinput}"></input>',
             '</div>'
         );
         
@@ -73,7 +79,9 @@ twexter.editor_tools.prototype = {
             id_lang_left: this.id_lang_left,
             id_lang_right: this.id_lang_right,
             id_switch: this.id_switch,
-            id_print: this.id_print
+            id_print: this.id_print,
+            id_linkbutt: this.id_linkbutt,
+            id_linkinput: this.id_linkinput
         });
         
         this.el = Ext.get(this.id);
@@ -93,6 +101,8 @@ twexter.editor_tools.prototype = {
         this.switchButton = Ext.get(this.id_switch);
         this.switchButton.toggleClass("flip");
         this.printButton = Ext.get(this.id_print);
+        this.linkButton = Ext.get(this.id_linkbutt);
+        this.linkInput = Ext.get(this.id_linkinput);
         
         this.buttNewDoc.on('click', this.onNewDocClick, this);
         this.buttSaveDoc.on('click', this.onSaveDocClick, this);
@@ -102,6 +112,17 @@ twexter.editor_tools.prototype = {
         this.comboRightLang.on('change', this.onLangChange, this);
         this.switchButton.on('click', this.onLangSwitch, this);
         this.printButton.on('click', this.onPrint, this);
+        this.linkButton.on('click', this.onLinkButt, this);
+        this.linkInput.on('change', this.onInputChange, this);
+        
+        if(Ext.isIE){
+            this.linkInput.addKeyListener(Ext.EventObject.ENTER, this.onInputChange, this);
+        }
+    },
+    
+    setLinkUrl: function(url){
+        this.url = url;
+        this.linkInput.dom.value = url;
     },
     
     getEl: function(){
@@ -117,6 +138,7 @@ twexter.editor_tools.prototype = {
             this.el.show();
         }else{
             this.el.hide();
+            this.linkInput.hide();
         }
     },
     
@@ -197,6 +219,32 @@ twexter.editor_tools.prototype = {
             this.buttNewDoc.setX(this.buttSaveDoc.getX()+this.buttNewDoc.getWidth());
         }
         
+        
+    },
+    
+    isUrl: function(s) {
+        //var rule = "(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
+        var rule = "^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$";
+        //var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+        var regexp = new RegExp(rule, 'i');
+        return regexp.test(s);
+    },
+    
+    onInputChange: function(){
+        var url = this.linkInput.getValue();
+        if(this.isUrl(url)){
+            this.fireEvent('urllink_change', url);
+        }else{
+            alert("Not a valid URL");
+        }
+    },
+    
+    onLinkButt: function(){
+        if(this.linkInput.isVisible()){
+            this.linkInput.hide();
+        }else{
+            this.linkInput.show();
+        }
         
     },
     

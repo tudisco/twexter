@@ -79,6 +79,7 @@ twexter.editor.prototype = {
             tableId:this.id_table
         });
         
+        
         // Get the main Element
         this.el = Ext.get(this.id);
         

@@ -9,12 +9,28 @@
 #edit_toolbar #edit_switch {
     width:17px;
     height:17px;
-    background: transparent url(../images/edittools/switch.gif) 0 0 no-repeat;
+    background: transparent url(/images/edittools/switch.gif) 0 0 no-repeat;
     float: left;
 }
 
 #edit_toolbar #edit_switch.flip{
-    background: transparent url(../images/edittools/switch.gif) 0 -17px no-repeat;
+    background: transparent url(/images/edittools/switch.gif) 0 -17px no-repeat;
+}
+
+
+#edit_toolbar #linkbutton {
+    width: 56px;
+    height: 22px;
+    float: left;
+    padding: 5px;
+    background: transparent url(/images/edittools/youtube_small.gif) 0 0 no-repeat;
+}
+
+#edit_toolbar #linkinput {
+    display:none;
+    width: 200px;
+    height: 22px;
+    float: left;
 }
 
 #edit_toolbar #pref {
@@ -22,7 +38,7 @@
     height:22px;
     float: left;
     padding: 5px;
-    background: transparent url(../images/edittools/preferences.png) 0 0 no-repeat;
+    background: transparent url(/images/edittools/preferences.png) 0 0 no-repeat;
 }
 
 #edit_toolbar #print {
@@ -30,15 +46,15 @@
     height:22px;
     float: left;
     padding: 5px;
-    background: transparent url(../images/edittools/document-print.png) 0 0 no-repeat;
+    background: transparent url(/images/edittools/document-print.png) 0 0 no-repeat;
 }
 
 #edit_toolbar #print:hover {
-    background: transparent url(../images/edittools/document-print.png) -1px -1px no-repeat;
+    background: transparent url(/images/edittools/document-print.png) -1px -1px no-repeat;
 }
 
 #edit_toolbar #pref:hover {
-    background: transparent url(../images/edittools/preferences.png) -1px -1px no-repeat;
+    background: transparent url(/images/edittools/preferences.png) -1px -1px no-repeat;
 }
 
 #edit_toolbar #newdoc {
@@ -46,11 +62,11 @@
     height:22px;
     float: left;
     padding: 5px;
-    background: transparent url(../images/edittools/document-new.png) 0 0 no-repeat;
+    background: transparent url(/images/edittools/document-new.png) 0 0 no-repeat;
 }
 
 #edit_toolbar #newdoc:hover {
-    background: transparent url(../images/edittools/document-new.png) -1px -1px no-repeat;
+    background: transparent url(/images/edittools/document-new.png) -1px -1px no-repeat;
 }
 
 #edit_toolbar #savedoc {
@@ -58,11 +74,11 @@
     height:22px;
     float: left;
     padding: 5px;
-    background: transparent url(../images/edittools/document-save.png) 0 0 no-repeat;
+    background: transparent url(/images/edittools/document-save.png) 0 0 no-repeat;
 }
 
 #edit_toolbar #savedoc:hover {
-    background: transparent url(../images/edittools/document-save.png) -1px -1px no-repeat;
+    background: transparent url(/images/edittools/document-save.png) -1px -1px no-repeat;
 }
 
 #edit_toolbar .c_lang_left {
@@ -79,6 +95,7 @@
     margin-top: 5px;
     color: brown;
     background-color: white;
+    margin-right: 5px;
 }
 
 #edit_toolbar select {

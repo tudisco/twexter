@@ -45,15 +45,15 @@
 }
 
 .finder_sort .sort_none {
-    background: transparent url(../images/finder/sort_none.gif) 0 0 no-repeat;
+    background: transparent url(/images/finder/sort_none.gif) 0 0 no-repeat;
 }
 
 .finder_sort .sort_down {
-    background: transparent url(../images/finder/sort_down.gif) 0 0 no-repeat;
+    background: transparent url(/images/finder/sort_down.gif) 0 0 no-repeat;
 }
 
 .finder_sort .sort_up {
-    background: transparent url(../images/finder/sort_up.gif) 0 0 no-repeat;
+    background: transparent url(/images/finder/sort_up.gif) 0 0 no-repeat;
 }
 
 

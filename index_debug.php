@@ -34,8 +34,10 @@ if(!is_numeric($docid)) $docid = 'null';
 <link href="css/slop.css" rel="stylesheet" type="text/css">
 <link href="css/tools_popup.css" rel="stylesheet" type="text/css">
 <link href="css/top_tool_bar.css" rel="stylesheet" type="text/css">
+<link href="css/comments.css" rel="stylesheet" type="text/css">
 	
 <link href="css/url_link.css" rel="stylesheet" type="text/css">
+<link href="css/sidebar.css" rel="stylesheet" type="text/css">
 
 <script src="http://www.google.com/jsapi?key=ABQIAAAAunEcMFDGHr_wmtu2XUug1BSMkLjG2dqjn9SZ4XtNlZnYQgQRQBQjPrVw2B4EL1mto37jy3sxhrl1Ag" type="text/javascript"></script>
 
@@ -78,6 +80,10 @@ if(!is_numeric($docid)) $docid = 'null';
 <script type="text/javascript" src="js/ui/top_tool_bar.js"></script>
 
 <script type="text/javascript" src="js/translator.js"></script>
+
+<script type="text/javascript" src="js/ui/comments.js"></script>
+
+<script type="text/javascript" src="js/ui/sidebar.js"></script>
 
 <script type="text/javascript" language="javascript">
 <? if($authSession->login) {

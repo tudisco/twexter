@@ -1,0 +1,12 @@
+
+.sidebar .comment_button {
+    width: 57px;
+    height: 94px;
+    background: transparent url(/images/sidebar/comments.gif) 0 0 no-repeat;
+}
+
+.sidebar {
+    position: absolute;
+    z-index: 511;
+    display: none;
+}

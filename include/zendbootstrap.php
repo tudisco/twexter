@@ -68,6 +68,11 @@ class dbUser extends Zend_Db_Table_Abstract
                 'columns'           => array('id'),
                 'refTableClass'     => 'dbDocument',
                 'refColumns'        => array('user_id')
+            ),
+            'Comments' => array(
+                'columns'           => array('id'),
+                'refTableClass'     => 'dbDocumentComments',
+                'refColumns'        => array('user_id')
             )
         );
         
@@ -150,6 +155,34 @@ class dbDocumentLinkResource extends Zend_Db_Table_Abstract
         'UrlLink' => array(
             'columns'           => array('document_id'),
             'refTableClass'     => 'dbDocument',
+            'refColumns'        => array('id')
+        )
+    );
+    
+    protected function _setupDatabaseAdapter(){
+            $this->_db = self::_setupAdapter('dbTwext');
+            parent::_setupDatabaseAdapter();
+    }
+}
+
+/**
+ * Document COmments DB
+ */
+class dbDocumentComments extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'document_comments';
+    protected $_primary = 'id';
+    protected $_sequence = true;
+    
+    protected $_referenceMap    = array(
+        'Document' => array(
+            'columns'           => array('doc_id'),
+            'refTableClass'     => 'dbDocument',
+            'refColumns'        => array('id')
+        ),
+        'User' => array(
+            'columns'           => array('user_id'),
+            'refTableClass'     => 'dbUser',
             'refColumns'        => array('id')
         )
     );

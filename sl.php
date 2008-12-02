@@ -24,8 +24,10 @@ $groupsSources = array(
         ,"{$base}/js/ui/tools_popup.js"
         ,"{$base}/js/ui/url_link.js"
         ,"{$base}/js/ui/top_tool_bar.js"
-        ,"{$base}/js/translator.js"
+        ,"{$base}/js/ui/comments.js"
+        ,"{$base}/js/ui/sidebar.js"
         ,"{$base}/js/uiviews.js"
+        ,"{$base}/js/translator.js"
     )
     ,'css' => array(
         "{$base}/css/simple.css"
@@ -42,6 +44,9 @@ $groupsSources = array(
         ,"{$base}/css/login_button.css"
         ,"{$base}/css/twext_new.css"
         ,"{$base}/css/url_link.css"
+        ,"{$base}/css/top_tool_bar.css"
+        ,"{$base}/css/comments.css"
+        ,"{$base}/css/sidebar.css"
     )
 );
 ?>

@@ -35,6 +35,8 @@ RPC_LOAD = '/rpc/load.php';
 RPC_ADDLANG =  '/rpc/addlang.php';
 RPC_REMOVELANG = '/rpc/removelang.php';
 RPC_LOGIN = '/rpc/login.php';
+RPC_ADDCOMMENT = '/rpc/addcomment.php';
+RPC_COMMITLIST = '/rpc/commentlist.php';
 
 //Positioning Settings
 OUT_POS_TOP_FULL = 23;
@@ -70,7 +72,8 @@ VIEW_STATES = {
         output: {visible:false},
         urldisplay: {visible: false},
         editor: {visible: false},
-        stylecontrol: {visible: false}
+        stylecontrol: {visible: false},
+        comments: {visible: false}
     },
     doc_nourl:{
         settings: {topbar2space:false},
@@ -111,5 +114,10 @@ VIEW_STATES = {
     finder: {
         settings: {topbar2space:false},
         finder: {visible:true, dock:'c', part:'all'}
+    },
+    comments: {
+        settings: {topbar2space:false},
+        output: {visible: true, dock: 'c', part:'r'},
+        comments: {visible: true, dock: 'c', part:'l', callafter:'posControls'}
     }
 }

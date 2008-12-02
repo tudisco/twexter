@@ -3,11 +3,11 @@
     width:16px;
     height:16px;
     padding: 5px;
-    background: transparent url(../images/userlogin/identity.png) 0 0 no-repeat;
+    background: transparent url(/images/userlogin/identity.png) 0 0 no-repeat;
     z-index: 4000;
     position:absolute;
 }
 
 .ident_button:hover {
-    background: transparent url(../images/userlogin/identity.png) -1px -1px no-repeat;
+    background: transparent url(/images/userlogin/identity.png) -1px -1px no-repeat;
 }

@@ -90,6 +90,8 @@ twexter.xnavui.prototype = {
 		this.init_xbutton();
 		this.init_output();
 		this.init_editor();
+		this.init_comments();
+		this.init_sidebar();
 		this.init_data();
 		
 		this.init_general_events();
@@ -130,8 +132,13 @@ twexter.xnavui.prototype = {
 		disableSelection(this.topTransButton.dom);
 		this.topTransButton.addClassOnOver(hc);
 		
-		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','HELP',2);
+		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','FEEDBACK',2);
 		disableSelection(this.topHelpButton.dom);
+		this.topHelpButton.on('click', function(){
+			this.uiviews.setView('comments');
+			this.uiviews.positionControls();
+			this.setMenuSelStyle('TopHelpButton');
+		}, this);
 		this.topHelpButton.addClassOnOver(hc);
 		
 		this.topFindButton = this.topButtonBar.addManualButton('TopFindButton','TopFindButton','FIND',3);
@@ -150,6 +157,27 @@ twexter.xnavui.prototype = {
 		
 		
 		
+	},
+	
+	init_sidebar: function(){
+		/*{*/console.info("Going to create the sidebar control");/*}*/
+		this.sidebar = new twexter.sidebar();
+		this.sidebar.init();
+		this.uiviews.addCtrl('sidebar', this.sidebar);
+		this.uiviews.addCtrlMargin('sidebar', 'b', 10);
+		this.uiviews.addCtrlMargin('sidebar', 'l', 10);
+		this.sidebar.on('comment_click', function(){
+			this.uiviews.setView('comments');
+			this.uiviews.positionControls();
+			this.setMenuSelStyle('TopHelpButton');
+		}, this);
+	},
+	
+	init_comments: function(){
+		/*{*/console.info("Going to create the comments control");/*}*/
+		this.comments = new twexter.comments();
+		this.comments.init();
+		this.uiviews.addCtrl('comments', this.comments);
 	},
 	
 	/** Initialize the login button control */
@@ -204,7 +232,14 @@ twexter.xnavui.prototype = {
 		this.editor_bar.on('lang_switch', this.switchSides, this);
 		this.editor_bar.on('options_click', this.onEditorTools, this);
 		this.editor_bar.on('print_doc', this.onPrintDoc, this);
-		
+		this.editor_bar.on('urllink_change', function(url){
+			this.urlDisplay.clearUrl();
+			this.urlDisplay.setUrl(url);
+			this.doc_url = url;
+			this.uiviews.setView('doc_url');
+			this.uiviews.positionControls();
+			this.setMenuSelStyle(null);
+		}, this);
 		
 		this.editor_bar.comboLeftLang.on('change', this.switchSourceLanguage, this);
 		
@@ -345,6 +380,7 @@ twexter.xnavui.prototype = {
 			stopEvent: true
 		}
 		
+		
 		var goToView = {
 			key: Ext.EventObject.F6,
 			ctrl: false,
@@ -365,11 +401,24 @@ twexter.xnavui.prototype = {
 			stopEvent: true
 		}
 		
+		var goToComments = {
+			key: Ext.EventObject.F10,
+			ctrl: false,
+			fn: function(){
+				//Need button state to be none.
+				//this.xbutton.setButtonState('l', 2);
+				this.uiviews.setView('comments');
+				this.uiviews.positionControls();
+			},
+			scope: this,
+			stopEvent: true
+		}
+		
 		this.keyMapEditorl = new Ext.KeyMap(this.editor.TextAreaLeft.dom, undoEvent);
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
 		
 		this.keyMap = new Ext.KeyMap(document, [
-			undoEvent,goToEdit,goToEditFull,goToView,goToFind,
+			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,
 			{
 				key: Ext.EventObject.S,
 				ctrl: true,
@@ -812,6 +861,9 @@ twexter.xnavui.prototype = {
 		this.urlDisplay.clearUrl();
 		
 		this.xbutton.setButtonState('l', 1);
+		
+		//Clear Blank Docid to Controls that need it
+		this.comments.setDocId(false);
 	},
 	
 	/**
@@ -861,6 +913,9 @@ twexter.xnavui.prototype = {
 		
 		//this.pos_urllinkButton();
 		this.topButtonBar.posButtons();
+		
+		//send id to controls that need it
+		this.comments.setUserId(this.user_id);
 	},
 	
 	/**
@@ -995,6 +1050,10 @@ twexter.xnavui.prototype = {
 				this.savedlg.saveCompleted(true, rep.docid);
 				this.xbutton.changeButtonClass(this.xbutton.ST_RIGHT);
 				this.onXright();
+				
+				//Send Doc IDs to Controls that need it
+				this.comments.setDocId(this.doc_id);
+				
 				return;
 			}else{
 				alert("Error saving document");
@@ -1130,9 +1189,14 @@ twexter.xnavui.prototype = {
 			
 			if(this.doc_url && !Ext.isEmpty(this.doc_url)){
 				//this.urlLinkButt.setUrl(this.doc_url);
-				this.urlDisplay.clearUrl();
+				this.editor_bar.setLinkUrl(this.doc_url);
 				this.urlDisplay.setUrl(this.doc_url);
+			}else{
+				this.editor_bar.setLinkUrl('');
 			}
+			
+			//Set docid on controls that need it
+			this.comments.setDocId(this.doc_id);
 			
 			this.onXnone();
 			

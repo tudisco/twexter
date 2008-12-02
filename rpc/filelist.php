@@ -77,7 +77,9 @@ if($authSession->login  && is_numeric($authSession->userID)){
             $hasDesc = (!empty($d->description)) ? 1 : 0;
             $user = $u[0]['username'];
             $link = $l[0]['url'];
-            $docs[] = array('id'=>$d->id, 'title'=>stripcslashes($d->title), 'hasDesc'=>$hasDesc, 'description'=>stripcslashes($d->description), 'creation'=>date("Y-m-d H:i:s", strtotime($d->created_on)), 'isUser'=>$isUser, 'sha1'=>$d->sha1, 'version'=>$d->version, 'user'=>$user, 'link'=>$link);
+            $dtime = strtotime($d->created_on);
+            $seconds = time()-$dtime;
+            $docs[] = array('id'=>$d->id, 'title'=>stripcslashes($d->title), 'hasDesc'=>$hasDesc, 'description'=>stripcslashes($d->description), 'seconds'=>$seconds, 'creation'=>date("Y-m-d H:i:s", $dtime), 'isUser'=>$isUser, 'sha1'=>$d->sha1, 'version'=>$d->version, 'user'=>$user, 'link'=>$link);
         }
         
         $data = array('success'=>true, 'total'=>count($docs), 'files'=>$docs);

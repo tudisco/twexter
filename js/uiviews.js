@@ -248,6 +248,24 @@ twexter.uiviews.prototype = {
                     ctrl.setTop ? ctrl.setTop(x) : el.setTop(x);
                     x = (m.r) ? m.r : 0; 
                     ctrl.setRight ? ctrl.setRight(x) : el.setRight(x);
+                }else{
+                    if(el){
+                        ctrl.setTop ? ctrl.setTop(0) : el.setTop(0);
+                        ctrl.setRight ? ctrl.setRight(0) : el.setRight(0);
+                    }
+                }
+            }else if(obj.dock == 'bl'){
+                if(Ext.type(this.margins[this.currentControlName])=='object'){
+                    var b,m;
+                    m = this.margins[this.currentControlName];
+                    x = (m.b) ? m.b : 0;
+                    ctrl.setBottom ? ctrl.setBottom(x) : el.setBottom(x);
+                    x = (m.l) ? m.l : 0;
+                    ctrl.setLeft ? ctrl.setLeft(x) : el.setLeft(x);
+                }else{
+                    /*{*/console.debug("Setting Bottom and left to 0");/*}*/
+                    ctrl.setBottom ? ctrl.setBottom(0) : el.setBottom(0);
+                    ctrl.setLeft ? ctrl.setLeft(0) : el.setLeft(0);
                 }
             }
         }
