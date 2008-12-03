@@ -481,6 +481,36 @@ twexter.editor.prototype = {
                 text = twexter.string.str_replace("\n",".  .  .", text);
                 num = text.split("  ").length;
             break;
+            case twexter.CHUNKSTYLE_FLOW:
+                text = twexter.string.str_replace("\n\n","\n\n\n", text);
+                text = twexter.string.str_replace("\n","=_¿_= ", text);
+                var t = text.split("=_¿_=");
+                var type, n=[];
+                num = t.length;
+                /*{*/console.debug("Got line Number "+num);/*}*/
+                if((num % 2) == 0){
+                    type = 0;
+                    /*{*/console.debug("Line Twext");/*}*/
+                }else{
+                    type = 1;
+                    /*{*/console.debug("Line Text");/*}*/
+                }
+                var sp = /\s\s+/g;
+                for(var i = 0;i<t.length;i++){
+                    if(type == 0 && ((i+1) % 2) == 0){
+                        n[n.length]=twexter.string.trim(t[i]);
+                    }
+                    else if(type == 1 && ((i+1) % 2) != 0){
+                        n[n.length]=twexter.string.trim(t[i]);
+                    }
+                }
+                /*{*/console.dir(n);/*}*/
+                text = n.join('\n');
+                text = twexter.string.str_replace("\n\n",".  .  .  .", text);
+                text = twexter.string.str_replace("\n",".  .  .", text);
+                num = text.split(sp).length;
+                /*{*/console.debug("Got chunk Number "+num);/*}*/
+            break;
             default:
                 return null;
         }
@@ -531,6 +561,36 @@ twexter.editor.prototype = {
             case twexter.CHUNKSTYLE_SPACE:
                 text = twexter.string.str_replace("\n","  .  ", text);
                 num = text.split("  ").length;
+            break;
+            case twexter.CHUNKSTYLE_FLOW:
+                text = twexter.string.str_replace("\n\n","\n\n\n", text);
+                text = twexter.string.str_replace("\n","=_¿_= ", text);
+                var t = text.split("=_¿_=");
+                var type, n=[];
+                num = t.length;
+                /*{*/console.debug("Got line Number "+num);/*}*/
+                if((num % 2) == 0){
+                    type = 0;
+                    /*{*/console.debug("Line Twext");/*}*/
+                }else{
+                    type = 1;
+                    /*{*/console.debug("Line Text");/*}*/
+                }
+                var sp = /\s\s+/g;
+                for(var i = 0;i<t.length;i++){
+                    if(type == 0 && ((i+1) % 2) == 0){
+                        n[n.length]=twexter.string.trim(t[i]);
+                    }
+                    else if(type == 1 && ((i+1) % 2) != 0){
+                        n[n.length]=twexter.string.trim(t[i]);
+                    }
+                }
+                /*{*/console.dir(n);/*}*/
+                text = n.join('\n');
+                text = twexter.string.str_replace("\n\n",".  .  .  .", text);
+                text = twexter.string.str_replace("\n",".  .  .", text);
+                num = text.split(sp).length;
+                /*{*/console.debug("Got chunk Number "+num);/*}*/
             break;
             default:
                 return null;
