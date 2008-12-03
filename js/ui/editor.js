@@ -47,7 +47,7 @@ twexter.editor.prototype = {
     leftId: 'twext_editor_left',
     rightTextId: 'twext_right',
     rightId: 'twext_editor_right',
-    tpl: '<div id="{id}" class="{sclass}"><table id="{tableId}" class="etable" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td id="{id}_td_left" valign="top" style="width:50%;" class="left"><textarea id="{textLeftId}" class="edit" wrap="off">{textLeft}</textarea></td><td id="{id}_td_right" valign="top" style="width:50%;" class="right"><textarea id="{textRightId}" class="edit" wrap="off">{textRight}</textarea></td></tr></table></div>',
+    tpl: '<div id="{id}" class="{sclass}"><table id="{tableId}" class="etable" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td id="{id}_td_left" valign="top" style="width:50%;" class="left"><textarea id="{textLeftId}" class="edit" wrap="off" spellcheck="false">{textLeft}</textarea></td><td id="{id}_td_right" valign="top" style="width:50%;" class="right"><textarea id="{textRightId}" class="edit" wrap="off" spellcheck="false">{textRight}</textarea></td></tr></table></div>',
     editor_line_height: 16,
     do_highlighting: true,
     chunkPrefix: 'ch_l',
