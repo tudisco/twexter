@@ -26,6 +26,7 @@ require_once TWEXTERADDCOMMENT_PATH.'../include/zendauth.php';
 
 $userid = (is_numeric($_REQUEST['userid'])) ? $_REQUEST['userid'] : false;
 $docid = (is_numeric($_REQUEST['docid'])) ? $_REQUEST['docid'] : false;
+$docsha1 = (!empty($_REQUEST['docsha1'])) ? $_REQUEST['docsha1'] : false;
 $comment = (!empty($_REQUEST['comment'])) ? $_REQUEST['comment'] : false;
 
 if($docid===false || $docid==0){
@@ -42,7 +43,7 @@ $comment = stripcslashes($comment);
 $comment = strip_tags($comment);
 $dbc = new dbDocumentComments();
 $date = date('Y-m-d H:i:s');
-$data = array('doc_id'=>$docid, 'user_id'=>$userid, 'comment'=>$comment, 'date_entered'=>$date);
+$data = array('doc_id'=>$docid, 'doc_sha1'=>$docsha1, 'user_id'=>$userid, 'comment'=>$comment, 'date_entered'=>$date);
 $dbc->insert($data);
 echo json_encode(array('success'=>true));
 ?>

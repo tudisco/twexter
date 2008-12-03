@@ -28,15 +28,18 @@ define("TWEXTCOMMENTLIST_PATH", dirname(__FILE__).'/');
 require_once TWEXTCOMMENTLIST_PATH.'../include/zendbootstrap.php';
 require_once TWEXTCOMMENTLIST_PATH.'../include/zendauth.php';
 
-$docid = (is_numeric($_REQUEST['docid'])) ? $_REQUEST['docid'] : false;
+$docsha1 = (!empty($_REQUEST['docsha1'])) ? $_REQUEST['docsha1'] : false;
 
+if($docsha1==false){
+    exit();
+}
 
 
 $db = new dbDocumentComments();
 $dbUser = new dbUser();
 $sel = $db->select();
 
-$sel->where("doc_id = ?", $docid)->order("date_entered DESC");
+$sel->where("doc_sha1 = ?", $docsha1)->order("date_entered DESC");
 
 $comments = $db->fetchAll($sel);
 

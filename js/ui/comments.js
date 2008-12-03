@@ -39,6 +39,7 @@ twexter.comments.prototype = {
     tpl_cmts: null,
     userId: false,
     docId: false,
+    docSha1: false,
     store: null,
     dataview: null,
     loadedOnce: false,
@@ -100,12 +101,13 @@ twexter.comments.prototype = {
         this.userId = userid;  
     },
     
-    setDocId: function(docid){
+    setDocId: function(docid, docsha1){
         this.docId = docid;
+        this.docSha1 = docsha1;
         //TODO: Load Comments
-        if(this.docId!=false){
+        if(this.docSha1!=false){
             /*{*/console.info("Comments Loading");/*}*/
-            this.store.load({params:{docid:this.docId}});
+            this.store.load({params:{docsha1:this.docSha1}});
         }
     },
     
@@ -179,7 +181,7 @@ twexter.comments.prototype = {
             return;
         }
         
-        if(this.docId === false){
+        if(this.docId === false || this.docSha1 == false){
             alert("No document ID. this document needs to be saved first");
         }
         
@@ -191,6 +193,7 @@ twexter.comments.prototype = {
         var data = {};
         data.userid = this.userId;
         data.docid = this.docId;
+        data.docsha1 = this.docSha1;
         data.comment = comment;
         
         var ajConfig = {

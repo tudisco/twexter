@@ -863,7 +863,7 @@ twexter.xnavui.prototype = {
 		this.xbutton.setButtonState('l', 1);
 		
 		//Clear Blank Docid to Controls that need it
-		this.comments.setDocId(false);
+		this.comments.setDocId(false, false);
 	},
 	
 	/**
@@ -1052,7 +1052,7 @@ twexter.xnavui.prototype = {
 				this.onXright();
 				
 				//Send Doc IDs to Controls that need it
-				this.comments.setDocId(this.doc_id);
+				this.comments.setDocId(this.doc_id, this.doc_sha1);
 				
 				return;
 			}else{
@@ -1196,7 +1196,7 @@ twexter.xnavui.prototype = {
 			}
 			
 			//Set docid on controls that need it
-			this.comments.setDocId(this.doc_id);
+			this.comments.setDocId(this.doc_id, this.doc_sha1);
 			
 			this.onXnone();
 			
