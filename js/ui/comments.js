@@ -69,7 +69,7 @@ twexter.comments.prototype = {
                         '<div class="title">',
                             '<span class="username">{username}</span> <span class="date">{[humane_date_from_seconds(values.seconds)]}</span>',
                         '</div>',
-                    '{[this.nl2br(values.comment)]}',
+                    '{[this.checkforlinks(this.nl2br(values.comment))]}',
                     '</div>',
                 '</tpl>',
                 {
@@ -78,6 +78,12 @@ twexter.comments.prototype = {
                         text = sutil.str_replace(["\r\n", "\n\r", "\r"], "\n", text);
                         text = sutil.str_replace("\n","<br />",text);
                         return text;
+                    },
+                    
+                    checkforlinks: function(text){
+                        var link = /((mailto\:|javascript\:|(news|file|(ht|f)tp(s?))\:\/\/)[A-Za-z0-9\.:_\/~%\-+&#?!=()@\x80-\xB5\xB7\xFF]+)/g;
+                        if(Ext.type(text)!='string') return '';        
+                        return text.replace(link, "<a href=\"$1\" target=\"_blank\">$1</a>");
                     }
                 }
             );
