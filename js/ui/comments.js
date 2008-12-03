@@ -204,11 +204,14 @@ twexter.comments.prototype = {
                 success:this.saveSuccess,
                 failure:this.saveFail
         };
+        this.el_button.dom.disabled = true;
 	Ext.Ajax.request(ajConfig);
         
     },
     
     saveSuccess: function(rep){
+        
+        this.el_button.dom.disabled = false;
         /*{*/console.info("Save comment success called");/*}*/
         var text = rep.responseText;
         if(text.length > 3){
@@ -229,9 +232,11 @@ twexter.comments.prototype = {
         //TODO: Comment was a success, notify and reload store.
         this.el_textarea.dom.value = '';
         this.store.reload();
+        this.el_display.scrollTo('top', 0);
     },
     
     saveFail: function(){
+        this.el_button.dom.disabled = false;
         /*{*/console.info("Save comment failed called");/*}*/
         alert("There was an error saving your comment, please try again latter");
     },
