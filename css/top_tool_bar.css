@@ -11,7 +11,7 @@
 .TopFindButton{
     width: 75px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
@@ -25,7 +25,7 @@
 .TopNewButton {
     width: 75px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
@@ -39,7 +39,7 @@
 .TopPrintButton {
     width: 75px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
@@ -53,7 +53,7 @@
 .TopEditButton {
     width: 75px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
@@ -67,7 +67,7 @@
 .TopStyleButton {
     width: 75px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
@@ -81,7 +81,7 @@
 .TopTransButton {
     width: 100px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
@@ -95,7 +95,7 @@
 .TopHelpButton {
     width: 100px;
     height: 20px;
-    font-family: monospace;
+    font-family: sans-serif;
     font-weight: bolder;
     font-size: 16px;
     color: #D6D7BD;
