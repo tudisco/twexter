@@ -117,7 +117,7 @@ VIEW_STATES = {
     },
     comments: {
         settings: {topbar2space:false},
-        output: {visible: true, dock: 'c', part:'r'},
-        comments: {visible: true, dock: 'c', part:'l', callafter:'posControls'}
+        output: {visible: true, dock: 'c', part:'l'},
+        comments: {visible: true, dock: 'c', part:'r', callafter:'posControls'}
     }
 }
