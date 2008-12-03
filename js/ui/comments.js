@@ -158,9 +158,9 @@ twexter.comments.prototype = {
             tpl: this.tpl_cmts,
             applyTo: this.el_display,
             autoHeight:true,
-            singleSelect: true,
-            multiSelect: true,
-            itemSelector: 'div.a_comment',
+            singleSelect: false,
+            multiSelect: false,
+            //itemSelector: 'div.a_comment',
             emptyText: 'No comments to display'
         });
         
