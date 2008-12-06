@@ -121,6 +121,14 @@
     color: lightblue;
 }
 
+.filelisting .file_title_row .title .cmts {
+    padding-left: 16px;
+    width: 25px;
+    background: no-repeat 0 0 url(/images/finder/cmt.gif);
+    font-size: small;
+    color: grey;
+}
+
 .filelisting .file_title_row .creation {
     float: right;
 }

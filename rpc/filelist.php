@@ -48,10 +48,12 @@ if($authSession->login  && is_numeric($authSession->userID)){
 	
         $docs = array();
 	$dbT = new dbDocumentTrans();
+        $_db = Zend_Registry::get('dbTwext');
         
         foreach($doc as $d){
             $u = $d->findDependentRowset("dbUser")->toArray();
             $l = $d->findDependentRowset("dbDocumentLinkResource")->toArray();
+            $c = $_db->fetchOne("SELECT count(*) FROM document_comments WHERE doc_id = ?", $d->id);
             //print_r($u); exit();
 	    if($s_text){
 		$r = $dbT->fetchRow("document_id = {$d->id} AND type = 'text'");
@@ -79,7 +81,7 @@ if($authSession->login  && is_numeric($authSession->userID)){
             $link = $l[0]['url'];
             $dtime = strtotime($d->created_on);
             $seconds = time()-$dtime;
-            $docs[] = array('id'=>$d->id, 'title'=>stripcslashes($d->title), 'hasDesc'=>$hasDesc, 'description'=>stripcslashes($d->description), 'seconds'=>$seconds, 'creation'=>date("Y-m-d H:i:s", $dtime), 'isUser'=>$isUser, 'sha1'=>$d->sha1, 'version'=>$d->version, 'user'=>$user, 'link'=>$link);
+            $docs[] = array('id'=>$d->id, 'ccount'=>$c, 'title'=>stripcslashes($d->title), 'hasDesc'=>$hasDesc, 'description'=>stripcslashes($d->description), 'seconds'=>$seconds, 'creation'=>date("Y-m-d H:i:s", $dtime), 'isUser'=>$isUser, 'sha1'=>$d->sha1, 'version'=>$d->version, 'user'=>$user, 'link'=>$link);
         }
         
         $data = array('success'=>true, 'total'=>count($docs), 'files'=>$docs);

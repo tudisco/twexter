@@ -28,6 +28,7 @@ $userid = (is_numeric($_REQUEST['userid'])) ? $_REQUEST['userid'] : false;
 $docid = (is_numeric($_REQUEST['docid'])) ? $_REQUEST['docid'] : false;
 $docsha1 = (!empty($_REQUEST['docsha1'])) ? $_REQUEST['docsha1'] : false;
 $comment = (!empty($_REQUEST['comment'])) ? $_REQUEST['comment'] : false;
+$title = (!empty($_REQUEST['title'])) ? $_REQUEST['title'] : false;
 
 if($docid===false || $docid==0){
     echo json_encode(array('success'=>false, 'message'=>'no doc id'));
@@ -46,4 +47,19 @@ $date = date('Y-m-d H:i:s');
 $data = array('doc_id'=>$docid, 'doc_sha1'=>$docsha1, 'user_id'=>$userid, 'comment'=>$comment, 'date_entered'=>$date);
 $dbc->insert($data);
 echo json_encode(array('success'=>true));
+
+$dbdoc = new dbDocument();
+$drows = $dbdoc->find($docid);
+
+if(count($drows)>0){
+    $row = $drows->current();
+    $mess = "Comment has been add on Document:\n";
+    $mess.= $row->title;
+    $mess.= "\n----------------------------\n\n";
+    $mess.= $comment;
+    mail("tudisco@tudisco.biz,dukecr@gmail.com", "Twext Comment", $mess);
+}
+
+
+
 ?>
