@@ -71,7 +71,7 @@ twexter.finder.prototype = {
                     "\n",
                     '<div class="filelisting">',
                         '<div class="file_title_row" id="doc-{id}">',
-                            '<div class="title">{[this.highlight(values.title)]} <span class="ver">v{version}</span> <span class="user">({user})</span> <span class="cmts">{ccount}</span></div>',
+                            '<div class="title">{[this.highlight(values.title)]} <span class="ver">v{version}</span> <span class="user">({user})</span> <tpl if="ccount &gt; 0"><span class="cmts">{ccount}</span></tpl></div>',
                             '<div class="creation">{[humane_date_from_seconds(values.seconds)]} - {[values.creation.format("D M d, Y")]}</div>',
                             '<div style="clear:both;"></div>',
                             

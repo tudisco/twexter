@@ -55,9 +55,11 @@ if(count($drows)>0){
     $row = $drows->current();
     $mess = "Comment has been add on Document:\n";
     $mess.= $row->title;
-    $mess.= "\n----------------------------\n\n";
+    $mess.= "\n----------------------------\n";
+    $mess.= "http://dev.read.fm/open/".$row->sha1;
+    $mess.= "\n----------------------------\n";
     $mess.= $comment;
-    mail("tudisco@tudisco.biz,dukecr@gmail.com", "Twext Comment", $mess);
+    @mail("tudisco@tudisco.biz,dukecr@gmail.com", "Twext Comment - ".$row->title, $mess);
 }
 
 
