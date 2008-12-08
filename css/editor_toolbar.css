@@ -23,6 +23,7 @@
     height: 22px;
     float: left;
     padding: 5px;
+    margin-left: 10px;
     background: transparent url(/images/edittools/youtube_small.gif) 0 0 no-repeat;
 }
 
@@ -69,17 +70,23 @@
     background: transparent url(/images/edittools/document-new.png) -1px -1px no-repeat;
 }
 
-#edit_toolbar #savedoc {
+/*#edit_toolbar #savedoc {
     width:22px;
     height:22px;
     float: left;
     padding: 5px;
     background: transparent url(/images/edittools/document-save.png) 0 0 no-repeat;
 }
-
 #edit_toolbar #savedoc:hover {
     background: transparent url(/images/edittools/document-save.png) -1px -1px no-repeat;
 }
+*/
+#edit_toolbar #savedoc {
+    float: left;
+    height:22px;
+}
+
+
 
 #edit_toolbar .c_lang_left {
     float: left;

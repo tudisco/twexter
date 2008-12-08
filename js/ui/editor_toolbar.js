@@ -61,10 +61,10 @@ twexter.editor_tools.prototype = {
                 '<select id="{id_lang_left}" class="{id_lang_left}"></select>',
                 '<div id="{id_switch}"></div>',
                 '<select id="{id_lang_right}" class="{id_lang_right}"></select>',
-                '<div id="{id_print}"></div>',
+                //'<div id="{id_print}"></div>',
                 '<div id="{id_pref}"></div>',
-                '<div id="{id_newdoc}"></div>',
-                '<div id="{id_savedoc}"></div>',
+                //'<div id="{id_newdoc}"></div>',
+                '<button id="{id_savedoc}">Save</button>',
                 '<div id="{id_linkbutt}"></div>',
                 '<input type="text" id="{id_linkinput}"></input>',
             '</div>'
@@ -92,7 +92,7 @@ twexter.editor_tools.prototype = {
     },
     
     init_events: function(){
-        this.buttNewDoc = Ext.get(this.id_newdoc);
+        //this.buttNewDoc = Ext.get(this.id_newdoc);
         this.buttSaveDoc = Ext.get(this.id_savedoc);
         //this.buttIdent = Ext.get(this.id_ident);
         this.buttPref = Ext.get(this.id_pref);
@@ -100,18 +100,18 @@ twexter.editor_tools.prototype = {
         this.comboRightLang = Ext.get(this.id_lang_right);
         this.switchButton = Ext.get(this.id_switch);
         this.switchButton.toggleClass("flip");
-        this.printButton = Ext.get(this.id_print);
+        //this.printButton = Ext.get(this.id_print);
         this.linkButton = Ext.get(this.id_linkbutt);
         this.linkInput = Ext.get(this.id_linkinput);
         
-        this.buttNewDoc.on('click', this.onNewDocClick, this);
+        //this.buttNewDoc.on('click', this.onNewDocClick, this);
         this.buttSaveDoc.on('click', this.onSaveDocClick, this);
         //this.buttIdent.on('click', this.onIdentClick, this);
         this.buttPref.on('click', this.onOptionsClick, this);
         this.comboLeftLang.on('change', this.onLangChange, this);
         this.comboRightLang.on('change', this.onLangChange, this);
         this.switchButton.on('click', this.onLangSwitch, this);
-        this.printButton.on('click', this.onPrint, this);
+        //this.printButton.on('click', this.onPrint, this);
         this.linkButton.on('click', this.onLinkButt, this);
         this.linkInput.on('change', this.onInputChange, this);
         
@@ -205,18 +205,21 @@ twexter.editor_tools.prototype = {
     setRightButtonsTo: function(x){
         var rightC = this.comboRightLang.getX()+this.comboRightLang.getWidth();
         
-        if(this.printButton){
+        /*if(this.printButton){
             this.printButton.setX(rightC+10);
-        }
+        }*/
         if(this.buttPref){
             //this.buttPref.setX(this.buttSaveDoc.getX()-this.buttPref.getWidth());
-            this.buttPref.setX(this.printButton.getX()+this.buttPref.getWidth());
+            this.buttPref.setX(rightC+this.buttPref.getWidth());
         }
         if(this.buttSaveDoc){
             this.buttSaveDoc.setX(this.buttPref.getX()+this.buttSaveDoc.getWidth());
         }
-        if(this.buttNewDoc){
+        /*if(this.buttNewDoc){
             this.buttNewDoc.setX(this.buttSaveDoc.getX()+this.buttNewDoc.getWidth());
+        }*/
+        if(this.linkButton){
+            this.linkButton.setC(this.buttSaveDoc.getX()+this.linkButton.getWidth());
         }
         
         
