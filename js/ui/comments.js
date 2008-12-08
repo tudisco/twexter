@@ -48,9 +48,8 @@ twexter.comments.prototype = {
         var tpl = '<div id="{cid}" class="{cid}">'
                     +'<div id="{cid}_display" class="{cid}_display"></div>'
                     +'<div id="{cid}_input" class="{cid}_input">'
-                        +'<div class="{cid}_label">Comment:</div>'
                         +'<div class="{cid}_textarea"><textarea id="{cid}_text" class="{cid}_text"></textarea></div>'
-                        +'<div class="{cid}_buttonarea"><button id="{cid}_button" type="button">Add</button></div>'
+                        +'<div class="{cid}_buttonarea"><button id="{cid}_button" type="button">Comment</button></div>'
                     +'</div>'  
                 +'</div>';
                 
