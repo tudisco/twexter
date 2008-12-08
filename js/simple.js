@@ -512,6 +512,9 @@ twexter.xnavui.prototype = {
 	/** On Xbutton Click to None State */
 	onXnone: function(){
 		/*{*/console.info("** ON X NONE **");/*}*/
+		
+		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
+		
 		//this.hideUrlDisplay();
 		this.setMenuSelStyle(null);
 		this.liveUpdate = true;
@@ -534,6 +537,9 @@ twexter.xnavui.prototype = {
 	/** On Xbutton click to top state */
 	onXtop: function(){
 		/*{*/console.info("** ON X TOP **");/*}*/
+		
+		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
+		
 		this.setMenuSelStyle(null);
 		this.liveUpdate = true;
 		
@@ -554,6 +560,9 @@ twexter.xnavui.prototype = {
 	/** on Xbutton click to left state */
 	onXleft: function(xbtn, count){
 		/*{*/console.info("** ON X LEFT **");/*}*/
+		
+		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
+		
 		this.setMenuSelStyle('TopEditButton');
 		this.uiviews.setView('edit_preview');
 
@@ -576,6 +585,8 @@ twexter.xnavui.prototype = {
 	onXright: function(){
 		this.setMenuSelStyle('TopFindButton');
 		this.uiviews.setView("finder");
+		
+		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
 		
 		/*{*/console.info("** ON X RIGHT **");/*}*/
 		this.liveUpdate = true;
@@ -615,6 +626,8 @@ twexter.xnavui.prototype = {
 	onXbottom: function(){
 		this.setMenuSelStyle('TopStyleButton');
 		this.uiviews.setView('style_preview');
+		
+		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
 		
 		/*{*/console.info("** ON X BOTTOM **");/*}*/
 		//this.hideUrlDisplay();
