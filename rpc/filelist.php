@@ -53,7 +53,7 @@ if($authSession->login  && is_numeric($authSession->userID)){
         foreach($doc as $d){
             $u = $d->findDependentRowset("dbUser")->toArray();
             $l = $d->findDependentRowset("dbDocumentLinkResource")->toArray();
-            $c = $_db->fetchOne("SELECT count(*) FROM document_comments WHERE doc_id = ?", $d->id);
+            $c = $_db->fetchOne("SELECT count(*) FROM document_comments WHERE doc_sha1 = ?", $d->sha1);
             //print_r($u); exit();
 	    if($s_text){
 		$r = $dbT->fetchRow("document_id = {$d->id} AND type = 'text'");
