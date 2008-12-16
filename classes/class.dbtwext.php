@@ -115,6 +115,15 @@ class DbTwext {
 	 * @var string
 	 */
 	protected $_document_chunk_style;
+	/**
+	 * Parent Doc ID
+	 */
+	protected $_document_parent_id;
+	/**
+	 * Parent Doc SHA1
+	 */
+	protected $_document_parent_sha1;
+	
 	
 
 	/**
@@ -190,11 +199,42 @@ class DbTwext {
 		}
 	}
 	
+	/**
+	 * Set Documetn Description
+	 *
+	 * @param string $desc
+	 */
 	function setDescription($desc){
 		if(is_string($desc)){
 			$this->_document_desc = $desc;
 		}else{
 			throw new DbTwextException("Description is not a string", DBTWEXT_TYPE_ERROR);
+		}
+	}
+	
+	/**
+	 * Set Parent ID
+	 *
+	 * @param number Parent ID
+	 */
+	function setParentId($id){
+		if(is_numeric($id)){
+			$this->_document_parent_id = $id;
+		}else{
+			throw new DbTwextException("Parent Doc ID not a number", DBTWEXT_TYPE_ERROR);
+		}
+	}
+	
+	/**
+	 * Set Parent Sha1
+	 *
+	 * @param string sha1
+	 */
+	function setParentSha1($sha1){
+		if(is_string($sha1)){
+			$this->_document_parent_sha1 = $sha1;
+		}else{
+			throw new DbTwextException("Parent sha1 is not a string", DBTWEXT_TYPE_ERROR);
 		}
 	}
 	
@@ -473,6 +513,8 @@ class DbTwext {
 		$data['global'] = ($this->_document_global) ? 'yes' : 'no';
 		$data['version'] = (empty($this->_document_version)) ? 1.0 : $this->_document_version;
 		$data['chunk_style'] = (empty($this->_document_chunk_style)) ? 'unknown' : $this->_document_chunk_style;
+		$data['parent_id'] = (is_numeric($this->_document_parent_id)) ? $this->_document_parent_id : 0;
+		$data['parent_sha1'] = (empty($this->_document_parent_sha1)) ? $this->_document_parent_sha1 : '';
 		
 		$pkey = $db->insert($data);
 		
@@ -616,6 +658,8 @@ class DbTwext {
 		$data['global'] = ($this->_document_global) ? 'yes' : 'no';
 		$data['version'] = (empty($this->_document_version)) ? 1.0 : $this->_document_version;
 		$data['chunk_style'] = (empty($this->_document_chunk_style)) ? 'unknown' : $this->_document_chunk_style;
+		$data['parent_id'] = (is_numeric($this->_document_parent_id)) ? $this->_document_parent_id : 0;
+		$data['parent_sha1'] = (empty($this->_document_parent_sha1)) ? $this->_document_parent_sha1 : '';
 		
 		$db->update($data,"id = ".$this->_document_id);
 	}
@@ -689,6 +733,8 @@ class DbTwext {
 			$this->_document_userid = $doc['user_id'];
 			$this->_document_version = $doc['version'];
 			$this->_document_chunk_style = $doc['chunk_style'];
+			$this->_document_parent_id = $doc['parent_id'];
+			$this->_document_parent_sha1 = $doc['parent_sha1'];
 			
 			//Load Trans
 			$trans = $this->_load_trans($id);
