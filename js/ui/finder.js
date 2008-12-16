@@ -38,8 +38,8 @@ twexter.finder.prototype = {
     tpl:null,
     tpl_filelist: null,
     search_chars: 2,
-    imageSearchCancel: 'images/finder/dialog-cancel.png',
-    imageSearch: 'images/finder/edit-find.png',
+    imageSearchCancel: '/images/finder/dialog-cancel.png',
+    imageSearch: '/images/finder/edit-find.png',
     sorting: null,
     
     init: function(){

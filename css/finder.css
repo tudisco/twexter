@@ -80,7 +80,7 @@
     height: 22px;
     padding-left: 5px;
     padding-right: 15px;
-    background: transparent url(../images/finder/switch.gif) 0 -17px no-repeat;
+    background: transparent url(/images/finder/switch.gif) 0 -17px no-repeat;
 }
 
 .findlite {

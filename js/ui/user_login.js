@@ -66,8 +66,8 @@ twexter.userlogin.prototype = {
                         '<label for="login_password">Password:</label><input type="password" id="login_password" name="login_password" />'+nl,
                     '</div>'+nl,
                     '<div align="center" class="buttons">',
-                        '<button id="login_button" class="button_ok"><img src="images/userlogin/dialog-apply.png" height="16" width="16" /></button>',
-                        '<button id="login_cancel_button" class="button_cancel"><img src="images/userlogin/dialog-cancel.png" height="16" width="16" /></button>',
+                        '<button id="login_button" class="button_ok"><img src="/images/userlogin/dialog-apply.png" height="16" width="16" /></button>',
+                        '<button id="login_cancel_button" class="button_cancel"><img src="/images/userlogin/dialog-cancel.png" height="16" width="16" /></button>',
                     '</div>'+nl,
                 '</div>'+nl,
             '</div>'+nl
