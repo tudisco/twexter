@@ -911,6 +911,7 @@ twexter.xnavui.prototype = {
 		this.output.update('');
 		
 		this.urlDisplay.clearUrl();
+		this.editor_bar.setLinkUrl('');
 		
 		this.xbutton.setButtonState('l', 1);
 		
