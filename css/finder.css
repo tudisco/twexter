@@ -14,18 +14,19 @@
 #finder_searchbox {
     float: left;
     width:250px;
-    height:20px;
-    font-family: Andale Mono, monospace;
-    border: solid 1px grey;
-    /*-moz-border-radius : 4px;
-    -webkit-border-radius : 4px;*/
+    height:21px;
+    padding: 0px;
+    border: solid 1px #D6D3BD;
+    -moz-border-radius : 2px;
+    -webkit-border-radius : 2px;
 }
 
 #finder_field_search {
-    /*padding: 2px;*/
-    height:18px;
-    border: none;
-    width:234px;
+    padding: 0px;
+    font-family: monospace;
+    height:14px;
+    width:230px;
+    border-style: none;
 }
 
 .finder_sort {

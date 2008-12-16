@@ -123,23 +123,25 @@ twexter.xnavui.prototype = {
 		
 		var hc = "topButtonHi";
 		
-		this.topNewDocButton = this.topButtonBar.addManualButton('TopNewButton','TopNewButton','NEW',5);
+		//this.topNewDocButton = this.topButtonBar.addManualButton('TopNone','TopNone','',2);
+		
+		this.topNewDocButton = this.topButtonBar.addManualButton('TopNewButton','TopNewButton','NEW',6);
 		disableSelection(this.topNewDocButton.dom);
 		this.topNewDocButton.addClassOnOver(hc);
 		this.topNewDocButton.on('click', this.onNewDocument, this);
 		
-		this.topStyleButton = this.topButtonBar.addManualButton('TopStyleButton','TopStyleButton','STYLE',4);
+		this.topStyleButton = this.topButtonBar.addManualButton('TopStyleButton','TopStyleButton','STYLE',5);
 		disableSelection(this.topStyleButton.dom);
 		this.topStyleButton.addClassOnOver(hc);
 		this.topStyleButton.on('click', function(){
 			this.xbutton.setButtonState('b', 1);
 		}, this);
 		
-		this.topTransButton = this.topButtonBar.addManualButton('TopTransButton','TopTransButton','TRANSLATE',8);
+		/*this.topTransButton = this.topButtonBar.addManualButton('TopTransButton','TopTransButton','TRANSLATE',9);
 		disableSelection(this.topTransButton.dom);
-		this.topTransButton.addClassOnOver(hc);
+		this.topTransButton.addClassOnOver(hc);*/
 		
-		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','FEEDBACK',2);
+		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','FEEDBACK',3);
 		disableSelection(this.topHelpButton.dom);
 		this.topHelpButton.on('click', function(){
 			this.uiviews.setView('comments');
@@ -148,21 +150,21 @@ twexter.xnavui.prototype = {
 		}, this);
 		this.topHelpButton.addClassOnOver(hc);
 		
-		this.topFindButton = this.topButtonBar.addManualButton('TopFindButton','TopFindButton','FIND',3);
+		this.topFindButton = this.topButtonBar.addManualButton('TopFindButton','TopFindButton','FIND',4);
 		disableSelection(this.topFindButton.dom);
 		this.topFindButton.on('click', function(){
 			this.xbutton.setButtonState('r', 1);
 		}, this);
 		this.topFindButton.addClassOnOver(hc);
 		
-		this.topViewButton = this.topButtonBar.addManualButton('TopViewButton','TopViewButton','VIEW',7);
+		this.topViewButton = this.topButtonBar.addManualButton('TopViewButton','TopViewButton','VIEW',8);
 		disableSelection(this.topViewButton.dom);
 		this.topViewButton.on('click', function(){
 			this.xbutton.setButtonState('t', 1);
 		}, this);
 		this.topViewButton.addClassOnOver(hc);
 		
-		this.topEditButton = this.topButtonBar.addManualButton('TopEditButton','TopEditButton','EDIT',6);
+		this.topEditButton = this.topButtonBar.addManualButton('TopEditButton','TopEditButton','EDIT',7);
 		disableSelection(this.topEditButton.dom);
 		this.topEditButton.on('click', function(){
 			this.xbutton.setButtonState('l', 1);

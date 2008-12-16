@@ -67,7 +67,7 @@ twexter.finder.prototype = {
         //Search Bar now on top menu bar.
         this.finderTpl = new Ext.Template(
             '<div id="{id}_searchbox"><input type="text" id="{id}_field_search"></input>',
-                '<img id="{id}_search_cancel" class="{id}_search_cancel" src="{searchImage}" align="abscenter" width="16" height="16">',
+                '<img id="{id}_search_cancel" class="{id}_search_cancel" src="{searchImage}" align="abscenter" width="14" height="14">',
             '</div>'
         );
         
@@ -161,7 +161,7 @@ twexter.finder.prototype = {
             searchImage: this.imageSearch
         });
         
-        SIMPLE.topButtonBar.addButton(Ext.get(this.id+'_searchbox'), 9);
+        SIMPLE.topButtonBar.addButton(Ext.get(this.id+'_searchbox'), 2);
         
         this.tpl.append(this.bodyId, {
             id:this.id,
