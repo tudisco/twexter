@@ -98,10 +98,17 @@ twexter.xnavui.prototype = {
 		
 		this.init_keys();
 		
+		//Cuasing to many errors
+		//this.init_finder();
+		
 		this.uiviews.positionControls();
 		
 		if(USER_LOGED_IN){
 			this.onUserAuth(null, USER_DATA.userid, USER_DATA.name_first, USER_DATA.name_last);
+		}
+		
+		if(this.data.gotofinder === true){
+			this.xbutton.setButtonState('r', 1);
 		}
 	},
 	
@@ -126,9 +133,9 @@ twexter.xnavui.prototype = {
 		this.topStyleButton.addClassOnOver(hc);
 		this.topStyleButton.on('click', function(){
 			this.xbutton.setButtonState('b', 1);
-		}, this)
+		}, this);
 		
-		this.topTransButton = this.topButtonBar.addManualButton('TopTransButton','TopTransButton','TRANSLATE',7);
+		this.topTransButton = this.topButtonBar.addManualButton('TopTransButton','TopTransButton','TRANSLATE',8);
 		disableSelection(this.topTransButton.dom);
 		this.topTransButton.addClassOnOver(hc);
 		
@@ -146,7 +153,14 @@ twexter.xnavui.prototype = {
 		this.topFindButton.on('click', function(){
 			this.xbutton.setButtonState('r', 1);
 		}, this);
-		this.topHelpButton.addClassOnOver(hc);
+		this.topFindButton.addClassOnOver(hc);
+		
+		this.topViewButton = this.topButtonBar.addManualButton('TopViewButton','TopViewButton','VIEW',7);
+		disableSelection(this.topViewButton.dom);
+		this.topViewButton.on('click', function(){
+			this.xbutton.setButtonState('t', 1);
+		}, this);
+		this.topViewButton.addClassOnOver(hc);
 		
 		this.topEditButton = this.topButtonBar.addManualButton('TopEditButton','TopEditButton','EDIT',6);
 		disableSelection(this.topEditButton.dom);
@@ -157,6 +171,19 @@ twexter.xnavui.prototype = {
 		
 		
 		
+	},
+	
+	init_finder: function(){
+		if(this.user_id){
+			this.finddlg = new twexter.finder({user_id:this.user_id});
+		}
+		else{
+			this.finddlg = new twexter.finder();
+		}
+		this.uiviews.addCtrl('finder', this.finddlg);
+		this.finddlg.on('hidden', this.onFindDlgHidden, this);
+		this.finddlg.on('document_selected', this.onLoadDocument, this);
+		this.finddlg.init();
 	},
 	
 	init_sidebar: function(){
@@ -297,6 +324,7 @@ twexter.xnavui.prototype = {
 		this.data.init();
 		
 		//Temp, Set Defualt Languages
+		
 		this.editor_bar.comboLeftLang.value = 'english';
 		this.editor_bar.comboRightLang.value = 'español';
 		this.editor_bar.slop_select.last_text_value = 'english';
@@ -347,18 +375,18 @@ twexter.xnavui.prototype = {
 	init_keys: function(){
 		
 		var undoEvent = {
-				key: Ext.EventObject.Z,
-				ctrl: true,
-				fn: function(){
-					var e = this.editor;
-					var t = this.data.doUndo(e.getText(),e.getTwxt());
-					if(t!==false){
-						e.setTextArray(t);
-					}
-				},
-				scope: this,
-				stopEvent: true
-			};
+			key: Ext.EventObject.Z,
+			ctrl: true,
+			fn: function(){
+				var e = this.editor;
+				var t = this.data.doUndo(e.getText(),e.getTwxt());
+				if(t!==false){
+					e.setTextArray(t);
+				}
+			},
+			scope: this,
+			stopEvent: true
+		};
 			
 		var goToEdit = {
 			key: Ext.EventObject.F7,
@@ -368,7 +396,7 @@ twexter.xnavui.prototype = {
 			},
 			scope: this,
 			stopEvent: true
-		}
+		};
 		
 		var goToEditFull = {
 			key: Ext.EventObject.F8,
@@ -378,7 +406,7 @@ twexter.xnavui.prototype = {
 			},
 			scope: this,
 			stopEvent: true
-		}
+		};
 		
 		
 		var goToView = {
@@ -389,7 +417,7 @@ twexter.xnavui.prototype = {
 			},
 			scope: this,
 			stopEvent: true
-		}
+		};
 		
 		var goToFind = {
 			key: Ext.EventObject.F9,
@@ -399,7 +427,7 @@ twexter.xnavui.prototype = {
 			},
 			scope: this,
 			stopEvent: true
-		}
+		};
 		
 		var goToComments = {
 			key: Ext.EventObject.F10,
@@ -412,7 +440,7 @@ twexter.xnavui.prototype = {
 			},
 			scope: this,
 			stopEvent: true
-		}
+		};
 		
 		this.keyMapEditorl = new Ext.KeyMap(this.editor.TextAreaLeft.dom, undoEvent);
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
@@ -456,7 +484,7 @@ twexter.xnavui.prototype = {
 						case twexter.CHUNKSTYLE_SPACE:
 							/*{*/console.log("Spacechunk to Flow");/*}*/
 							s = twexter.spacechunk_to_struct(t,w);
-							tw2 = twexter.struct_to_flowchunk(s)
+							tw2 = twexter.struct_to_flowchunk(s);
 							this.editor.setEditorMode(1);
 							this.editor.setText('');
 							this.editor.setTwxt(tw2);
@@ -504,7 +532,8 @@ twexter.xnavui.prototype = {
 		css.updateRule('.TopTransButton', 'color', color);
 		css.updateRule('.TopHelpButton', 'color', color);
 		css.updateRule('.TopFindButton', 'color', color);
-		if(button!=null){
+		css.updateRule('.TopViewButton', 'color', color);
+		if(button!==null){
 			css.updateRule('.'+button, 'color', selcolor);
 		}
 	},
@@ -540,7 +569,7 @@ twexter.xnavui.prototype = {
 		
 		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
 		
-		this.setMenuSelStyle(null);
+		this.setMenuSelStyle("TopViewButton");
 		this.liveUpdate = true;
 		
 		//Is there a URL resource available
@@ -584,7 +613,7 @@ twexter.xnavui.prototype = {
 	/** On Xbutton click to right state */
 	onXright: function(){
 		this.setMenuSelStyle('TopFindButton');
-		this.uiviews.setView("finder");
+		
 		
 		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
 		
@@ -593,12 +622,13 @@ twexter.xnavui.prototype = {
 		
 		if(!this.finddlg){
 			
-			if(!this.user_id || this.user_id === 0 || Ext.isEmpty(this.user_id)){
-				/*{*/console.info("User not logged on. Need to be logged on to save: "+this.user_id);/*}*/
-				this.callAfterLogin = this.onXright;
-				this.onUserLogin();
-				return;
-			}
+			//Do not need to log in to get to finder.
+			//if(!this.user_id || this.user_id === 0 || Ext.isEmpty(this.user_id)){
+			//	/*{*/console.info("User not logged on. Need to be logged on to save: "+this.user_id);/*}*/
+			//	this.callAfterLogin = this.onXright;
+			//	this.onUserLogin();
+			//	return;
+			//}
 			
 			/*{*/console.debug("Loading Find Dialog");/*}*/
 			
@@ -613,9 +643,13 @@ twexter.xnavui.prototype = {
 			this.finddlg.on('document_selected', this.onLoadDocument, this);
 			this.finddlg.init();
 		}
-		var stext = this.editor_bar.comboLeftLang.getValue();
-		var stwxt = this.editor_bar.comboRightLang.getValue();
-		this.finddlg.setLang(stext, stwxt);
+		
+		//Turning this off
+		//var stext = this.editor_bar.comboLeftLang.getValue();
+		//var stwxt = this.editor_bar.comboRightLang.getValue();
+		//this.finddlg.setLang(stext, stwxt);
+		
+		this.uiviews.setView("finder");
 		if(pageTracker){ pageTracker._trackPageview("/actions/finder"); }
 		
 		
@@ -871,9 +905,14 @@ twexter.xnavui.prototype = {
 		this.data.clearLastDoc();
 		this.data.clearUndo();
 		
+		//Clear Out Put
+		this.output.update('');
+		
 		this.urlDisplay.clearUrl();
 		
 		this.xbutton.setButtonState('l', 1);
+		
+		
 		
 		//Clear Blank Docid to Controls that need it
 		this.comments.setDocId(false, false);
@@ -982,20 +1021,22 @@ twexter.xnavui.prototype = {
 		data.lang_twxt = this.editor_bar.getTwxtLang();
 		data.global = global;
 		
+		var s;
+		
 		switch(twexter.detect_chunk_style(data.text, data.twxt)){
 			case twexter.CHUNKSTYLE_XSCROLL:
 				data.chunk_style = 'xscroll';
 			break;
 			case twexter.CHUNKSTYLE_SPACE:
 				data.chunk_style = 'space';
-				var s = twexter.spacechunk_to_struct(data.text, data.twxt);
+				s = twexter.spacechunk_to_struct(data.text, data.twxt);
 				s = twexter.struct_to_xscrollchunk(s);
 				data.text = s[0];
 				data.twxt = s[1];
 			break;
 			case twexter.CHUNKSTYLE_FLOW:
 				data.chunk_style = 'flow';
-				var s = twexter.flowchunk_to_struct(data.twxt);
+				s = twexter.flowchunk_to_struct(data.twxt);
 				s = twexter.struct_to_xscrollchunk(s);
 				data.text = s[0];
 				data.twxt = s[1];
@@ -1212,6 +1253,7 @@ twexter.xnavui.prototype = {
 			this.comments.setDocId(this.doc_id, this.doc_sha1);
 			
 			this.onXnone();
+			this.editor_has_changed = false;
 			
 			/*{*/console.info("Chunk Style Loaded is: ", this.doc_chunk_style);/*}*/
 			this.setChunkStyle(this.doc_chunk_style);

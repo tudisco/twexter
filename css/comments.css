@@ -1,6 +1,7 @@
 .comments {
     display: none;
     font: normal normal normal 20px monospace;
+    font-family: Andale Mono, monospace;
     border: 2px solid lightgrey;
     padding:15px;
     bottom: 10px;

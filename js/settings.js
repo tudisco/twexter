@@ -120,4 +120,4 @@ VIEW_STATES = {
         output: {visible: true, dock: 'c', part:'l'},
         comments: {visible: true, dock: 'c', part:'r', callafter:'posControls'}
     }
-}
+};

@@ -115,7 +115,7 @@ twexter.string = {
 		var half = '', pad_to_go;
 		var str_pad_repeater = function(s, len) {
 		    var collect = '', i;
-		    while(collect.length < len) collect += s;
+		    while(collect.length < len){ collect += s; }
 		    collect = collect.substr(0,len);
 		    return collect;
 		};

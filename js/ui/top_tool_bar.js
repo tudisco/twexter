@@ -80,7 +80,7 @@ twexter.top_tool_bar.prototype = {
     
     getEl: function(){
         //TODO: functio0n needs help
-        this.el;
+        return this.el;
     },
     
     show: function(){

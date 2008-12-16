@@ -64,9 +64,9 @@ twexter.editor_tools.prototype = {
                 //'<div id="{id_print}"></div>',
                 '<div id="{id_pref}"></div>',
                 //'<div id="{id_newdoc}"></div>',
-                '<button id="{id_savedoc}">Save</button>',
                 '<div id="{id_linkbutt}"></div>',
                 '<input type="text" id="{id_linkinput}"></input>',
+                '<button id="{id_savedoc}">Save</button>',
             '</div>'
         );
         
@@ -212,15 +212,24 @@ twexter.editor_tools.prototype = {
             //this.buttPref.setX(this.buttSaveDoc.getX()-this.buttPref.getWidth());
             this.buttPref.setX(rightC+this.buttPref.getWidth());
         }
+        if(this.linkButton){
+            this.linkButton.setC(this.buttPref.getX()+this.linkButton.getWidth());
+        }
         if(this.buttSaveDoc){
-            this.buttSaveDoc.setX(this.buttPref.getX()+this.buttSaveDoc.getWidth());
+            if(this.linkInput.isVisible()){
+                this.linkInput.setX(this.linkButton.getX()+this.linkInput.getWidth());
+                this.buttSaveDoc.setX(this.linkButton.getX()+this.buttSaveDoc.getWidth());
+                this.buttSaveDoc.setY(this.linkButton.getY());
+            }else{
+                this.buttSaveDoc.setY(this.linkButton.getY());
+                this.buttSaveDoc.setX(this.linkButton.getX()+this.buttSaveDoc.getWidth()+100);
+            }
+            
         }
         /*if(this.buttNewDoc){
             this.buttNewDoc.setX(this.buttSaveDoc.getX()+this.buttNewDoc.getWidth());
         }*/
-        if(this.linkButton){
-            this.linkButton.setC(this.buttSaveDoc.getX()+this.linkButton.getWidth());
-        }
+        
         
         
     },
@@ -240,12 +249,15 @@ twexter.editor_tools.prototype = {
         }else{
             alert("Not a valid URL");
         }
+        this.setRightButtonsTo();
     },
     
     onLinkButt: function(){
         if(this.linkInput.isVisible()){
+            this.linkInput.setWidth(0);
             this.linkInput.hide();
         }else{
+            this.linkInput.setWidth(200);
             this.linkInput.show();
         }
         

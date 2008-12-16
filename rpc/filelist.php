@@ -31,11 +31,23 @@ require_once TWEXTERFILELIST_PATH.'../include/zendauth.php';
 $s_text = (!empty($_POST['text']) && $_POST['text']!='--all--') ? $_POST['text'] : null;
 $s_twxt = (!empty($_POST['twxt']) && $_POST['twxt']!='--all--') ? $_POST['twxt'] : null;
 
-if($authSession->login  && is_numeric($authSession->userID)){
+//if($authSession->login  && is_numeric($authSession->userID)){
+if(true){
 	//SELECT * from document as d1 WHERE user_id = 1 AND d1.version = (SELECT MAX(version) FROM document WHERE sha1=d1.sha1)
         $db = new dbDocument();
 	$sel = $db->select();
-	$sel->where("user_id = ? OR global = 'yes'", $authSession->userID)->where("version = (SELECT MAX(d2.version) FROM document as d2 WHERE sha1=document.sha1)")->order('title');
+        
+        
+        /*
+                If logged in load private docs.
+       */
+        if($authSession->login  && is_numeric($authSession->userID)){
+                $sel->where("user_id = ? OR global = 'yes'", $authSession->userID)->where("version = (SELECT MAX(d2.version) FROM document as d2 WHERE sha1=document.sha1)")->order('title');
+        }else{
+                $sel->where("global = 'yes'", $authSession->userID)->where("version = (SELECT MAX(d2.version) FROM document as d2 WHERE sha1=document.sha1)")->order('title');
+        }
+        
+	
 	
 	
 	$doc = $db->fetchAll($sel);

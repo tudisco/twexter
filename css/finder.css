@@ -14,16 +14,18 @@
 #finder_searchbox {
     float: left;
     width:250px;
-    font-family: monospace;
-    border: solid 2px grey;
-    -moz-border-radius : 4px;
-    -webkit-border-radius : 4px;
+    height:20px;
+    font-family: Andale Mono, monospace;
+    border: solid 1px grey;
+    /*-moz-border-radius : 4px;
+    -webkit-border-radius : 4px;*/
 }
 
 #finder_field_search {
-    padding: 2px;
+    /*padding: 2px;*/
+    height:18px;
     border: none;
-    width:215px;
+    width:234px;
 }
 
 .finder_sort {
@@ -96,7 +98,7 @@
     /*border: solid 1px darkgrey;*/
     padding: 5px;
     overflow: auto;
-    font-family: monospace;
+    font-family: Andale Mono, monospace;
 }
 
 .filelisting {

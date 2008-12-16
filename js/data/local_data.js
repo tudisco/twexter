@@ -88,6 +88,7 @@ twexter.data.prototype = {
     diff: null,
     lastLeftText: '',
     lastRightText: '',
+    gotofinder: false,
     
     /**
      * Creates the local store
@@ -112,6 +113,7 @@ twexter.data.prototype = {
             return '';
         }
         
+        this.gotofinder = true;
         return this.getStartDocument(); 
         
         
@@ -289,7 +291,7 @@ twexter.data.prototype = {
                 var tmp = cur.style[s[sc]];
                 /*{*/console.debug("--Local Data Defualt: ", x+'_'+i, ' ', tmp);/*}*/
                 outToolbar.setData(i, x, this.store.get(x+'_'+i, tmp));
-                delete tmp;
+                tmp = null;
                 sc++;
             }, this);
         }, this);

@@ -53,7 +53,7 @@ twexter.comments.prototype = {
                     +'</div>'  
                 +'</div>';
                 
-        if(this.tpl_main == null){
+        if(this.tpl_main === null){
             this.tpl_main = new Ext.Template(tpl);
         }
         
@@ -61,7 +61,7 @@ twexter.comments.prototype = {
             cid:this.id
         });
         
-        if(this.tpl_cmts == null){
+        if(this.tpl_cmts === null){
             this.tpl_cmts = new Ext.XTemplate(
                 '<tpl for=".">',
                     '<div id="comment_{id}" class="a_comment">',
@@ -81,7 +81,9 @@ twexter.comments.prototype = {
                     
                     checkforlinks: function(text){
                         var link = /((mailto\:|javascript\:|(news|file|(ht|f)tp(s?))\:\/\/)[A-Za-z0-9\.:_\/~%\-+&#?!=()@\x80-\xB5\xB7\xFF]+)/g;
-                        if(Ext.type(text)!='string') return '';        
+                        if(Ext.type(text)!='string'){
+                                return '';
+                        }
                         return text.replace(link, "<a href=\"$1\" target=\"_blank\">$1</a>");
                     }
                 }
@@ -125,7 +127,7 @@ twexter.comments.prototype = {
 		},
 		interval: 10000, //10 second
 		scope: this
-	}
+	};
 	this.task_runner = new Ext.util.TaskRunner();
 	this.task_runner.start(task);
     },

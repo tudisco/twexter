@@ -46,13 +46,13 @@ twexter.finder.prototype = {
         if(Ext.isEmpty(this.tpl)){
             this.tpl = new Ext.Template(
                     '<div id="{id}" class="{id}">',
-                        '<div class="{id}_searchbar">',
-                            '<div id="{id}_slop" class="{id}_slop"></div>',
-                            '<div id="{id}_searchbox"><input type="text" id="{id}_field_search"></input>',
-                                '<img id="{id}_search_cancel" class="{id}_search_cancel" src="{searchImage}" align="abscenter">',
-                            '</div>',
-                            '<div style="clear:both;"></div>',
-                        '</div>',
+                        //'<div class="{id}_searchbar">',
+                            //'<div id="{id}_slop" class="{id}_slop"></div>',
+                            //'<div id="{id}_searchbox"><input type="text" id="{id}_field_search"></input>',
+                            //    '<img id="{id}_search_cancel" class="{id}_search_cancel" src="{searchImage}" align="abscenter">',
+                            //'</div>',
+                            //'<div style="clear:both;"></div>',
+                        //'</div>',
                         '<div class="{id}_sort">',
                             '<div id="{id}_sort_name" class="sortname sort_none"></div>',
                             '<div id="{id}_sort_date" class="sortdate sort_none"></div>',
@@ -63,6 +63,13 @@ twexter.finder.prototype = {
                     '</div>'
             );
         }
+        
+        //Search Bar now on top menu bar.
+        this.finderTpl = new Ext.Template(
+            '<div id="{id}_searchbox"><input type="text" id="{id}_field_search"></input>',
+                '<img id="{id}_search_cancel" class="{id}_search_cancel" src="{searchImage}" align="abscenter" width="16" height="16">',
+            '</div>'
+        );
         
         if(Ext.isEmpty(this.tpl_filelist)){
             this.tpl_filelist = new Ext.XTemplate(
@@ -97,16 +104,17 @@ twexter.finder.prototype = {
                     },
                     
                     fmtThumbNail: function(clink){
+                        var yt_id;
                         
                         if(this.uTubeRule1.test(clink)){
-                            var yt_id = this.uTubeRule1.exec(clink);
+                            yt_id = this.uTubeRule1.exec(clink);
                             if(yt_id !== null){
                                 return this.uTubeImage.replace('**ID**', yt_id[1]);
                             }
                         }
                         
                         if(this.uTubeRule2.test(clink)){
-                            var yt_id = this.uTubeRule2.exec(clink);
+                            yt_id = this.uTubeRule2.exec(clink);
                             if(yt_id !== null){
                                 return this.uTubeImage.replace('**ID**', yt_id[1]);
                             }
@@ -116,7 +124,7 @@ twexter.finder.prototype = {
                             return this.imageThumb.replace('**IMG**', clink);
                         }
                         
-                        return ''  
+                        return '';  
                     },
                     
                     highlight: function(tstring){
@@ -147,6 +155,13 @@ twexter.finder.prototype = {
                 }
             );
         }
+        
+        this.finderTpl.append(this.bodyId, {
+            id:this.id,
+            searchImage: this.imageSearch
+        });
+        
+        SIMPLE.topButtonBar.addButton(Ext.get(this.id+'_searchbox'), 9);
         
         this.tpl.append(this.bodyId, {
             id:this.id,
@@ -187,7 +202,9 @@ twexter.finder.prototype = {
     },
     
     init_slop: function(){
-        var pre = (USER_LOGED_IN) ? USER_DATA.userid : null;
+        //Temporarly Turned off
+        
+        /*var pre = (USER_LOGED_IN) ? USER_DATA.userid : null;
         var userid = this.user_id || pre;
         
         this.slop_sel_text = this.slopspace.createChild({
@@ -221,7 +238,7 @@ twexter.finder.prototype = {
         this.slop_select.init();
         
         this.slop_select.on('langSelect', this.onSlopChange, this);
-        this.slop_switch.on('click', this.onSwitchSlop, this);
+        this.slop_switch.on('click', this.onSwitchSlop, this);*/
     },
     
     init_store: function(){
@@ -288,6 +305,12 @@ twexter.finder.prototype = {
     },
     
     onSearchChange: function(){
+        
+        //Need to replace with event... just testing.
+        if(!this.el.isVisible()){
+            SIMPLE.xbutton.setButtonState('r', 1);
+        }
+        
         if(!this.searchDelayer){
             this.searchDelayer = new Ext.util.DelayedTask(this.onDoFilter, this);
            /*{*/console.debug("Created Search Delayer");/*}*/
@@ -362,11 +385,13 @@ twexter.finder.prototype = {
     
     loadDocuments: function(tx, tw){
         if(tx !== false && tw !== false){
-            this.slop_sel_text.dom.value = tx;
+            //Temporarly Off
+            /*this.slop_sel_text.dom.value = tx;
             this.slop_sel_twxt.dom.value = tw;
             this.slop_select.last_text_value = tx;
             this.slop_select.last_twxt_value = tw;
-            this.store.load({params:{text:tx,twxt:tw}});
+            this.store.load({params:{text:tx,twxt:tw}});*/
+            //this.store.load();
         }else{
             this.store.reload();
         }
@@ -390,7 +415,7 @@ twexter.finder.prototype = {
     setLang: function(stext, stwxt){
         var t = stext || false;
         var x = stwxt || false;
-        this.loadDocuments(t, x);
+        //this.loadDocuments(t, x);
     },
     
     hide: function(){
@@ -398,6 +423,7 @@ twexter.finder.prototype = {
         //this.searchcancel.hide();
         this.store.clearFilter();
         this.searchfield.dom.value = '';
+        this.searchcancel.dom.src = this.imageSearch;
         this.taskRunner.stopAll();
     },
     
