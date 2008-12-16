@@ -1,6 +1,6 @@
 
 .login_form {
-    z-index: 350;
+    z-index: 3000;
     position: absolute;
     background-color: lightblue;
     border: solid medium;
