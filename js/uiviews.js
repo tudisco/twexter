@@ -79,7 +79,7 @@ twexter.uiviews.prototype = {
     onResizeDelayed: function(){
         /*{*/console.time("PositionTime")/*}*/
         this.positionControls();
-        console.timeEnd("PositionTime");
+        /*{*/console.timeEnd("PositionTime");/*}*/
     },
     
     doResize: function(){
@@ -129,7 +129,7 @@ twexter.uiviews.prototype = {
                 var vs = view[v];
                 var vs_type = Ext.type(vs);
                 if(vs_type=='string'){
-                    console.debug('going to show control');
+                    /*{*/console.debug('going to show control');/*}*/
                     ctrl.show();
                     this.posCtrlString(ctrl, vs);
                 }else if(vs_type=='object'){

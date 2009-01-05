@@ -951,17 +951,32 @@ twexter.xnavui.prototype = {
 		this.userTag.update(users_name);
 		this.userTag.setWidth(m.width+USERTAG_W);
 		
+		this.userTag.on('click', function(){
+			confirm("Do you want to log out?");
+			window.location.href = "http://dev.read.fm/?logout=1";
+		}, this);
+		
 		//Disable Selection
 		disableSelection(this.userTag.dom);
 		
 		
-		this.loginbutton.hide();
+		if(this.loginbutton){
+			this.loginbutton.hide();
+		}
+		
+		if(this.loginform){
+			this.loginform.hide();
+		}
+		
 		
 		this.topButtonBar.addButton(this.userTag, 1);
 		
 		if(this.callAfterLogin){ this.callAfterLogin(); this.callAfterLogin=false; }
 		
-		this.editor_bar.slop_select.userLogin(this.user_id);
+		if(this.editor_bar && this.editor_bar.slop_select){
+			this.editor_bar.slop_select.userLogin(this.user_id);
+		}
+		
 		if(this.finddlg){
 			this.finddlg.userLogin(this.user_id);
 		}
@@ -1313,28 +1328,39 @@ twexter.xnavui.prototype = {
 	},
 	
 	/** Lazy Load Editor Tools when needed */
-	onEditorTools: function(){
+	onEditorTools: function(ctrl, btn){
+		
 		if(Ext.isEmpty(this.editor_tools)){
-			/*{*/console.debug("Created Editor Tools");/*}*/
 			this.editor_tools = new twexter.tools_popup();
-			this.editor_tools.on('unchunk', this.onUnChunk, this);
-			this.editor_tools.on('rechunk', this.onChunk, this);
-			this.editor_tools.on('translate', this.onTranslate, this);
 		}
+		
 		if(!this.editor_tools.el.isVisible()){
-			this.etools_visible = true;
-			this.editor_tools.show();
-			this.editor.el.setTop(CHUNKTOOLS_TOP);
-			this.output.el.setTop(CHUNKTOOLS_TOP);
-			if(pageTracker){ pageTracker._trackPageview("/actions/chunk_tools/open"); }
+			this.editor_tools.show(btn);
 		}else{
-			this.etools_visible = false;
 			this.editor_tools.hide();
-			var top = (this.output_align=='r') ? OUT_POS_TOP+XB_POS_TOP_M : OUT_POS_TOP_FULL;
-			this.editor.el.setTop(OUT_POS_TOP+XB_POS_TOP_M);
-			this.output.el.setTop(top);
-			if(pageTracker){ pageTracker._trackPageview("/actions/chunk_tools/close"); }
 		}
+		
+		//if(Ext.isEmpty(this.editor_tools)){
+		//	/*{*/console.debug("Created Editor Tools");/*}*/
+		//	this.editor_tools = new twexter.tools_popup();
+		//	this.editor_tools.on('unchunk', this.onUnChunk, this);
+		//	this.editor_tools.on('rechunk', this.onChunk, this);
+		//	this.editor_tools.on('translate', this.onTranslate, this);
+		//}
+		//if(!this.editor_tools.el.isVisible()){
+		//	this.etools_visible = true;
+		//	this.editor_tools.show();
+		//	this.editor.el.setTop(CHUNKTOOLS_TOP);
+		//	this.output.el.setTop(CHUNKTOOLS_TOP);
+		//	if(pageTracker){ pageTracker._trackPageview("/actions/chunk_tools/open"); }
+		//}else{
+		//	this.etools_visible = false;
+		//	this.editor_tools.hide();
+		//	var top = (this.output_align=='r') ? OUT_POS_TOP+XB_POS_TOP_M : OUT_POS_TOP_FULL;
+		//	this.editor.el.setTop(OUT_POS_TOP+XB_POS_TOP_M);
+		//	this.output.el.setTop(top);
+		//	if(pageTracker){ pageTracker._trackPageview("/actions/chunk_tools/close"); }
+		//}
 	},
 	
 	/** Checks to see if editor tools is visible and resizes other controls */

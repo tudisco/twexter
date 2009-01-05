@@ -21,6 +21,11 @@ if (isset($twextSession->numberOfPageRequests)) {
 $authSession = new Zend_Session_Namespace('auth_user');
 //$authSession->user = "myusername";
 
+if(isset($_GET['logout']) && $_GET['logout']==1){
+    $twextSession->unsetAll();
+    $authSession->unsetAll();
+}
+
 //Lets save the session in the registery
 Zend_Registry::set('authAdapter', $authAdapter);
 Zend_Registry::set('session_twext', $twextSession);

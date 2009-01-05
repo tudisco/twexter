@@ -53,26 +53,28 @@ twexter.tools_popup.prototype = {
             this.tpl = new Ext.Template(
                 nl,
                 '<div id="{id}" class="{id}">',
+		    '<div id="{id}_trans" class="{id}_trans">',
+                        '<img src="/images/edittools/GoogleTranslate.gif" align="absmiddle">',
+                        ':<select id="{id}_sel_trans"></select>',
+                    '</div>',
                     '<div id="{id}_chunk" class="{id}_chunk">',
                         '<div class="chunk_length">Chunk Width:',
                             '<select id="{id}_chunk_len"></select>',
                         '</div>',
-                        '<div id="{id}_chunk_start" class="chunk_start">',
-                            'Chunk',
-                        '</div>',
-                        '<div id="{id}_chunk_undo" class="chunk_undo">',
-                            'UnChunk',
-                        '</div>',
+                        //'<div id="{id}_chunk_start" class="chunk_start">',
+                        //    'Chunk',
+                        //'</div>',
+                        //'<div id="{id}_chunk_undo" class="chunk_undo">',
+                        //    'UnChunk',
+                        //'</div>',
                         '<div id="{id}_chunk_optbutt" class="chunk_optbutt">',
                             '<<<',
-                            //'',
+                        //    //'',
                         '</div>',
                     '</div>',
-                    '<div id="{id}_trans" class="{id}_trans">',
-                        'Translate:',
-                        '<select id="{id}_sel_trans"></select>',
-                    '</div>',
-                    '<div style="clear:both;></div>"',
+                    
+                    //'<div style="clear:both;></div>"',
+		    
                     '<div id="{id}_chunk_options" class="{id}_chunk_options">',
                         '<div class="chunk_both"><div>Both:</div><textarea id="{id}_chunk_both"></textarea></div>',
                         '<div class="chunk_before"><div>Before:</div><textarea id="{id}_chunk_before"></textarea></div>',
@@ -104,20 +106,39 @@ twexter.tools_popup.prototype = {
     },
     
     init_events: function(){
-        this.unchunk = Ext.get(this.id+'_chunk_undo');
-        this.unchunk.on('click', function(){
-            this.fireEvent('unchunk', this);
-        }, this);
+        //this.unchunk = Ext.get(this.id+'_chunk_undo');
+        //this.unchunk.on('click', function(){
+        //    this.fireEvent('unchunk', this);
+        //}, this);
         
-        this.rechunk = Ext.get(this.id+'_chunk_start');
-        this.rechunk.on('click', function(){
-            this.fireEvent('rechunk', this, this.comboLength.getValue(), this.TextAreaBoth.getValue(), this.TextAreaBefore.getValue(), this.TextAreaAfter.getValue());
-        }, this);
+        //this.rechunk = Ext.get(this.id+'_chunk_start');
+        //this.rechunk.on('click', function(){
+        //    this.fireEvent('rechunk', this, this.comboLength.getValue(), this.TextAreaBoth.getValue(), this.TextAreaBefore.getValue(), this.TextAreaAfter.getValue());
+        //}, this);
         
         this.chunkOptButt = Ext.get(this.id+'_chunk_optbutt');
         this.chunkOptButt.on('click', this.onOptButtClick, this);
         
        // this.comboTrans.on('change', this.onComboTransChange, this);
+    },
+    
+    init_DocClickEvent: function(){
+	Ext.getDoc().on('click', this.onDocClick, this);
+    },
+    
+    onDocClick: function(e){
+	/*{*/console.debug("Outside Edittool Click");/*}*/
+	if(!this.el.isVisible()) return;
+	var xy = this.el.getXY();
+	var w = this.el.getWidth();
+	var h = this.el.getHeight();
+	
+	if(e.xy[0] >= xy[0] && e.xy[0] <= (xy[0]+w)){
+	    if(e.xy[1] >= xy[1] && e.xy[1] <= (xy[1]+h)){
+		return;
+	    }
+	}
+	this.hide();
     },
     
     fillLengthCombo: function(){
@@ -136,8 +157,8 @@ twexter.tools_popup.prototype = {
     },
     
     fillTransCombo: function(){
-        this.comboTrans.dom.options[0] = new Option('None', 'none', false, true);
-        this.comboTrans.dom.options[1] = new Option('Google', 'google', false, false);
+        this.comboTrans.dom.options[0] = new Option('No', 'none', false, true);
+        this.comboTrans.dom.options[1] = new Option('Yes', 'google', false, false);
     },
     
     fillTextBoxes: function(){
@@ -164,13 +185,25 @@ twexter.tools_popup.prototype = {
         }
     },
     
-    show: function(){
+    show: function(btn){
+	if(btn && btn.getX){
+	    this.el.alignTo(btn);
+	}
         this.el.show();
+	this.init_DocClickEvent.defer(200, this);
+	this.timestamp = new Date().getTime();
     },
     
     hide: function(){
+	//Timed Protection becuase of event system wierdness
+	var time = new Date().getTime();
+	if((time-this.timestamp)<500) return;
         this.chunkOptions.hide();
+        this.el.setHeight(100);
+	this.el.setWidth(350);
+        this.chunkOptButt.update("<<<");
         this.el.hide();
+	Ext.getDoc().un('click', this.onDocClick, this);
     },
     
     chunkingFinished: function(){
@@ -198,10 +231,12 @@ twexter.tools_popup.prototype = {
         if(this.chunkOptions.isVisible()){
             this.chunkOptions.hide();
             this.el.setHeight(100);
+	    this.el.setWidth(350);
             this.chunkOptButt.update("<<<");
         }else{
             this.chunkOptions.show();
             this.el.setHeight(400);
+	    this.el.setWidth(750);
             this.chunkOptButt.update(">>>");
         }
     }

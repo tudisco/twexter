@@ -28,6 +28,9 @@ $groupsSources = array(
         ,"{$base}/js/ui/sidebar.js"
         ,"{$base}/js/uiviews.js"
         ,"{$base}/js/translator.js"
+        ,"{$base}/js/ui/common/popup.js"
+        ,"{$base}/js/ui/output_contextmenu.js"
+        ,"{$base}/js/utils/clipboard.js"
     )
     ,'css' => array(
         "{$base}/css/simple.css"

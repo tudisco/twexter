@@ -50,12 +50,19 @@ twexter.out.prototype = {
 		
 		this.init_text_metrics();
 		this.calculateFontSpace();
+		
+		this.init_context_menu();
 	},
 	
 	init_text_metrics: function(){
 		//TODO: make more dynamic
 		var tpl = new Ext.Template(this.tpl_metrics);
 		tpl.append(this.bodyId, {chunkClass:this.chunkClass});
+	},
+	
+	init_context_menu: function(){
+		this.contextMenu = new twexter.out_contextmenu({output:this});
+		this.contextMenu.init();
 	},
 	
 	/**

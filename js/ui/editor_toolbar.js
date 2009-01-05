@@ -280,7 +280,7 @@ twexter.editor_tools.prototype = {
     
     onOptionsClick: function(){
         /*{*/console.debug("Firing Options Click");/*}*/
-        this.fireEvent('options_click', this);
+        this.fireEvent('options_click', this, this.buttPref);
     },
     
     onLangChange: function(){

@@ -162,7 +162,7 @@ twexter.userlogin.prototype = {
             style:{
                visbility:"hidden",
                position:"absolute",
-               "z-index":"300",
+               "z-index":"2900",
                "background-color":"black",
                top:"1px",
                left:"1px",

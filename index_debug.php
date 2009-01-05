@@ -85,6 +85,10 @@ if(!is_numeric($docid)) $docid = 'null';
 
 <script type="text/javascript" src="js/ui/sidebar.js"></script>
 
+<script type="text/javascript" src="js/ui/common/popup.js"></script>
+<script type="text/javascript" src="js/ui/output_contextmenu.js"></script>
+<script type="text/javascript" src="js/utils/clipboard.js"></script>
+
 <script type="text/javascript" language="javascript">
 <? if($authSession->login) {
 	echo "USER_LOGED_IN = true;";

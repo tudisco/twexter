@@ -436,7 +436,8 @@ twexter.finder.prototype = {
     },
     
     userLogin: function(userid){
-        this.slop_select.userLogin(userid);
+        //Currently Diabled
+	//this.slop_select.userLogin(userid);
     },
     
     getEl: function(){

@@ -3,25 +3,27 @@
 .tools_popup {
     visibility: hidden;
     position: absolute;
-    background: grey;
+    background: #D6D3BD;
+    border: solid 2px #84794A;
     z-index: 5000;
     height: 100px;
+    width: 350px;
     top: 65px;
     left: 10px;
     right: 10px;
-    -moz-border-radius : 5px;
-    -webkit-border-radius: 5px;
+    -moz-border-radius : 3px;
+    -webkit-border-radius: 3px;
 }
 
 .tools_popup_chunk {
     margin: 10px;
-    float:left;
+    /*float:left;*/
     width: 200px;
 }
 
 .tools_popup_trans {
     margin: 10px;
-    float: left;
+    /*float: left;*/
     width: 200px;
     color: white;
     font-weight: bold;

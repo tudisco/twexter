@@ -72,7 +72,6 @@ if($p){
 
 $docid = docurl_get_id($path);
 
-
 if($docid==false){
     $docid = 'null';
 }
@@ -88,8 +87,8 @@ if($docid==false){
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <link rel="stylesheet" type="text/css" href="<?=$bpath?>css/twext_new.css" />
-<script type="text/javascript" src="<?=$bpath?>js/ext-min.js"></script>
-<script type="text/javascript" src="<?=$bpath?>js/libtwexter.js"></script>
+<script type="text/javascript" src="<?=$bpath?>js/lib/ext-min.js"></script>
+<script type="text/javascript" src="<?=$bpath?>js/lib/libtwexter.js"></script>
 <script language="javascript">
 
 DOCID = <? echo $docid ?>;
