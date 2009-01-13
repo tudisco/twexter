@@ -203,6 +203,7 @@ twexter.editor_tools.prototype = {
     },
     
     setRightButtonsTo: function(x){
+	return;
         var rightC = this.comboRightLang.getX()+this.comboRightLang.getWidth();
         
         /*if(this.printButton){
@@ -213,7 +214,7 @@ twexter.editor_tools.prototype = {
             this.buttPref.setX(rightC+this.buttPref.getWidth());
         }
         if(this.linkButton){
-            this.linkButton.setC(this.buttPref.getX()+this.linkButton.getWidth());
+            this.linkButton.setX(this.buttPref.getX()+this.linkButton.getWidth());
         }
         if(this.buttSaveDoc){
             if(this.linkInput.isVisible()){
@@ -236,7 +237,7 @@ twexter.editor_tools.prototype = {
     
     isUrl: function(s) {
         //var rule = "(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
-        var rule = "^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$";
+        var rule = "^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\#\?\/.=]+$";
         //var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
         var regexp = new RegExp(rule, 'i');
         return regexp.test(s);

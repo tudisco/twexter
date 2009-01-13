@@ -48,8 +48,13 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 			$tdb->setSha1($p['sha1']);
 		if(!empty($p['id']))
 			$tdb->setId($p['id']);
-		if(!empty($p['version']) && is_numeric($p['version']));
+		if(!empty($p['version']) && is_numeric($p['version']))
 			$tdb->setVersion($p['version']+1);
+			
+		if(!empty($p['parent_id']) && is_numeric($p['parent_id'])){
+			$tdb->setParentId($p['parent_id']);
+			$tdb->setParentSha1($p['parent_sha1']);
+		}
 		
 		$struct = createTwextStruct(stripcslashes($p['text']), stripcslashes($p['twxt']));
 		

@@ -125,12 +125,12 @@ twexter.xnavui.prototype = {
 		
 		//this.topNewDocButton = this.topButtonBar.addManualButton('TopNone','TopNone','',2);
 		
-		this.topNewDocButton = this.topButtonBar.addManualButton('TopNewButton','TopNewButton','NEW',6);
+		this.topNewDocButton = this.topButtonBar.addManualButton('TopNewButton','TopNewButton','NEW',5);
 		disableSelection(this.topNewDocButton.dom);
 		this.topNewDocButton.addClassOnOver(hc);
 		this.topNewDocButton.on('click', this.onNewDocument, this);
 		
-		this.topStyleButton = this.topButtonBar.addManualButton('TopStyleButton','TopStyleButton','STYLE',5);
+		this.topStyleButton = this.topButtonBar.addManualButton('TopStyleButton','TopStyleButton','STYLE',4);
 		disableSelection(this.topStyleButton.dom);
 		this.topStyleButton.addClassOnOver(hc);
 		this.topStyleButton.on('click', function(){
@@ -141,7 +141,7 @@ twexter.xnavui.prototype = {
 		disableSelection(this.topTransButton.dom);
 		this.topTransButton.addClassOnOver(hc);*/
 		
-		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','FEEDBACK',3);
+		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','FEEDBACK',8);
 		disableSelection(this.topHelpButton.dom);
 		this.topHelpButton.on('click', function(){
 			this.uiviews.setView('comments');
@@ -150,21 +150,21 @@ twexter.xnavui.prototype = {
 		}, this);
 		this.topHelpButton.addClassOnOver(hc);
 		
-		this.topFindButton = this.topButtonBar.addManualButton('TopFindButton','TopFindButton','FIND',4);
+		this.topFindButton = this.topButtonBar.addManualButton('TopFindButton','TopFindButton','FIND',3);
 		disableSelection(this.topFindButton.dom);
 		this.topFindButton.on('click', function(){
 			this.xbutton.setButtonState('r', 1);
 		}, this);
 		this.topFindButton.addClassOnOver(hc);
 		
-		this.topViewButton = this.topButtonBar.addManualButton('TopViewButton','TopViewButton','VIEW',8);
+		this.topViewButton = this.topButtonBar.addManualButton('TopViewButton','TopViewButton','VIEW',7);
 		disableSelection(this.topViewButton.dom);
 		this.topViewButton.on('click', function(){
 			this.xbutton.setButtonState('t', 1);
 		}, this);
 		this.topViewButton.addClassOnOver(hc);
 		
-		this.topEditButton = this.topButtonBar.addManualButton('TopEditButton','TopEditButton','EDIT',7);
+		this.topEditButton = this.topButtonBar.addManualButton('TopEditButton','TopEditButton','EDIT',6);
 		disableSelection(this.topEditButton.dom);
 		this.topEditButton.on('click', function(){
 			this.xbutton.setButtonState('l', 1);
@@ -444,11 +444,22 @@ twexter.xnavui.prototype = {
 			stopEvent: true
 		};
 		
+		
+		var goNewChildDoc = {
+			key: Ext.EventObject.F12,
+			ctrl: false,
+			fn: function(){
+				this.onNewChildDocument();
+			},
+			scope: this,
+			storeEvent: true
+		}
+		
 		this.keyMapEditorl = new Ext.KeyMap(this.editor.TextAreaLeft.dom, undoEvent);
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
 		
 		this.keyMap = new Ext.KeyMap(document, [
-			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,
+			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,goNewChildDoc,
 			{
 				key: Ext.EventObject.S,
 				ctrl: true,
@@ -470,6 +481,11 @@ twexter.xnavui.prototype = {
 				key: Ext.EventObject.F2,
 				stopEvent: true,
 				fn: function(){
+					
+					if(!this.editor.getEl().isVisible()){
+						this.xbutton.setButtonState('l', 1);
+					}
+					
 					var t,w,tw2,s;
 					t = this.editor.getText();
 					w = this.editor.getTwxt();
@@ -761,6 +777,12 @@ twexter.xnavui.prototype = {
 	
 	/** Position Editor on resize event */
 	pos_editor: function(){
+		
+		this.uiviews.positionControls();
+		return;
+	
+		//The rest should maybe be removed.
+		
 		if(!this.editor.getEl().isVisible()){ return; }
 		
 		var bwidth = Ext.getBody().getWidth();
@@ -877,6 +899,85 @@ twexter.xnavui.prototype = {
 		console.timeEnd("outputUpdate");
 		console.groupEnd();
 		/*}*/
+	},
+	
+	/** On New Child Document **/
+	onNewChildDocument: function(){
+		if(!this.output.getEl().isVisible()){
+			this.xbutton.setButtonState('t', 1);
+		}
+		if(!this.newchildsel){
+			this.newchildsel = new twexter.translation_selection();
+			this.newchildsel.init();
+			this.newchildsel.on('childoc_type', this.onNewChildDocument2, this);
+		}
+		this.newchildsel.show();
+		this.newchildsel.getEl().center(this.output.getEl());
+		
+	},
+	
+	onNewChildDocument2: function(source, type){
+		
+		var parent_id = this.doc_id;
+		var parent_sha1 = this.doc_sha1;
+		
+		var left = this.editor.getText();
+		var right = this.editor.getTwxt();
+		var style = twexter.detect_chunk_style(left,right);
+		var s;
+		
+		//Funking work around.. we need a flip struct function
+		if(style == twexter.CHUNKSTYLE_FLOW){
+			s = twexter.flowchunk_to_struct(right,false);
+			tw2 = twexter.struct_to_xscrollchunk(s);
+			this.editor.setEditorMode(2);
+			this.editor.setText(tw2[0]);
+			left = tw2[0];
+			this.editor.setTwxt(tw2[1]);
+			right = tw2[1];
+			this.editor.setEditorMode(2);
+			style = twexter.CHUNKSTYLE_XSCROLL;
+		}
+		
+		if(source!="text"){
+			right = this.editor.getText();
+			left = this.editor.getTwxt();
+		}
+		
+		this.onNewDocument();
+		this.doc_parent_id = parent_id;
+		this.doc_parent_sha1 = parent_sha1;
+		
+		switch(style){
+			case twexter.CHUNKSTYLE_XSCROLL:
+				this.editor.chunkStyle = twexter.CHUNKSTYLE_XSCROLL;
+				s = twexter.parse_into_struct(left,right,false);
+			break;
+			case twexter.CHUNKSTYLE_SPACE:
+				this.editor.chunkStyle = twexter.CHUNKSTYLE_SPACE;
+				s = twexter.spacechunk_to_struct(left,right,false);
+			break;
+			/*case twexter.CHUNKSTYLE_FLOW:
+				this.editor.chunkStyle = twexter.CHUNKSTYLE_FLOW;
+				s = twexter.flowchunk_to_struct(right,false);
+			break;*/
+		}
+		var st = '';
+		
+		if(type == "source"){
+			st = twexter.struct_to_spacechunk(s);
+			st = twexter.spacechunk_to_text(st[0]);
+			this.editor.setEditorMode(2);
+		}else{
+			st = twexter.struct_to_xscrollchunk(s, true);
+			this.editor.setEditorMode(2);
+		}
+		
+		
+		this.editor.setText(st);
+		this.editor.setTwxt('--');
+		
+		this.xbutton.setButtonState('l', 1);
 	},
 	
 	/** On new document */
@@ -1082,6 +1183,11 @@ twexter.xnavui.prototype = {
 		
 		if(this.doc_id && !isNaN(this.doc_id) && this.doc_sha1){
 			data.version = this.doc_version;
+		}
+		
+		if(this.doc_parent_id && !isNaN(this.doc_parent_id) && this.doc_parent_sha1){
+			data.parent_id = this.doc_parent_id;
+			data.parent_sha1 = this.doc_parent_sha1;
 		}
 		
 		/*{*/console.dir(data);/*}*/

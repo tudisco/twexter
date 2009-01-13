@@ -105,6 +105,10 @@ twexter.ui.popup.prototype = {
     
     hide: function(){
         this.el.hide();
+    },
+    
+    getEl: function(){
+	return this.el;
     }
     
 };

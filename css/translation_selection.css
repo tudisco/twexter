@@ -1,0 +1,33 @@
+
+.translation_selection_menu {
+    z-index:2456;
+    position:absolute;
+    width: 300px;
+    height: auto;
+    background-color: #E7DFCE;
+    border: solid 2px #B5AA84;
+}
+
+.translation_selection_menu .list {
+    margin: 5px;
+    background-color: white;
+}
+
+.translation_selection_menu .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.translation_selection_menu .st-item {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: solid 1px white;
+}
+
+.translation_selection_menu .st-item-over {
+    border: solid 1px orange;
+    background-color: yellow;
+}

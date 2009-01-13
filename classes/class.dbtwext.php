@@ -514,7 +514,7 @@ class DbTwext {
 		$data['version'] = (empty($this->_document_version)) ? 1.0 : $this->_document_version;
 		$data['chunk_style'] = (empty($this->_document_chunk_style)) ? 'unknown' : $this->_document_chunk_style;
 		$data['parent_id'] = (is_numeric($this->_document_parent_id)) ? $this->_document_parent_id : 0;
-		$data['parent_sha1'] = (empty($this->_document_parent_sha1)) ? $this->_document_parent_sha1 : '';
+		$data['parent_sha1'] = (!empty($this->_document_parent_sha1)) ? $this->_document_parent_sha1 : '';
 		
 		$pkey = $db->insert($data);
 		
@@ -659,7 +659,7 @@ class DbTwext {
 		$data['version'] = (empty($this->_document_version)) ? 1.0 : $this->_document_version;
 		$data['chunk_style'] = (empty($this->_document_chunk_style)) ? 'unknown' : $this->_document_chunk_style;
 		$data['parent_id'] = (is_numeric($this->_document_parent_id)) ? $this->_document_parent_id : 0;
-		$data['parent_sha1'] = (empty($this->_document_parent_sha1)) ? $this->_document_parent_sha1 : '';
+		$data['parent_sha1'] = (!empty($this->_document_parent_sha1)) ? $this->_document_parent_sha1 : '';
 		
 		$db->update($data,"id = ".$this->_document_id);
 	}

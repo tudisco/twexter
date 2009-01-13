@@ -2,6 +2,7 @@ RewriteEngine on
 
 RewriteRule ^print/(.*) /display.php?p=$1
 RewriteRule ^open/(.*) /index.php?o=$1
+RewriteRule ^embed/(.*) /embed.php?o=$1
 
 <FilesMatch "^db?\.ini$">
 Order Deny,Allow

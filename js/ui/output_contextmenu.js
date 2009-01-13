@@ -10,7 +10,7 @@ twexter.out_contextmenu = function(config){
         "show_menu" : true,
         "hide_menu" : true
     });
-}
+};
 
 twexter.out_contextmenu.prototype = {
     

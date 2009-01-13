@@ -31,6 +31,7 @@ $groupsSources = array(
         ,"{$base}/js/ui/common/popup.js"
         ,"{$base}/js/ui/output_contextmenu.js"
         ,"{$base}/js/utils/clipboard.js"
+        ,"{$base}/js/ui/translation_selection.js"
     )
     ,'css' => array(
         "{$base}/css/simple.css"
@@ -50,6 +51,7 @@ $groupsSources = array(
         ,"{$base}/css/top_tool_bar.css"
         ,"{$base}/css/comments.css"
         ,"{$base}/css/sidebar.css"
+        ,"{$base}/css/translation_selection.css"
     )
 );
 ?>
