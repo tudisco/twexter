@@ -114,6 +114,13 @@ twexter.out_contextmenu.prototype = {
             var clip = new twexter.utils.clipBoard(returl, this.output.el);
         }else if(d && d.get('action')=='idcopy'){
             var clip = new twexter.utils.clipBoard(SIMPLE.doc_sha1, this.output.el);
+        }else if(d && d.get('action')=='history'){
+            var hist = new twexter.historylist({
+                output: this.output.el,
+                removeOnHide: true
+            });
+            hist.init();
+            hist.load_with_sha1(SIMPLE.doc_sha1);
         }else{
             alert("Comming Soon!");
         }

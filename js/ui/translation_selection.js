@@ -15,9 +15,9 @@ twexter.translation_selection.prototype = {
     
     menuData: [
         ["Text", "text-source"],
-        ["Text Chunked", "text-chunked"],
-        ["Twext", 'twxt-source'],
-        ["Twext Chunked", "twxt-chunked"]
+        ["Chunked", "text-chunked"],
+        ["Twext", 'twxt-source']
+        //["Twext Chunked", "twxt-chunked"]
     ],
     
     store: null,
@@ -37,7 +37,7 @@ twexter.translation_selection.prototype = {
         this.store.loadData(this.menuData);
         
         var tpl = new Ext.XTemplate(
-            '<div class="title">Select source text you would like to use to translate this document</div>',
+            '<div class="title">Translate</div>',
             '<div class="list">',
                 '<tpl for=".">',
                     '<div class="st-item">{label}</div>',

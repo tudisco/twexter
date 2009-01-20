@@ -1,15 +1,5 @@
 Ext.namespace('twexter.utils.clipBoard');
-/**
- * @class Ext.ux.clipBoard
- * @extends Ext.util.Observable
- * @version 0.1
- * Simulates systems clipboard behaviors. However the data is stored via System Clipboard,
- * Any data will be serialized as String(Todo).
- * FireFox fails to get the clipbord data dut to 'Denied Permission'.More details at:
- * http://developer.mozilla.org/en/docs/Using_the_Clipboard
- * @param {Mixed} data
- * @param {Boolean} copyORcut True if this action is 'CUT', othetwise "COPY".Default action is "COPY".
- */
+
 twexter.utils.clipBoard = function(data, el){
 	twexter.utils.clipBoard.superclass.constructor.call(this);
 	if(data) this.setData(data, el);
@@ -64,7 +54,8 @@ Ext.extend(twexter.utils.clipBoard, Ext.util.Observable, {
                 this.el.hide();
                 this.el.remove();
                 Ext.getDoc().un('click', this.onDocClick);
-                delete this;
+                //Explorer says no to delete this
+		//delete this;
             }
         }
 });

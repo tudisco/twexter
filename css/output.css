@@ -47,3 +47,26 @@
     background-color: #84794A;
     color: white;
 }
+
+.hl-menu-item-over {
+   background-color: #84794A;
+   color: white; 
+}
+
+.hl-menu-item {
+    font-family: sans-serif;
+    font-size: 14px;
+    color: black;
+    border-bottom: 1px solid grey;
+}
+
+.out_history_list {
+    z-index:146;
+    position: absolute;
+    display: none;
+    border: solid 4px #84794A;
+    background-color: white;
+    padding: 4px;
+    width: 210px;
+    height: 210px;
+}

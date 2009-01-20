@@ -44,6 +44,7 @@ twexter.ui.popup.prototype = {
     cls: null,
     attachedCtrl: null,
     popAlign: 'tl-bl?',
+    removeOnHide: false,
     
     init: function(){
         if(this.id === null){
@@ -93,6 +94,9 @@ twexter.ui.popup.prototype = {
         /*{*/console.debug("Going to hide");/*}*/
         Ext.getDoc().un('click', this.collapseIf, this);
         this.hide();
+        if(this.removeOnHide){
+            this.el.remove();
+        }
     },
     
     show: function(){
