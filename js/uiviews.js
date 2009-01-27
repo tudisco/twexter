@@ -65,7 +65,10 @@ twexter.uiviews.prototype = {
     
     setView: function(view){
         /*{*/console.info("Setting view to "+view);/*}*/
+        if(view == null || this.currentView==view) return false;
+        if(view != 'finder') Ext.History.add('uiview:'+view);
         this.currentView = view;
+	return true;
     },
     
     onResize: function(){

@@ -18,7 +18,7 @@ twexter.historylist.prototype = {
         url: "/rpc/historylist.php",
         root: 'data',
         fields: [
-            'id','sha1','parent_id','parent_sha1','user_id','user','title','description','created_on','global','version','chunk_style' 
+            'id','sha1','parent_id','parent_sha1','user_id','user','title','description','created_on','global','version','chunk_style','seconds' 
         ]
     }),
     
@@ -36,7 +36,7 @@ twexter.historylist.prototype = {
         if(true){
             this.tpl = new Ext.XTemplate(
                 '<tpl for=".">',
-                    '<div class="hl-menu-item">{title} - {user} - {created_on}</div>',
+                    '<div class="hl-menu-item">{title} (v{version}) - {user} - {[humane_date_from_seconds(values.seconds)]}</div>',
                 '</tpl>',
                 '<div style="clear:both"></div>'
             );

@@ -62,6 +62,9 @@ URLDISPLAY_HEIGHT_DIFF = 40;
 CHUNKTOOLS_TOP = 170;
 
 
+HISTORY_COUNT = 0;
+
+
 VIEW_STATES = {
     always:{
         menubar: {dock:'tr', callafter:'posButtons'},

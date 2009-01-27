@@ -43,6 +43,8 @@ twexter.comments.prototype = {
     store: null,
     dataview: null,
     loadedOnce: false,
+    commentReload: 30000,
+    loadedOnce: false,
     
     init: function(){
         var tpl = '<div id="{cid}" class="{cid}">'
@@ -125,7 +127,7 @@ twexter.comments.prototype = {
 				this.store.reload();
 			}
 		},
-		interval: 10000, //10 second
+		interval: this.commentReload, //10 second
 		scope: this
 	};
 	this.task_runner = new Ext.util.TaskRunner();
@@ -139,6 +141,7 @@ twexter.comments.prototype = {
     init_store: function(){
         this.store = new Ext.data.JsonStore({
             url: RPC_COMMITLIST,
+	    totalProperty: 'total',
             root: 'comments',
             fields: [
                 'id', 'user_id', 'doc_id', 'username', 'comment', 'seconds', 
@@ -161,7 +164,7 @@ twexter.comments.prototype = {
             autoHeight:true,
             singleSelect: false,
             multiSelect: false,
-            //itemSelector: 'div.a_comment',
+            itemSelector: 'div.a_comment',
             emptyText: 'No comments to display'
         });
         

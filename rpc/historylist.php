@@ -46,6 +46,7 @@ foreach($doc as $d){
     $u = $d->findDependentRowset("dbUser")->toArray();
     $dd = $d->toArray();
     $dd['user'] = $u[0]['username'];
+    $dd['seconds'] = time()-strtotime($dd['created_on']);
     $docs[] = $dd;
 }
 $data = array('success'=>true, 'total'=>count($docs), 'data'=>$docs);

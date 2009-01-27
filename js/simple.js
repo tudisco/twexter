@@ -67,6 +67,19 @@ twexter.xnavui.prototype = {
 	init: function(){
 		
 		
+		
+		//Init History
+		
+		
+		this.history_ready = false;
+		Ext.History.init(function(){
+			this.history_ready = true;
+			/*{*/console.log("History Read");/*}*/
+			Ext.History.on('change', SIMPLE.onHistoryChange, SIMPLE);
+		});
+		
+		
+		
 		//Load Google Language API
 		google.load("language", "1", {callback:function(){
 			LANG_GOOG_API = true;
@@ -112,6 +125,26 @@ twexter.xnavui.prototype = {
 		}
 	},
 	
+	onHistoryChange: function(token){
+		/*{*/console.info("HISTORY: "+token);/*}*/
+		if(Ext.isEmpty(token)) return;
+		var t = token.split(':');
+		//console.dir(t);
+		
+		if(t[0]=='finder' && t[1]=='goback'){
+			if(this.uiviews.setView('finder')){
+				this.uiviews.positionControls();
+			}
+			if(this.finddlg) this.finddlg.history(t[2]);
+		}else if(t[0]=='uiview' && !Ext.isEmpty(t[1])){
+			if(t[1]==this.uiviews.currentView) return;
+			if(this.uiviews.setView(t[1])){
+				this.uiviews.positionControls();
+			}
+			
+		}
+	},
+	
 	/** Initialize general events */
 	init_general_events: function(){
 		//TODO: need to add new menu here
@@ -144,8 +177,10 @@ twexter.xnavui.prototype = {
 		this.topHelpButton = this.topButtonBar.addManualButton('TopHelpButton','TopHelpButton','FEEDBACK',8);
 		disableSelection(this.topHelpButton.dom);
 		this.topHelpButton.on('click', function(){
-			this.uiviews.setView('comments');
-			this.uiviews.positionControls();
+			if(this.uiviews.setView('comments')){
+				this.uiviews.positionControls();
+			}
+			
 			this.setMenuSelStyle('TopHelpButton');
 		}, this);
 		this.topHelpButton.addClassOnOver(hc);
@@ -183,7 +218,7 @@ twexter.xnavui.prototype = {
 			this.finddlg = new twexter.finder();
 		}
 		this.uiviews.addCtrl('finder', this.finddlg);
-		this.finddlg.on('hidden', this.onFindDlgHidden, this);
+		//this.finddlg.on('hidden', this.onFindDlgHidden, this);
 		this.finddlg.on('document_selected', this.onLoadDocument, this);
 		this.finddlg.init();
 	},
@@ -196,8 +231,9 @@ twexter.xnavui.prototype = {
 		this.uiviews.addCtrlMargin('sidebar', 'b', 10);
 		this.uiviews.addCtrlMargin('sidebar', 'l', 10);
 		this.sidebar.on('comment_click', function(){
-			this.uiviews.setView('comments');
-			this.uiviews.positionControls();
+			if(this.uiviews.setView('comments')){
+				this.uiviews.positionControls();
+			}
 			this.setMenuSelStyle('TopHelpButton');
 		}, this);
 	},
@@ -265,8 +301,9 @@ twexter.xnavui.prototype = {
 			this.urlDisplay.clearUrl();
 			this.urlDisplay.setUrl(url);
 			this.doc_url = url;
-			this.uiviews.setView('doc_url');
-			this.uiviews.positionControls();
+			if(this.uiviews.setView('doc_url')){
+				this.uiviews.positionControls();
+			}
 			this.setMenuSelStyle(null);
 		}, this);
 		
@@ -437,8 +474,10 @@ twexter.xnavui.prototype = {
 			fn: function(){
 				//Need button state to be none.
 				//this.xbutton.setButtonState('l', 2);
-				this.uiviews.setView('comments');
-				this.uiviews.positionControls();
+				if(this.uiviews.setView('comments')){
+					this.uiviews.positionControls();
+				}
+				
 			},
 			scope: this,
 			stopEvent: true
@@ -657,7 +696,7 @@ twexter.xnavui.prototype = {
 				this.finddlg = new twexter.finder();
 			}
 			this.uiviews.addCtrl('finder', this.finddlg);
-			this.finddlg.on('hidden', this.onFindDlgHidden, this);
+			//this.finddlg.on('hidden', this.onFindDlgHidden, this);
 			this.finddlg.on('document_selected', this.onLoadDocument, this);
 			this.finddlg.init();
 		}
@@ -667,17 +706,19 @@ twexter.xnavui.prototype = {
 		//var stwxt = this.editor_bar.comboRightLang.getValue();
 		//this.finddlg.setLang(stext, stwxt);
 		
-		this.uiviews.setView("finder");
+		if(this.uiviews.setView("finder")){
+			this.uiviews.positionControls();
+		}
 		if(pageTracker){ pageTracker._trackPageview("/actions/finder"); }
 		
-		
-		this.uiviews.positionControls();
 	},
 	
 	/** On Xbutton click to bottom state */
 	onXbottom: function(){
 		this.setMenuSelStyle('TopStyleButton');
-		this.uiviews.setView('style_preview');
+		if(this.uiviews.setView('style_preview')){
+			this.uiviews.positionControls();
+		}
 		
 		this.onEditorChange(this.editor.getText(), this.editor.getTwxt());
 		
@@ -688,7 +729,7 @@ twexter.xnavui.prototype = {
 		//this.output_bar.setVisible(true);
 		if(pageTracker){ pageTracker._trackPageview("/actions/sytle");}
 		
-		this.uiviews.positionControls();
+		
 	},
 	
 	pos_urllinkButton : function(){
@@ -1217,7 +1258,6 @@ twexter.xnavui.prototype = {
 		try{
 			rep = Ext.decode(rep.responseText);
 			if(rep.success === true){
-				if(pageTracker){ pageTracker._trackPageview("/actions/save/success"); }
 				this.doc_id = rep.docid;
 				this.data.setLastLoadedDocument(this.doc_id);
 				this.doc_sha1 = rep.sha1;
@@ -1231,7 +1271,7 @@ twexter.xnavui.prototype = {
 				
 				//Send Doc IDs to Controls that need it
 				this.comments.setDocId(this.doc_id, this.doc_sha1);
-				
+				if(pageTracker){ pageTracker._trackPageview("/actions/save/success"); }
 				return;
 			}else{
 				alert("Error saving document");
@@ -1272,10 +1312,11 @@ twexter.xnavui.prototype = {
    			success:this.loadDocumentSuccess,
    			failure:this.loadDocumentFail
 		};
+		this.output.update('');
 		Ext.Ajax.request(ajConfig);
 		
-		this.OutMask = new Ext.LoadMask(this.output.getEl(), {msg:"Please wait...",msgCls:"outMask"});
-		this.OutMask.show();
+		//this.OutMask = new Ext.LoadMask(this.output.getEl(), {msg:"Please wait...",msgCls:"outMask"});
+		//this.OutMask.show();
 	},
 	
 	/** Load document SUccess */
@@ -1357,9 +1398,9 @@ twexter.xnavui.prototype = {
 			this.onEditorChange(left.join(''), right.join(''));
 			
 			//saveCurrentTextTwext();
-			this.OutMask.hide();
-			this.OutMask.destroy();
-			delete this.OutMask;
+			//this.OutMask.hide();
+			//this.OutMask.destroy();
+			//delete this.OutMask;
 			
 			//Url Link Stuff
 			//this.urlLinkButt.documentNew();

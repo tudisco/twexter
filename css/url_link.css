@@ -63,3 +63,25 @@
     height: 100%;
     display: block;
 }
+
+#ut_auto_scroll.off {
+    cursor: pointer;
+    border: solid 1px #84794A;
+    color: #84794A;
+    background-color: white;
+    font-family: monospace;
+    font-size: 10px;
+    width:100px;
+    text-align: center;
+}
+
+#ut_auto_scroll.on {
+    cursor: pointer;
+    border: solid 1px white;
+    color: white;
+    background-color: #84794A;
+    font-family: monospace;
+    font-size: 10px;
+    width:100px;
+    text-align: center;
+}

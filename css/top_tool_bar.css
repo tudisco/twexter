@@ -9,6 +9,7 @@
 }
 
 .TopFindButton{
+    cursor: pointer;
     width: 75px;
     height: 20px;
     font-family: sans-serif;
@@ -23,6 +24,7 @@
 }
 
 .TopNewButton {
+    cursor: pointer;
     width: 75px;
     height: 20px;
     font-family: sans-serif;
@@ -37,6 +39,7 @@
 }
 
 .TopPrintButton {
+    cursor: pointer;
     width: 75px;
     height: 20px;
     font-family: sans-serif;
@@ -51,6 +54,7 @@
 }
 
 .TopEditButton {
+    cursor: pointer;
     width: 75px;
     height: 20px;
     font-family: sans-serif;
@@ -65,6 +69,7 @@
 }
 
 .TopStyleButton {
+    cursor: pointer;
     width: 75px;
     height: 20px;
     font-family: sans-serif;
@@ -79,6 +84,7 @@
 }
 
 .TopTransButton {
+    cursor: pointer;
     width: 100px;
     height: 20px;
     font-family: sans-serif;
@@ -93,6 +99,7 @@
 }
 
 .TopHelpButton {
+    cursor: pointer;
     width: 100px;
     height: 20px;
     font-family: sans-serif;
@@ -107,6 +114,7 @@
 }
 
 .TopViewButton {
+    cursor: pointer;
     width: 75px;
     height: 20px;
     font-family: sans-serif;

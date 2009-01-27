@@ -41,10 +41,14 @@ twexter.finder.prototype = {
     imageSearchCancel: '/images/finder/dialog-cancel.png',
     imageSearch: '/images/finder/edit-find.png',
     sorting: null,
+    store_params: {},
+    lastHistoryIdx: 0,
+    firstLoad: true,
     
     init: function(){
         if(Ext.isEmpty(this.tpl)){
             this.tpl = new Ext.Template(
+		    '<div id="{id}_loader" class="{id}_loader"></div>',
                     '<div id="{id}" class="{id}">',
                         //'<div class="{id}_searchbar">',
                             //'<div id="{id}_slop" class="{id}_slop"></div>',
@@ -60,6 +64,14 @@ twexter.finder.prototype = {
                         '</div>',
                         '<div id="{id}_filelist" class="{id}_filelist">',
                         '</div>',
+			
+			'<div style="clear:both;"></div>',
+			//BUTTONS
+			'<div id="{id}_buttons" class="{id}_buttons">',
+			'<div class="prev" id="{id}_prev"></div>',
+			'<div class="next" id="{id}_next"></div>',
+			'<div class="count" id="{id}_count">count</div>',
+			'<div>',
                     '</div>'
             );
         }
@@ -81,11 +93,12 @@ twexter.finder.prototype = {
                             '<div class="title">{[this.highlight(values.title)]} <span class="ver">v{version}</span> <span class="user">({user})</span> <tpl if="ccount &gt; 0"><span class="cmts">{ccount}</span></tpl></div>',
                             '<div class="creation">{[humane_date_from_seconds(values.seconds)]} - {[values.creation.format("D M d, Y")]}</div>',
                             '<div style="clear:both;"></div>',
-                            
+        
                             '<div class="desc">{[this.fmtThumbNail(values.link)]}{description}</div>',
                             '<div style="clear:both;"></div>',
                             
                         '</div>',
+			'<tpl if="children &gt; 0"><div class="childrenhere" id="par-{id}"></div></tpl>',
                     '</div>',
                 '</tpl>',
                 '<div class="x-clear"></div>',
@@ -178,6 +191,14 @@ twexter.finder.prototype = {
         this.sortIconName = Ext.get(this.id+'_sort_name');
         this.sortIconDate = Ext.get(this.id+'_sort_date');
         
+	this.store_params.start = 0;
+	this.store_params.limit = 10;
+	this.store_params.search = '';
+	
+	this.button_prev = Ext.get(this.id+'_prev');
+	this.button_next = Ext.get(this.id+'_next');
+	this.button_count = Ext.get(this.id+'_count');
+	
         this.init_store();
         this.init_view();
         this.init_events();
@@ -241,19 +262,145 @@ twexter.finder.prototype = {
         this.slop_switch.on('click', this.onSwitchSlop, this);*/
     },
     
+    show_loader: function(){
+	var loader = Ext.fly('finder_loader');
+	if(this.el.isVisible()){
+	    loader.show();
+	    loader.center(this.el);
+	}
+	if(this.dataview)this.dataview.disable();
+    },
+    
+    hide_loader: function(){
+	var loader = Ext.fly('finder_loader');
+	loader.hide();
+    },
+    
+    onDataLoad: function(){
+	
+	if(this.dataview)this.dataview.enable();
+	//Write out teh count
+	var total = this.store.getTotalCount();
+	var to = this.store_params.start + this.store_params.limit;
+	to = Math.min(to, total);
+	var count = (this.store_params.start+1) + ' - ' + to + ' / ' + total;
+	this.button_count.update(count);
+	
+	//now check buttons
+	this.button_next.un('click', this.onNextClick, this);
+	this.button_prev.un('click', this.onPrevClick, this);
+	
+	if(to == total){
+	    this.button_next.addClass('next_disabled');
+	    this.button_next.removeClass('next');
+	    this.button_next.un('click', this.onNextClick, this);
+	}else{
+	    this.button_next.addClass('next');
+	    this.button_next.removeClass('next_disabled');
+	    this.button_next.on('click', this.onNextClick, this);
+	}
+	
+	if(this.store_params.start == 0){
+	    this.button_prev.addClass('prev_disabled');
+	    this.button_prev.removeClass('prev');
+	    this.button_prev.un('click', this.onPrevClick, this);
+	}else{
+	    this.button_prev.addClass('prev');
+	    this.button_prev.removeClass('prev_disabled');
+	    this.button_prev.on('click', this.onPrevClick, this);
+	}
+	
+	this.findChildren();
+    },
+    
+    findChildren: function(){
+	var childr = this.el.select('.filelisting .childrenhere');
+	var c = childr.getCount();
+	
+	if(c>0){
+	    childr.on('click', function(e){
+		var el = e.getTarget();
+		var id = el.id.split('-')[1];
+		/*{*/console.info("Child Expan Click ", id);/*}*/
+		e.stopEvent();
+		this.clearDataParams();
+		this.store_params.parent = id;
+		this.loadWithParams();
+	    }, this);
+	}
+	
+    },
+    
+    history: function(idx){
+	console.log("History Index ", idx);
+	if(idx == (this.lastHistoryIdx)) return;
+	
+	if(Ext.type(this.last_store_params[idx-1]) == 'object'){
+	    this.store_params = Ext.apply({},this.last_store_params[idx-1]);
+	    console.dir(this.store_params);
+	    this.searchfield.dom.value = '';
+	    this.searchfield.dom.value = this.store_params.search;
+	    this.loadWithParams(true);
+	    //this.lastHistoryIdx = idx;
+	}
+	
+    },
+    
+    clearAndLoad: function(){
+	if(this.firstLoad){
+	    this.firstLoad = false;
+	    return;
+	}
+	this.clearDataParams();
+	this.loadWithParams();
+    },
+    
+    clearDataParams: function(){
+	//Using Ext.apple to make copy
+	this.store_params.search = '';
+	this.store_params.start = 0;
+	this.store_params.parent = null;
+    },
+    
+    loadWithParams: function(history){
+	this.store.baseParams = this.store_params;
+	var doHist = (history==true) ? false : true;
+	if(doHist){
+	    if(!Ext.isArray(this.last_store_params)) this.last_store_params = [];
+	    //this.last_store_params[this.lastHistoryIdx] = Ext.apply({},this.store_params);
+	    var hobj = Ext.apply({},this.store_params);
+	    this.lastHistoryIdx = this.last_store_params.push(hobj);
+	    hobj.historyIdx = this.lastHistoryIdx;
+	    Ext.History.add("finder:goback:"+this.lastHistoryIdx);
+	    console.log("Add history for ",this.lastHistoryIdx);
+	}
+	this.store.load();
+    },
+    
     init_store: function(){
         if(!this.store){
             this.store = new Ext.data.JsonStore({
                 url: RPC_FILELIST,
+		totalProperty: 'total',
                 root: 'files',
                 fields: [
                     'id', 'ccount', 'title', 'hasDesc', 'description', 'seconds',
                     {name:'creation', type:'date', dateFormat:'Y-m-d H:i:s'},
-                    'isUser', 'sha1', 'version', 'user', 'link'
-                ]
+                    'isUser', 'sha1', 'version', 'user', 'link', 'children'
+                ],
+		remoteSort: true,
+		baseParams: this.store_params
             });
         }
-        this.store.load();
+	
+	this.store.on({
+	    'beforeload':this.show_loader,
+	    'load':this.hide_loader,
+	    scope:this
+	});
+	this.store.on('load', this.onDataLoad, this);
+	
+        
         
         //Set Icons for showing proper sort.
         this.removeSortStyle(this.sortIconName);
@@ -263,6 +410,7 @@ twexter.finder.prototype = {
         this.sorting = ['creation', 'desc'];
         
         this.store.sort("creation", 'DESC');
+	this.loadWithParams();
     },
     
     init_view: function(){
@@ -317,20 +465,20 @@ twexter.finder.prototype = {
         }
         var val = this.searchfield.getValue();
         if(Ext.isEmpty(val)){
-            //this.searchcancel.hide();
             this.searchcancel.dom.src = this.imageSearch;
-	    this.lastSearchValue = '';
-	    this.dataview.refresh();
+	    this.clearDataParams()
+	    this.loadWithParams();
         }else{
-            //this.searchcancel.show();
             this.searchcancel.dom.src = this.imageSearchCancel;
         }
         
         if(val.length < this.search_chars-1){
 	    this.lastSearchValue = '';
+	    this.clearDataParams();
             this.searchDelayer.cancel();
-            this.store.clearFilter();
-	    this.dataview.refresh();
+            this.loadWithParams();
+	    //this.store.clearFilter();
+	    //this.dataview.refresh();
         }else{
             this.searchDelayer.delay(400);
         }
@@ -340,16 +488,19 @@ twexter.finder.prototype = {
     
     onDoFilter: function(){
         var value = this.searchfield.getValue();
-        this.store.filter("title", value, true);
+	this.clearDataParams();
+	this.store_params.search = value;
+	this.loadWithParams();
+        //this.store.filter("title", value, true);
     },
     
     onSearchCancel: function(){
         this.searchfield.dom.value = '';
-        //this.searchcancel.hide();
         this.searchcancel.dom.src = this.imageSearch;
         this.store.clearFilter();
         this.lastSearchValue = '';
-	this.dataview.refresh();
+        this.clearDataParams();
+        this.loadWithParams();
     },
     
     onItemClick: function(ctl, idx, node, evt){
@@ -359,7 +510,31 @@ twexter.finder.prototype = {
         this.fireEvent('document_selected', rec.get('id'));
         this.hide();
         this.fireEvent('hidden', this);
-        this.lastSearchValue = '';
+	
+	if(this.lastSearchValue!=''){
+	    this.lastSearchValue = '';
+	    this.store_params.search = '';
+	    this.store.baseParams = this.store_params;
+	    /*{*/console.debug("Going to reload file list in 2 secs");/*}*/
+	    //this.store.load.defer(2000, this.store);
+	    this.loadWithParams.defer(2000, this, [true]);
+	}
+	
+    },
+    
+    onNextClick: function(){
+	this.store_params.start+=10;
+	this.store.baseParams = this.store_params;
+	//this.store.load();
+	this.loadWithParams();
+    },
+    
+    onPrevClick: function(){
+	this.store_params.start-=10;
+	if(this.store_params.start<0) this.store_params.start = 0;
+	this.store.baseParams = this.store_params;
+	//this.store.load();
+	this.loadWithParams();
     },
     
     sizeFileList: function(){
@@ -377,7 +552,9 @@ twexter.finder.prototype = {
             this.last_fileview_y = y;
         }
         
-        var fh = h - 50 - 5;
+        var fh = h - 50 - 50;
+	Ext.fly(this.id+'_buttons').setY(fh+50+50);
+	
         /*{*/console.debug("Sazing List: %s - %s - 50", h, fh);/*}*/
         this.filelist.setY(y+50);
         this.filelist.setHeight(fh);

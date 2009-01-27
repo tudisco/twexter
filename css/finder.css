@@ -93,6 +93,16 @@
     /*visibility: hidden;*/
 }
 
+.finder_loader {
+    border: solid 3px #84794A;
+    position: absolute;
+    z-index: 399;
+    display: none;
+    width: 130px;
+    height: 130px;
+    background: #FFFFFF url(/images/loading.gif) 15px 15px no-repeat;
+}
+
 .finder_filelist {
     position: relative;
     background-color: transparent;
@@ -101,6 +111,54 @@
     overflow: auto;
     font-family: Andale Mono, monospace;
 }
+
+.finder_buttons {
+    position: absolute;
+    width: 100%;
+}
+
+.finder_buttons .prev {
+    cursor: pointer;
+    float: left;
+    width: 44px;
+    height: 22px;
+    background: transparent url(/images/finder/prev.png) 0 0 no-repeat;
+}
+
+.finder_buttons .prev_disabled {
+    cursor: default;
+    float: left;
+    width: 44px;
+    height: 22px;
+    background: transparent url(/images/finder/prev_d.png) 0 0 no-repeat;
+}
+
+.finder_buttons .count{
+    color: #D6D7BD;
+    font-family: sans-serif;
+    font-weight: bolder;
+    font-size: 14px;
+    width: 110px;
+    height: 22px;
+    margin-left: 100px;
+}
+
+.finder_buttons .next {
+    cursor: pointer;
+    float: right;
+    width: 44px;
+    height: 22px;
+    background: transparent url(/images/finder/next.png) 0 0 no-repeat;
+}
+
+.finder_buttons .next_disabled {
+    cursor: default;
+    float: right;
+    width: 44px;
+    height: 22px;
+    background: transparent url(/images/finder/next_d.png) 0 0 no-repeat;
+}
+
 
 .filelisting {
     border-top: solid 1px white;
@@ -176,4 +234,11 @@
     background-color: Gold ;
     border-top: solid 1px GoldenRod ;
     border-bottom: solid 1px GoldenRod ;
+}
+
+.filelisting .childrenhere {
+    width:66px;
+    height:22px;
+    background: transparent url(/images/finder/child.png) 0 0 no-repeat;
+    cursor: pointer;
 }
