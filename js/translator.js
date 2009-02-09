@@ -87,7 +87,10 @@ twexter.translator.prototype = {
                 });
             }else{
                 if(tt_d < tt_c){ newtexta.push(i+"\n\n\n"); }
-                else{ newtexta.push(i); }
+                else{
+                    if(i!='')
+                        newtexta.push(i);
+                }
             }
         });
         //-----------------  Wow that probably can be done better.. jaja.
@@ -102,32 +105,41 @@ twexter.translator.prototype = {
             return;
         }
         this.translatedText = [];
+        
         var isText = (this.textType=='flow') ? false : true;
         this.sourceText = twexter.struct_to_sourceText(this.text);
         this._sliceText(this.sourceText);
         var count = this.slicedText.length;
         var cdone = 0;
         //var self = this;
+        /*{*/console.debug('translate total count: '+count);/*}*/
         
-        for(var i=0 ; i<count ; i++){
-            google.language.translate({text:this.slicedText[i],type:'text'}, this.sourceLang, this.targetLang, function(){
-                cdone++;
-                var res = arguments[0];
-                var slice_idx = arguments[1];
-                if(res && res.error){
-                    this.translationError(res);
-                }else{
-                    this.translatedText[slice_idx] = twexter.clean_text( res.translation );
-                }
-                if(cdone==count){
-                    this.translationDone();
-                }
-            }.createDelegate(this, [i], true));
+        try{
+            for(var i=0 ; i<count ; i++){
+                google.language.translate({text:this.slicedText[i],type:'text'}, this.sourceLang, this.targetLang, function(){
+                    /*{*/console.debug('recieve '+arguments[1]);/*}*/
+                    cdone++;
+                    var res = arguments[0];
+                    var slice_idx = arguments[1];
+                    if(res && res.error){
+                        this.translationError(res);
+                    }else{
+                        this.translatedText[slice_idx] = twexter.clean_text( res.translation );
+                    }
+                    if(cdone==count){
+                        this.translationDone();
+                    }
+                }.createDelegate(this, [i], true));
+                /*{*/console.debug('sending: '+i);/*}*/
+            }
+        }catch(e){
+            /*{*/console.warn("Translation Exception: "+e);/*}*/
         }
+        
     },
     
     translationError: function(res){
-        alert("Google Ttranslation Error: "+res.error.message);
+        //alert("Google Ttranslation Error: "+res.error.message);
         /*{*/console.debug("Googgle Error: %s %s", res.error.code, res.error.message);/*}*/
         if(Ext.type(this.errorfn) == 'function'){
             if(Ext.type(this.scope) == 'object'){

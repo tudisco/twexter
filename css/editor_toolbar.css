@@ -34,13 +34,13 @@
     margin-left: 10px;
 }
 
-#edit_toolbar #pref {
-    width:22px;
-    height:22px;
-    float: left;
-    padding: 5px;
-    background: transparent url(/images/edittools/preferences.png) 0 0 no-repeat;
-}
+/*#edit_toolbar #pref {*/
+/*    width:22px;*/
+/*    height:22px;*/
+/*    float: left;*/
+/*    padding: 5px;*/
+/*    background: transparent url(/images/edittools/preferences.png) 0 0 no-repeat;*/
+/*}*/
 
 #edit_toolbar #print {
     width:22px;
@@ -54,9 +54,9 @@
     background: transparent url(/images/edittools/document-print.png) -1px -1px no-repeat;
 }
 
-#edit_toolbar #pref:hover {
-    background: transparent url(/images/edittools/preferences.png) -1px -1px no-repeat;
-}
+/*#edit_toolbar #pref:hover {*/
+/*    background: transparent url(/images/edittools/preferences.png) -1px -1px no-repeat;*/
+/*}*/
 
 #edit_toolbar #newdoc {
     width:22px;
@@ -87,6 +87,10 @@
     z-index: 101;
 }
 
+#edit_toolbar #pref  {
+    height:22px;
+    float: left;
+}
 
 
 #edit_toolbar .c_lang_left {

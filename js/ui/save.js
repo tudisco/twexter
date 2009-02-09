@@ -54,8 +54,8 @@ twexter.savedlg.prototype = {
                         '</div>',
                         '<div class="field"><label for="{id}_global">Public:</label><input id="{id}_global" type="checkbox" {checked} /></div>',
                         '<div align="center" class="buttons">',
-                            '<button id="{id}_save_button" class="{id}_save_button"><img src="images/save/dialog-apply.png" height="16" width="16" /></button>',
-                            '<button id="{id}_cancel_button" class="{id}_cancel_button"><img src="images/save/dialog-cancel.png" height="16" width="16" /></button>',
+                            '<button id="{id}_save_button" class="{id}_save_button"><img src="/images/save/dialog-apply.png" height="16" width="16" /></button>',
+                            '<button id="{id}_cancel_button" class="{id}_cancel_button"><img src="/images/save/dialog-cancel.png" height="16" width="16" /></button>',
                         '</div>',
                     '</div>',
                 '</div>'
@@ -81,7 +81,9 @@ twexter.savedlg.prototype = {
         this.form_cancel_button.on('click', this.onCancel, this);
         this.el.addKeyListener(Ext.EventObject.ESC, this.onCancel, this);
 	this.form_save_button.on('click', this.onSave, this);
-        this.form_title.on('focus', this.onTitleFocus, this);
+	
+        //Comment this out so titles are editable
+	//this.form_title.on('focus', this.onTitleFocus, this);
     },
     
     /**

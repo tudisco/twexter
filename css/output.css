@@ -14,12 +14,13 @@
 }
 
 .outMask {
-    background-color: darkgrey;
-    color: white;
+    background-color: lightgrey;
+    color: darkgrey;
     padding:15px;
     bottom: 10px;
     top: 55px;
     z-index:1260;
+    width:200px;
     border: solid 2px black;
 }
 

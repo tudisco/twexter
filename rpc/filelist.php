@@ -77,6 +77,35 @@ function get_user_name($userid){
     return $db->fetchOne($sel);
 }
 
+function getChildIds($parentid){
+       $db = Zend_Registry::get('dbTwext');
+       $sel = $db->select();
+       $sel->from('document', array('id', 'sha1'));
+       $sel->where("parent_id = ?", $parentid);
+       $sel->where("version = (SELECT MAX(d2.version) FROM document as d2 WHERE sha1=document.sha1)");
+       
+       $res = $db->fetchAll($sel);
+       $ids = array();
+       foreach($res as $r){
+                $ids[] = $r['id'];
+       }
+       return $ids;
+}
+
+function get_all_langs($parentid){
+        $ids = array($parentid);
+        $ids = array_merge($ids,getChildIds($parentid));
+        
+        $langs = array();
+        $langs[] = array('type'=>"text",'lang'=>get_languages($parentid, 'text'),'id'=>$parentid);
+       
+        foreach($ids as $id){
+                $langs[] = array('type'=>'twxt','lang'=>get_languages($id, 'twxt'),'id'=>$id);
+        }
+        
+        return $langs;
+}
+
 //database
 $db = Zend_Registry::get('dbTwext');
 $sel = $db->select();
@@ -211,6 +240,11 @@ foreach($doc as $d){
     $link = $_db->fetchOne("SELECT url FROM document_link_resource WHERE document_id = ?", $d['id']);
     $cmtCount = $_db->fetchOne("SELECT count(*) FROM document_comments WHERE doc_sha1 = ?", $d['sha1']);
     $chldCount = $_db->fetchOne("SELECT count(*) FROM document WHERE parent_id = ?", $d['id']);
+    if($chldCount){
+        $childLangs = get_all_langs($d['id']);
+    }else{
+        $childLangs = false;
+    }
     $isUser = ($authSession->login && $authSession->userID == $d['user_id']) ? 1 : 0;
     $hasDesc = (!empty($d['description'])) ? 1 : 0;
     $dtime = strtotime($d['created_on']);
@@ -218,7 +252,7 @@ foreach($doc as $d){
     $docs[] = array('id'=>$d['id'], 'ccount'=>$cmtCount, 'title'=>stripcslashes($d['title']), 'hasDesc'=>$hasDesc,
                     'description'=>stripcslashes($d['description']), 'seconds'=>$seconds,
                     'creation'=>date("Y-m-d H:i:s", $dtime), 'isUser'=>$isUser, 'sha1'=>$d['sha1'],
-                    'version'=>$d['version'], 'user'=>$user, 'link'=>$link, 'children'=>$chldCount);
+                    'version'=>$d['version'], 'user'=>$user, 'link'=>$link, 'children'=>$chldCount, 'childLang'=>$childLangs);
 }
 
 if($is_limited) $tcount = $totalCount;

@@ -2,13 +2,15 @@
 .save_form {
     z-index: 351;
     position: absolute;
-    background-color: lightblue;
-    border: solid medium;
+    background-color: #D6D3BD;
+    border: solid medium #84794A;
     visibility: hidden;
+    -moz-border-radius : 4px;
+    -webkit-border-radius: 4px;
 }
 
 .save_form .title {
-    background-color: blue;
+    background-color: #84794A;
     color:white;
     padding: 3px;
     padding-left: 30px;
@@ -18,12 +20,16 @@
 }
 
 .save_form .body {
-    background-color: cornsilk;
+    background-color: #D6D3BD;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
     font-family: sans-serif;
+    font-weight: bold;
+    color: #84794A;
+    -moz-border-radius : 3px;
+    -webkit-border-radius: 3px;
 }
 
 .save_form .body .field label {

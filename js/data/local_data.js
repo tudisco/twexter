@@ -167,6 +167,7 @@ twexter.data.prototype = {
         outToolbar.on('font_color_change', this.onFontColorChange, this);
         outToolbar.on('font_weight_change', this.onFontWeightChange, this);
         outToolbar.on('font_space_change', this.onFontWeightChange, this);
+        outToolbar.on('font_align_change', this.onFontAlignChange, this);
         this.sendDataOutToolbar(outToolbar);
     },
     
@@ -236,6 +237,16 @@ twexter.data.prototype = {
     },
     
     /**
+     * Event: On Font Align Change
+    */
+    onFontAlignChange: function(type, align){
+        type = this.fixType(type);
+        var key = "fontalign_"+type;
+        this.store.set(key, align);
+        /*{*/console.info("Saved font align (%s: %s)", key, align);/*}*/
+    },
+    
+    /**
      * Sets the last loaded document id
     */
     setLastLoadedDocument: function(docid){
@@ -262,6 +273,7 @@ twexter.data.prototype = {
             this.store.clear('fontcolor_'+i);
             this.store.clear('fontweight_'+i);
             this.store.clear('fontspace_'+i);
+            this.store.clear('fontalign_'+i);
         }, this);
         
         /*{*/console.log('all output toolbar options cleaned from local data');/*}*/
@@ -272,12 +284,12 @@ twexter.data.prototype = {
     */
     sendDataOutToolbar: function(outToolbar){
         var t = ['text','twxt'];
-        var o = ['font', 'fontsize', 'fontcolor', 'fontweight', 'fontspace'];
+        var o = ['font', 'fontsize', 'fontcolor', 'fontweight', 'fontspace', 'fontalign'];
         /*{*/console.group("Loading default toolbar options");/*}*/
         
         var text_style = '.chunk .text';
         var twxt_style = '.chunk .twext';
-        var s = ['fontFamily', 'fontSize', 'color', 'fontWeight', null];
+        var s = ['fontFamily', 'fontSize', 'color', 'fontWeight', null, 'textAlign'];
         
         Ext.each(t, function(i){
             var ty = (i=='text') ? '.text' : '.twext';
@@ -324,6 +336,39 @@ twexter.data.prototype = {
         //this.store.set('editor_text_left', left);
         //this.store.set('editor_text_right', right);
         //console.debug("saved editor");
+    },
+    
+    setTranslationOptions: function(type,trans,chunkwidth,chunkoptions,lang){
+        /*{*/console.log("Setting Tranlsation Option With Language Setting: "+lang);/*}*/
+        var s = this.store;
+        var b = 'trnsl_';
+        var l = lang;
+        /*{*/
+            console.dir(chunkoptions);
+            console.log(b+'co'+lang);
+            
+        /*}*/
+        s.set(b+'type', type);
+        s.set(b+'google_trans', trans);
+        s.set(b+'chunk_width', chunkwidth);
+        
+        //TODO: This is not working right.. might need server side save here.
+        s.set(b+'co'+lang,chunkoptions);
+        
+    },
+    
+    getTranslationOptions: function(lang){
+        /*{*/console.log("Getting Tranlsation Option With Language Setting: "+lang);/*}*/
+        var b = 'trnsl_';
+        var o = {};
+        var s = this.store;
+        o.type = s.get(b+'type');
+        o.trans = s.get(b+'google_trans');
+        o.cwidth = s.get(b+'chunk_width');
+        
+        //TODO: This is not working right.. might need server side save here.
+        o.options = s.get(b+'co'+lang);
+        return o;
     },
     
     makeXscroll: function(left,right,cs){

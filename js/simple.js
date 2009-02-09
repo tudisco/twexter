@@ -78,14 +78,6 @@ twexter.xnavui.prototype = {
 			Ext.History.on('change', SIMPLE.onHistoryChange, SIMPLE);
 		});
 		
-		
-		
-		//Load Google Language API
-		google.load("language", "1", {callback:function(){
-			LANG_GOOG_API = true;
-			/*{*/console.debug("***GOOGLE API LOADED***");/*}*/
-		}});
-		
 		//TODO: Remove This
 		window.onresize = this.onResize.createDelegate(this, []);
 		/*{*/console.info("starting application");/*}*/
@@ -123,6 +115,12 @@ twexter.xnavui.prototype = {
 		if(this.data.gotofinder === true){
 			this.xbutton.setButtonState('r', 1);
 		}
+		
+		//Load Google Language API
+		google.load("language", "1", {callback:function(){
+			LANG_GOOG_API = true;
+			/*{*/console.debug("****GOOGLE API LOADED*****");/*}*/
+		}});
 	},
 	
 	onHistoryChange: function(token){
@@ -295,7 +293,7 @@ twexter.xnavui.prototype = {
 		this.editor_bar.on('save_document_click', this.onSaveDocument, this);
 		
 		this.editor_bar.on('lang_switch', this.switchSides, this);
-		this.editor_bar.on('options_click', this.onEditorTools, this);
+		this.editor_bar.on('translate_click', this.onEditorTools, this);
 		this.editor_bar.on('print_doc', this.onPrintDoc, this);
 		this.editor_bar.on('urllink_change', function(url){
 			this.urlDisplay.clearUrl();
@@ -533,19 +531,23 @@ twexter.xnavui.prototype = {
 						case twexter.CHUNKSTYLE_XSCROLL:
 							/*{*/console.log("Chunk to Spacechunk");/*}*/
 							s = twexter.parse_into_struct(t,w);
-							tw2 = twexter.struct_to_spacechunk(s);
+							/*tw2 = twexter.struct_to_spacechunk(s);
 							this.editor.setEditorMode(2);
 							this.editor.setText(tw2[0]);
-							this.editor.setTwxt(tw2[1]);
-						break;
-						case twexter.CHUNKSTYLE_SPACE:
-							/*{*/console.log("Spacechunk to Flow");/*}*/
-							s = twexter.spacechunk_to_struct(t,w);
+							this.editor.setTwxt(tw2[1]);*/
 							tw2 = twexter.struct_to_flowchunk(s);
 							this.editor.setEditorMode(1);
 							this.editor.setText('');
 							this.editor.setTwxt(tw2);
 						break;
+						/*case twexter.CHUNKSTYLE_SPACE:
+							//console.log("Spacechunk to Flow");
+							s = twexter.spacechunk_to_struct(t,w);
+							tw2 = twexter.struct_to_flowchunk(s);
+							this.editor.setEditorMode(1);
+							this.editor.setText('');
+							this.editor.setTwxt(tw2);
+						break;*/
 						case twexter.CHUNKSTYLE_FLOW:
 							/*{*/console.log("Flow to Chunk");/*}*/
 							s = twexter.flowchunk_to_struct(w);
@@ -961,6 +963,7 @@ twexter.xnavui.prototype = {
 		
 		var parent_id = this.doc_id;
 		var parent_sha1 = this.doc_sha1;
+		var url = this.editor_bar.getURL();
 		
 		var left = this.editor.getText();
 		var right = this.editor.getTwxt();
@@ -988,6 +991,8 @@ twexter.xnavui.prototype = {
 		this.onNewDocument();
 		this.doc_parent_id = parent_id;
 		this.doc_parent_sha1 = parent_sha1;
+		this.editor_bar.setLinkUrl(url);
+		if(this.urlDisplay) this.urlDisplay.setUrl(url);
 		
 		switch(style){
 			case twexter.CHUNKSTYLE_XSCROLL:
@@ -1207,7 +1212,8 @@ twexter.xnavui.prototype = {
 		}
 		
 		//Check for URL
-		var url = this.urlDisplay.getUrl();
+		//var url = this.urlDisplay.getUrl();
+		var url = this.editor_bar.getURL();
 		if(!Ext.isEmpty(url)){
 			data.url = url;
 		}
@@ -1333,6 +1339,8 @@ twexter.xnavui.prototype = {
 			this.data.setLastLoadedDocument(this.doc_id);
 			this.doc_url = doc.url;
 			this.doc_chunk_style = doc.chunk_style;
+			this.doc_parent_id = doc.parent_id;
+			this.doc_parent_sha1 = doc.parent_sha1;
 			delete this.loading_doc_id;
 			if(pageTracker){ pageTracker._trackPageview("/actions/open_doc/"+this.doc_id+"/"+this.doc_title); }
 			
@@ -1350,7 +1358,7 @@ twexter.xnavui.prototype = {
 			
 			var tmp=[];
 			for(var i = 0; i<chunks.length; i++){
-				if(!isNaN(chunks[i])){
+				if(Ext.type(chunks[i])=='number'){
 					if(chunks[i]===0){ tmp[tmp.length] = "\n"; }
 					if(chunks[i]===1){ tmp[tmp.length] = "\n\n"; }
 				}else{
@@ -1372,7 +1380,7 @@ twexter.xnavui.prototype = {
 			chunks = trans[1].chunks;
 			
 			for(var x = 0; x<chunks.length; x++){
-				if(!isNaN(chunks[x])){
+				if(Ext.type(chunks[x])=='number'){
 					if(chunks[x]===0){ tmp[tmp.length] = "\n"; }
 					if(chunks[x]===1){ tmp[tmp.length] = "\n\n"; }
 				}else{
@@ -1439,16 +1447,17 @@ twexter.xnavui.prototype = {
 		var s;
 		
 		switch(style){
+			case 'space':
 			case 'xscroll':
 				this.editor.setEditorMode(2, false);
 			break;
-			case 'space':
+			/*case 'space':
 				s = twexter.parse_into_struct(this.editor.getText(), this.editor.getTwxt());
 				s = twexter.struct_to_spacechunk(s);
 				this.editor.setText(s[0]);
 				this.editor.setTwxt(s[1]);
 				this.editor.setEditorMode(2, false);
-			break;
+			break;*/
 			case 'flow':
 				s = twexter.parse_into_struct(this.editor.getText(), this.editor.getTwxt());
 				s = twexter.struct_to_flowchunk(s);
@@ -1474,17 +1483,73 @@ twexter.xnavui.prototype = {
 		this.editor.switchSides();
 	},
 	
+	doTranslation: function(){
+		var o = this.editor_tools.getOptions();
+		var source, type;
+		
+		switch(o.type){
+			case 'text':
+				type = 'source';
+				source= 'text';
+			break;
+			case 'chunked':
+				type = 'chunked';
+				source = 'text';
+			break;
+			case 'twext':
+				type = 'source';
+				source = 'twext';
+			break;
+			default:
+				type = 'source';
+				source = 'text';
+			break
+		}
+		
+		this.onNewChildDocument2(source, type);
+		
+		/*{*/console.warn("SHould be chunk width ",o.cwidth)/*}*/
+		if(o.cwidth && o.cwidth != -1 && type=='source'){
+			var wc = new twexter.chunker.WidthChunker();
+			var text = wc.chunkit(this.editor.getText(),o.cwidth,true);
+			this.editor.setText(text);
+			/*{*/console.warn("Yes");/*}*/
+		}
+		
+		if(o.trans == 'google'){
+			if(!Ext.isEmpty(LANG_TRANS_CODE) && !Ext.isEmpty(LANG_SOURCE_CODE)){
+				/*{*/console.log("translating by tranlate button");/*}*/
+				this.onTranslate(this, 'google', LANG_SOURCE_CODE, LANG_TRANS_CODE);
+			}
+		}
+	},
+	
 	/** Lazy Load Editor Tools when needed */
 	onEditorTools: function(ctrl, btn){
 		
 		if(Ext.isEmpty(this.editor_tools)){
 			this.editor_tools = new twexter.tools_popup();
+			this.editor_tools.on('TranslateOptionChange', function(type,trans,cwidth,chunk_options,lang){
+				this.data.setTranslationOptions(type,trans,cwidth,chunk_options,lang);
+			}, this);
+			this.editor_tools.on('getSettings', function(lang){
+				var settings = this.data.getTranslationOptions(lang);
+				this.editor_tools.setOptions(settings);
+			}, this);
+			
+			this.editor_tools.on('translateButtonClick', function(){
+				//TODO: Do Action Here!
+				this.doTranslation();
+			}, this);
+			
+			this.editor_tools.init();
 		}
 		
 		if(!this.editor_tools.el.isVisible()){
 			this.editor_tools.show(btn);
 		}else{
-			this.editor_tools.hide();
+			this.editor_tools.hide(true);
+			this.doTranslation();
 		}
 		
 		//if(Ext.isEmpty(this.editor_tools)){

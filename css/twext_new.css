@@ -13,6 +13,7 @@
 	color: darkblue;
 	font-weight: normal;
 	text-transform: none;
+	text-align:center;
 }
 
 .chunk .twext{
@@ -23,6 +24,7 @@
 	margin-top: -7px;
 	font-weight: normal;
 	text-transform: uppercase;
+	text-align:center;
 }
 
 .line-break {

@@ -20,6 +20,7 @@ twexter.uiviews.prototype = {
     currentView: null,
     resizeTask: false,
     margins: {},
+    currentlyWorking: false,
     
     init: function(){
         Ext.EventManager.onWindowResize(this.onResize, this);
@@ -90,6 +91,9 @@ twexter.uiviews.prototype = {
     },
     
     positionControls: function(){
+	if(this.currentlyWorking) return;
+	this.currentlyWorking = true;
+	
         /*{*/console.debug("Going to position controls");/*}*/
         var view_name = this.currentView;
         var view = this.views[view_name];
@@ -144,6 +148,8 @@ twexter.uiviews.prototype = {
             }
         }
         this.currentControlName = '';
+	
+	this.currentlyWorking = false;
         
     },
     

@@ -62,7 +62,7 @@ twexter.editor_tools.prototype = {
                 '<div id="{id_switch}"></div>',
                 '<select id="{id_lang_right}" class="{id_lang_right}"></select>',
                 //'<div id="{id_print}"></div>',
-                '<div id="{id_pref}"></div>',
+                '<button id="{id_pref}">Translate</button>',
                 //'<div id="{id_newdoc}"></div>',
                 '<div id="{id_linkbutt}"></div>',
                 '<input type="text" id="{id_linkinput}"></input>',
@@ -95,7 +95,7 @@ twexter.editor_tools.prototype = {
         //this.buttNewDoc = Ext.get(this.id_newdoc);
         this.buttSaveDoc = Ext.get(this.id_savedoc);
         //this.buttIdent = Ext.get(this.id_ident);
-        this.buttPref = Ext.get(this.id_pref);
+        this.buttTrans = Ext.get(this.id_pref);
         this.comboLeftLang = Ext.get(this.id_lang_left);
         this.comboRightLang = Ext.get(this.id_lang_right);
         this.switchButton = Ext.get(this.id_switch);
@@ -107,7 +107,7 @@ twexter.editor_tools.prototype = {
         //this.buttNewDoc.on('click', this.onNewDocClick, this);
         this.buttSaveDoc.on('click', this.onSaveDocClick, this);
         //this.buttIdent.on('click', this.onIdentClick, this);
-        this.buttPref.on('click', this.onOptionsClick, this);
+        this.buttTrans.on('click', this.onTranslate, this);
         this.comboLeftLang.on('change', this.onLangChange, this);
         this.comboRightLang.on('change', this.onLangChange, this);
         this.switchButton.on('click', this.onLangSwitch, this);
@@ -209,12 +209,12 @@ twexter.editor_tools.prototype = {
         /*if(this.printButton){
             this.printButton.setX(rightC+10);
         }*/
-        if(this.buttPref){
-            //this.buttPref.setX(this.buttSaveDoc.getX()-this.buttPref.getWidth());
-            this.buttPref.setX(rightC+this.buttPref.getWidth());
+        if(this.buttTrans){
+            //this.buttTrans.setX(this.buttSaveDoc.getX()-this.buttTrans.getWidth());
+            this.buttTrans.setX(rightC+this.buttTrans.getWidth());
         }
         if(this.linkButton){
-            this.linkButton.setX(this.buttPref.getX()+this.linkButton.getWidth());
+            this.linkButton.setX(this.buttTrans.getX()+this.linkButton.getWidth());
         }
         if(this.buttSaveDoc){
             if(this.linkInput.isVisible()){
@@ -247,10 +247,15 @@ twexter.editor_tools.prototype = {
         var url = this.linkInput.getValue();
         if(this.isUrl(url)){
             this.fireEvent('urllink_change', url);
+            this.url = url;
         }else{
             alert("Not a valid URL");
         }
         this.setRightButtonsTo();
+    },
+    
+    getURL: function(){
+        return this.url;  
     },
     
     onLinkButt: function(){
@@ -279,9 +284,9 @@ twexter.editor_tools.prototype = {
         this.fireEvent('user_click', this);
     },
     
-    onOptionsClick: function(){
+    onTranslate: function(){
         /*{*/console.debug("Firing Options Click");/*}*/
-        this.fireEvent('options_click', this, this.buttPref);
+        this.fireEvent('translate_click', this, this.buttTrans);
     },
     
     onLangChange: function(){

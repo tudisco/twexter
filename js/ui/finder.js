@@ -98,7 +98,20 @@ twexter.finder.prototype = {
                             '<div style="clear:both;"></div>',
                             
                         '</div>',
-			'<tpl if="children &gt; 0"><div class="childrenhere" id="par-{id}"></div></tpl>',
+			//'<tpl if="children &gt; 0"><div class="childrenhere" id="par-{id}"></div></tpl>',
+                        '<tpl if="childLang">',
+                            '<div class="childrenhere">',
+                            '<span class="label" id="par-{id}">Translations: </span>',
+                            '<tpl for="childLang">',
+                                '<tpl if="type && type == \'text\'">',
+                                    '<span id="dl-{id}" class="lang text"> {lang} </span>',
+                                '</tpl>',
+                                '<tpl if="type && type == \'twxt\'">',
+                                    '<span id="dl-{id}" class="lang twxt"> {lang} </span>',
+                                '</tpl>',
+                            '</tpl>',
+                            '</div>',
+                        '</tpl>',
                     '</div>',
                 '</tpl>',
                 '<div class="x-clear"></div>',
@@ -206,7 +219,7 @@ twexter.finder.prototype = {
         this.task = {
             run: this.sizeFileList,
             scope:this,
-            interval:750
+            interval:1200
         };
         
         this.el.setLeft(COL_LEFT_SIZE);
@@ -314,21 +327,51 @@ twexter.finder.prototype = {
     },
     
     findChildren: function(){
-	var childr = this.el.select('.filelisting .childrenhere');
+	//This is the old way of doing things... Now we list languages
+        /*var childr = this.el.select('.filelisting .childrenhere');
 	var c = childr.getCount();
 	
 	if(c>0){
 	    childr.on('click', function(e){
 		var el = e.getTarget();
 		var id = el.id.split('-')[1];
-		/*{*/console.info("Child Expan Click ", id);/*}*/
 		e.stopEvent();
 		this.clearDataParams();
 		this.store_params.parent = id;
 		this.loadWithParams();
 	    }, this);
-	}
+	}*/
+        
+        var childr = this.el.select('.filelisting .childrenhere .lang');
+        var c = childr.getCount();
+        
+        if(c>0){
+            childr.on('click', function(e){
+                var el = e.getTarget();
+                var id = el.id.split('-')[1];
+                e.stopEvent();
+                this.fireEvent('document_selected', id);
+                this.hide();
+                this.fireEvent('hidden', this);
+            }, this);
+            
+            var trans = this.el.select('.filelisting .childrenhere .label');
+            var tc = trans.getCount();
+            
+            if(tc>0){
+                trans.on('click', function(e){
+                    var el = e.getTarget();
+                    var id = el.id.split('-')[1];
+                    e.stopEvent();
+                    this.clearDataParams();
+                    this.store_params.parent = id;
+                    this.loadWithParams();
+                },this);
+            }
+        }
 	
+        
+        
     },
     
     history: function(idx){
@@ -386,7 +429,7 @@ twexter.finder.prototype = {
                 fields: [
                     'id', 'ccount', 'title', 'hasDesc', 'description', 'seconds',
                     {name:'creation', type:'date', dateFormat:'Y-m-d H:i:s'},
-                    'isUser', 'sha1', 'version', 'user', 'link', 'children'
+                    'isUser', 'sha1', 'version', 'user', 'link', 'children', 'childLang'
                 ],
 		remoteSort: true,
 		baseParams: this.store_params
@@ -414,11 +457,13 @@ twexter.finder.prototype = {
     },
     
     init_view: function(){
+        
+        
         if(!this.dataview){
             this.dataview = new Ext.DataView({
                 id: "dataview",
                 store: this.store,
-                tpl: this.tpl_filelist,
+                tpl: this.tpl_filelist.compile(),
                 applyTo: this.id+'_filelist',
                 //applyTo: 'filetable',
                 autoHeight:true,
@@ -538,6 +583,7 @@ twexter.finder.prototype = {
     },
     
     sizeFileList: function(){
+        console.debug("**Size Finder Timed");
         var h = this.el.getHeight();
         var y = this.el.getY();
         
@@ -585,8 +631,8 @@ twexter.finder.prototype = {
         this.sizeFileList();
         if(Ext.isEmpty(this.taskRunner)){
             this.taskRunner = new Ext.util.TaskRunner();
+            this.taskRunner.start(this.task);
         }
-        this.taskRunner.start(this.task);
     },
     
     setLang: function(stext, stwxt){
@@ -596,12 +642,17 @@ twexter.finder.prototype = {
     },
     
     hide: function(){
+        try{
+            if(this.taskRunner) this.taskRunner.stopAll();
+        }catch(e){
+            console.warn("Error on StopAll: "+e);
+        }
         this.el.hide();
         //this.searchcancel.hide();
         this.store.clearFilter();
         this.searchfield.dom.value = '';
         this.searchcancel.dom.src = this.imageSearch;
-        this.taskRunner.stopAll();
+        
     },
     
     setPosition: function(arr){

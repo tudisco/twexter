@@ -226,6 +226,15 @@ class DbTwext {
 	}
 	
 	/**
+	 * Set Parent ID
+	 *
+	 * @return number Parent ID
+	 */
+	function getParentId(){
+		return $this->_document_parent_id;
+	}
+	
+	/**
 	 * Set Parent Sha1
 	 *
 	 * @param string sha1
@@ -236,6 +245,15 @@ class DbTwext {
 		}else{
 			throw new DbTwextException("Parent sha1 is not a string", DBTWEXT_TYPE_ERROR);
 		}
+	}
+	
+	/**
+	 * Set Parent Sha1
+	 *
+	 * @return string sha1
+	 */
+	function getParentSha1(){
+		return $this->_document_parent_sha1;
 	}
 	
 	/**

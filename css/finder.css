@@ -237,8 +237,29 @@
 }
 
 .filelisting .childrenhere {
-    width:66px;
-    height:22px;
-    background: transparent url(/images/finder/child.png) 0 0 no-repeat;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.filelisting .childrenhere .label {
+    color: black;
+}
+
+.filelisting .childrenhere .twxt {
+    color: darkgreen;
+    text-transform: lowercase;
+}
+
+.filelisting .childrenhere .text {
+    color: brown;
+    text-transform: uppercase;
+}
+
+.filelisting .childrenhere .twxt:hover{
+    color: red;
+}
+
+.filelisting .childrenhere .text:hover{
+    color: red;
 }

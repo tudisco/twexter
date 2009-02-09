@@ -751,10 +751,20 @@ twexter.editor.prototype = {
                 /*{*/console.log("Translation Done");/*}*/
                 this.EditMask.hide();
                 this.EditMask = null;
+                if(!text){
+                    text = "This translation attempt has failed.\nPlease try again";
+                }
                 if(Ext.isArray(text)){
+                    if(!text[1])
+                        text[1] = "This translation attempt has failed.\nPlease try again";
                     this.setTwxt(text[1]);
                 }else{
                     this.setTwxt(text);
+                }
+                this.translating = false;
+                if(this.translating_timeoutid){
+                    clearTimeout(this.translating_timeoutid);
+                    this.translating_timeoutid = null;
                 }
                 this.fireEditChange();
             },
@@ -783,7 +793,18 @@ twexter.editor.prototype = {
         this.EditMask = new Ext.LoadMask(this.el, {msg:"Translating...",msgCls:"outMask"});
         this.EditMask.show();
         this.setTwxt('');
+        this.translating = true;
+        this.translating_timeoutid = this.tranlation_timeout.defer(20000, this);
         trans.tranlate();
+    },
+    
+    tranlation_timeout: function(){
+        /*{*/console.debug("Ttranslating Timeout Called");/*}*/
+        if(this.translating === true){
+            alert('Translation has timed out. Please try again');
+            this.EditMask.hide();
+            this.EditMask = null;
+        }
     },
     
     /**

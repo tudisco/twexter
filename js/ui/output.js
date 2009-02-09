@@ -156,6 +156,7 @@ twexter.out.prototype = {
 		i.color = ct.style.color;
 		i.weight = ct.style.fontWeight;
 		i.transform = ct.style.textTransform;
+		i.align = ct.style.textAlign;
 		return i;
 		
 	},
@@ -169,6 +170,7 @@ twexter.out.prototype = {
 		i.weight = ct.style.fontWeight;
 		i.space = ct.style.marginTop.replace('px','');
 		i.transform = ct.style.textTransform;
+		i.align = ct.style.textAlign;
 		return i;
 	},
 	
@@ -223,6 +225,9 @@ twexter.out.prototype = {
 		}
 		if(obj.transform){
 			CSS.updateRule(select, 'text-transform', obj.transform);
+		}
+		if(obj.align){
+			CSS.updateRule(select, 'text-align', obj.align);
 		}
 		
 		this.calculateFontSpace();

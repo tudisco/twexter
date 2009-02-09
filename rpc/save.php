@@ -62,7 +62,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 		$s2 = array();
 		
 		foreach($struct as $s){
-			if(!is_array($s) && is_numeric($s)){
+			if(!is_array($s) && is_int($s)){
 				$s1[] = (int)$s;
 				$s2[] = (int)$s;
 			}else{

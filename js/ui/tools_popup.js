@@ -31,9 +31,12 @@ twexter.tools_popup = function(config){
     this.addEvents({
 	"unchunk" : true,
         "rechunk" : true,
-        "translate": true
+        "translate": true,
+        "TranslateOptionChange": true,
+        "getSettings": true,
+        "translateButtonClick" : true
     });
-    this.init();
+    //this.init();
 };
 
 twexter.tools_popup.prototype = {
@@ -42,6 +45,7 @@ twexter.tools_popup.prototype = {
     tpl:null,
     id:'tools_popup',
     bodyId: MAIN_BODY,
+    firstSize: null,
     
     /**
      * Init Control
@@ -53,6 +57,10 @@ twexter.tools_popup.prototype = {
             this.tpl = new Ext.Template(
                 nl,
                 '<div id="{id}" class="{id}">',
+                    '<div id="{id}_type" class="{id}_type">',
+                        'Translation Type:',
+                        '<select id="{id}_sel_type"></select>',
+                    '</div>',
 		    '<div id="{id}_trans" class="{id}_trans">',
                         '<img src="/images/edittools/GoogleTranslate.gif" align="absmiddle">',
                         ':<select id="{id}_sel_trans"></select>',
@@ -73,7 +81,8 @@ twexter.tools_popup.prototype = {
                         '</div>',
                     '</div>',
                     
-                    //'<div style="clear:both;></div>"',
+                    '<div id="{id}_transbutton_div" style="float:right"><button id="{id}_transbutton">Translate</button></div>',
+                    '<div style="clear:both;></div>"',
 		    
                     '<div id="{id}_chunk_options" class="{id}_chunk_options">',
                         '<div class="chunk_both"><div>Both:</div><textarea id="{id}_chunk_both"></textarea></div>',
@@ -90,12 +99,19 @@ twexter.tools_popup.prototype = {
         });
         
         this.el = Ext.get(this.id);
+        this.comboType = Ext.get(this.id+'_sel_type');
+        this.comboType.on('click', function(e){e.stopEvent();});
         this.comboLength = Ext.get(this.id+'_chunk_len');
+        this.comboLength.on('click', function(e){e.stopEvent();});
         this.comboTrans = Ext.get(this.id+'_sel_trans');
+        this.comboTrans.on('click', function(e){e.stopEvent();});
         this.chunkOptions = Ext.get(this.id+'_chunk_options');
+        
+        this.translateButton = Ext.get(this.id+'_transbutton');
         
         //this.el.setLeft(COL_LEFT_SIZE);
         
+        this.fillTypeCombo();
         this.fillLengthCombo();
         this.fillTransCombo();
         this.fillTextBoxes();
@@ -103,6 +119,8 @@ twexter.tools_popup.prototype = {
         
         var lang = SIMPLE.getSourceLang();
         this.setLanguage(lang);
+        
+        this.fireEvent('getSettings', lang);
     },
     
     init_events: function(){
@@ -118,6 +136,11 @@ twexter.tools_popup.prototype = {
         
         this.chunkOptButt = Ext.get(this.id+'_chunk_optbutt');
         this.chunkOptButt.on('click', this.onOptButtClick, this);
+        
+        this.translateButton.on('click', function(){
+            this.fireEvent('translateButtonClick', this);
+            this.hide(true);
+        }, this);
         
        // this.comboTrans.on('change', this.onComboTransChange, this);
     },
@@ -139,6 +162,15 @@ twexter.tools_popup.prototype = {
 	    }
 	}
 	this.hide();
+    },
+    
+    fillTypeCombo: function(){
+        var types = [['text','Text'],['chucked','Chunked'],['twext','Twext']];
+        var xx = 0;
+        Ext.each(types, function(item){
+            this.comboType.dom.options[xx] = new Option(item[1], item[0], false, false);
+            xx++;
+        }, this);
     },
     
     fillLengthCombo: function(){
@@ -177,6 +209,7 @@ twexter.tools_popup.prototype = {
     },
     
     setLanguage: function(lang){
+        this.language = lang;
         this.clearTextBoxes();
         if(lang=="english"){
             this.TextAreaBefore.dom.value = ['i','your', 'are','to','under','on','at','of','you','your','as','so','my','is','too','she','he','in','by','has','each','after'].join("\n");
@@ -190,20 +223,60 @@ twexter.tools_popup.prototype = {
 	    this.el.alignTo(btn);
 	}
         this.el.show();
+        if(this.firstSize === null) this.firstSize = this.el.getHeight();
 	this.init_DocClickEvent.defer(200, this);
 	this.timestamp = new Date().getTime();
     },
     
-    hide: function(){
+    hide: function(force){
 	//Timed Protection becuase of event system wierdness
+        var f = (force===true) ? true : false;
 	var time = new Date().getTime();
-	if((time-this.timestamp)<500) return;
+	if((time-this.timestamp)<500 && f===false) return;
         this.chunkOptions.hide();
-        this.el.setHeight(100);
+        this.el.setHeight(this.firstSize);
 	this.el.setWidth(350);
         this.chunkOptButt.update("<<<");
         this.el.hide();
 	Ext.getDoc().un('click', this.onDocClick, this);
+        this.saveValuesEvent();
+    },
+    
+    saveValuesEvent: function(){
+        var type = this.comboType.getValue();
+        var trans = this.comboTrans.getValue();
+        var cwidth = this.comboLength.getValue();
+        var chunk_options = {};
+        chunk_options.both = this.TextAreaBoth.getValue();
+        chunk_options.before = this.TextAreaBefore.getValue();
+        chunk_options.after = this.TextAreaAfter.getValue();
+        
+        this.fireEvent('TranslateOptionChange', type, trans, cwidth, chunk_options, this.language);
+    },
+    
+    setOptions: function(s){
+        if(s.type) this.comboType.dom.value = s.type;
+        if(s.trans) this.comboTrans.dom.value = s.trans;
+        if(s.cwidth) this.comboLength.dom.value = s.cwidth;
+        if(Ext.type(s.options)=='object'){
+            var o = s.options;
+            /*{*/console.dir(o);/*}*/
+            if(o.both) this.TextAreaBoth.dom.value = o.both;
+            if(o.before) this.TextAreaBefore.dom.value = o.before;
+            if(o.after) this.TextAreaAfter.dom.value = o.after;
+        }
+    },
+    
+    getOptions: function(){
+        var s = {}, o = {};
+        s.type = this.comboType.getValue();
+        s.trans = this.comboTrans.getValue();
+        s.cwidth = this.comboLength.getValue();
+        o.both = this.TextAreaBoth.getValue();
+        o.before = this.TextAreaBefore.getValue();
+        o.after = this.TextAreaAfter.getValue();
+        s.options = o;
+        return s;
     },
     
     chunkingFinished: function(){
@@ -230,12 +303,12 @@ twexter.tools_popup.prototype = {
     onOptButtClick: function(){
         if(this.chunkOptions.isVisible()){
             this.chunkOptions.hide();
-            this.el.setHeight(100);
+            this.el.setHeight(this.firstSize);
 	    this.el.setWidth(350);
             this.chunkOptButt.update("<<<");
         }else{
             this.chunkOptions.show();
-            this.el.setHeight(400);
+            this.el.setHeight(450);
 	    this.el.setWidth(750);
             this.chunkOptButt.update(">>>");
         }

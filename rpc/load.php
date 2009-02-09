@@ -41,6 +41,8 @@ if(is_numeric($docid)){
 	$doc = array(
 		'title' => $doc->getTitle(),
 		'sha1' => $doc->getSha1(),
+		'parent_id' => $doc->getParentId(),
+		'parent_sha1' => $doc->getParentSha1(),
 		'created_on' => $doc->getCreationDate(),
 		'updated_on' => $doc->getUpdateDate(),
 		'description' => $doc->getDescription(),

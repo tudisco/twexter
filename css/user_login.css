@@ -2,22 +2,24 @@
 .login_form {
     z-index: 3000;
     position: absolute;
-    background-color: lightblue;
-    border: solid medium;
+    background-color: #D6D3BD;
+    border: solid medium #84794A;
+    -moz-border-radius : 4px;
+    -webkit-border-radius: 4px;
 }
 
 .login_form .title {
-    background-color: blue;
+    background-color: #84794A;
     color:white;
     padding: 3px;
     padding-left: 30px;
     font-family: sans-serif;
     font-weight: bold;
-    background: transparent url(/images/userlogin/system-users.png) 3px 1px no-repeat;
+    background: #84794A url(/images/userlogin/system-users.png) 3px 1px no-repeat;
 }
 
 .login_form .body {
-    background-color: cornsilk;
+    background-color: #D6D3BD;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;

@@ -32,7 +32,8 @@ twexter.out_tools = function(output,config){
        'font_color_change': true,
        'font_weight_change': true,
        'font_space_change': true,
-       'font_cap_change' : true
+       'font_cap_change' : true,
+       'font_align_change': true
     });
 };
 
@@ -74,6 +75,9 @@ twexter.out_tools.prototype = {
         ['Times New Roman','Times New Roman'],['Bookman','Bookman'],
         ['monospace','Monospace']
     ],
+    alignOptions: [
+        ['left', 'Left'],['center','Center'],['right','Right']  
+    ],
     
     init: function(){
         var nl = "\n";
@@ -81,20 +85,20 @@ twexter.out_tools.prototype = {
             '<div id="{id}">'+nl,
                 '<table id={id_table} align="center">'+nl,
                     '<tr>'+nl,
-                        '<th><th><th>SIZE</th><th>COLOR</th><th>SPACE</th><th>BOLD</th><th>FONT</th><th>CAPS</th>',
+                        '<th><th><th>SIZE</th><th>COLOR</th><th>SPACE</th><th>BOLD</th><th>FONT</th><th>CAPS</th><th>ALIGN</th>',
                     '</tr>'+nl,
                     '<tr>'+nl,
-                        '<th>TEXT<th><td>{textSize}</td><td>{textColor}</td><td>{textSpace}</td><td>{textBold}</td><td>{textFont}</td><td>{textCap}</td>',
+                        '<th>TEXT<th><td>{textSize}</td><td>{textColor}</td><td>{textSpace}</td><td>{textBold}</td><td>{textFont}</td><td>{textCap}</td><td>{textAlign}</td>',
                     '</tr>'+nl,
                     '<tr>'+nl,
-                        '<th>twext<th><td>{twxtSize}</td><td>{twxtColor}</td><td>{twxtSpace}</td><td>{twxtBold}</td><td>{twxtFont}</td><td>{twxtCap}</td>',
+                        '<th>twext<th><td>{twxtSize}</td><td>{twxtColor}</td><td>{twxtSpace}</td><td>{twxtBold}</td><td>{twxtFont}</td><td>{twxtCap}</td><td>{twxtAlign}</td>',
                     '</tr>'+nl,
                 '</table>'+nl,
             '</div>'+nl
         );
         
         this.select_tpl = new Ext.Template('<select id="{id}" name={id}></select>');
-        this.select_tpl.compile();
+        this.select_tpl = this.select_tpl.compile();
         
         this.tpl.append(this.body_id, {
            id:this.id,
@@ -110,7 +114,9 @@ twexter.out_tools.prototype = {
            twxtBold: this.select_tpl.apply({id:'to_twxt_bold'}),
            twxtFont: this.select_tpl.apply({id:'to_twxt_font'}),
            textCap: this.select_tpl.apply({id:'to_text_cap'}),
-           twxtCap: this.select_tpl.apply({id:'to_twxt_cap'})
+           twxtCap: this.select_tpl.apply({id:'to_twxt_cap'}),
+           textAlign: this.select_tpl.apply({id:'to_text_align'}),
+           twxtAlign: this.select_tpl.apply({id:'to_twxt_align'})
         });
         
         this.el = Ext.get(this.id);
@@ -121,7 +127,7 @@ twexter.out_tools.prototype = {
     },
     
     fillCombos: function(){
-        
+        var xx;
         //Text Size
         this.comboTextSize = Ext.get('to_text_size');
         for(var i = this.textSizeMin, x=0 ; i<=this.textSizeMax ; i++, x++){
@@ -137,7 +143,7 @@ twexter.out_tools.prototype = {
         //Color Options
         this.comboTextColor = Ext.get('to_text_color');
         this.comboTwxtColor = Ext.get('to_twxt_color');
-        var xx = 0;
+        xx = 0;
         Ext.each(this.colors, function(item){
             this.comboTextColor.dom.options[xx] = new Option(item[1], item[0], false, false);
             this.comboTwxtColor.dom.options[xx] = new Option(item[1], item[0], false, false);
@@ -185,6 +191,17 @@ twexter.out_tools.prototype = {
         
         this.comboTwxtCap.dom.options[0] = new Option('Yes', 'uppercase', false, false);
         this.comboTwxtCap.dom.options[1] = new Option('No', 'none', false, false);
+        
+        //Align Options
+        this.comboTextAlign = Ext.get('to_text_align');
+        this.comboTwxtAlign = Ext.get('to_twxt_align');
+        
+        xx = 0;
+        Ext.each(this.alignOptions, function(item){
+            this.comboTextAlign.dom.options[xx] = new Option(item[1], item[0], false, false);
+            this.comboTwxtAlign.dom.options[xx] = new Option(item[1], item[0], false, false);
+            xx++;
+        }, this);
     },
     
     init_defaults: function(){
@@ -205,6 +222,7 @@ twexter.out_tools.prototype = {
         this.comboTextFont.dom.value = textInfo.font;
         this.comboTextSize.dom.value = textInfo.size;
         this.comboTextCap.dom.value = textInfo.transform;
+        this.comboTextAlign.dom.value = textInfo.align;
         
         var twxtInfo = this.output.getChunkTwxtInfo();
         this.comboTwxtBold.dom.value = twxtInfo.weight;
@@ -213,6 +231,7 @@ twexter.out_tools.prototype = {
         this.comboTwxtSize.dom.value = twxtInfo.size;
         this.comboTwextLineSpace.dom.value = twxtInfo.space;
         this.comboTwxtCap.dom.value = textInfo.transform;
+        this.comboTwxtAlign.dom.value = textInfo.align;
     },
     
     init_events: function(){
@@ -228,6 +247,8 @@ twexter.out_tools.prototype = {
         this.comboTwextLineSpace.on('change', this.onFontSpaceChange.createDelegate(this, [this.comboTwextLineSpace, 'twxt']));
         this.comboTextCap.on('change', this.onCapChange.createDelegate(this, [this.comboTextCap, 'text']));
         this.comboTwxtCap.on('change', this.onCapChange.createDelegate(this, [this.comboTwxtCap, 'twxt']));
+        this.comboTextAlign.on('change', this.onAlignChange.createDelegate(this, [this.comboTextAlign, 'text']));
+        this.comboTwxtAlign.on('change', this.onAlignChange.createDelegate(this, [this.comboTwxtAlign, 'twxt']));
     },
     
     setVisible: function(see){
@@ -286,6 +307,15 @@ twexter.out_tools.prototype = {
         var c = (ctl == this.comboTextFont) ? 'text' : 'twxt';
         this.doStyleChange(c, e, 'font-family', val);
         this.fireEvent(e, type, val);
+    },
+    
+    onAlignChange: function(ctl, type){
+        var val = ctl.getValue();
+        this.output.setChunkStyle(type, {align:val});
+        var e = 'font_align_change';
+        var c = (ctl == this.comboTextAlign) ? 'text' : 'twxt';
+        this.doStyleChange(c,e,'text-align',val);
+        this.fireEvent(e,type,val);
     },
     
     onCapChange: function(ctl, type){
@@ -360,6 +390,10 @@ twexter.out_tools.prototype = {
             if(type==tx){ this.comboLineSpace.dom.value = val; }
             else if(type==tw){ this.comboTwextLineSpace.dom.value = val; }
             this.output.setChunkStyle(type, {space:val});
+        }else if(data == 'fontalign'){
+            if(type==tx){ this.comboTextAlign.dom.value = val; }
+            else if(type==tw){ this.comboTwxtAlign.dom.value = val; }
+            this.output.setChunkStyle(type, {align:val});
         }
     },
     

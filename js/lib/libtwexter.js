@@ -372,14 +372,16 @@ twexter.detect_chunk_style = function(text,twxt){
 		return twexter.CHUNKSTYLE_FLOW;
 	}else
 	if(!Ext.isEmpty(text) && !Ext.isEmpty(twxt)){
-		var find = '  ';
+		//NOTE: SPACE CHUNK DETECTION TURNED OFF
+		/*var find = '  ';
 		if(Ext.type(text) == 'string'){
 			if(text.indexOf(find) != -1){
 				return twexter.CHUNKSTYLE_SPACE;
 			}else{
 				return twexter.CHUNKSTYLE_XSCROLL;
 			}
-		}
+		}*/
+		return twexter.CHUNKSTYLE_XSCROLL;
 	}
 	
 }
@@ -749,7 +751,14 @@ twexter.chunker.WidthChunker.prototype = {
 		return this.finalText;
 	},
 	
-	chunkit:function(text,width){
+	chunkit:function(text,width, fromText){
+		var s = twexter.string;
+		text = s.str_replace(["\r\n", "\n\r", "\r"], "\n", text);
+		if(fromText===true){
+			text = s.str_replace("\n\n", "[+]-{+}", text);
+			text = s.str_replace("\n", "\n\n", text);
+			text = s.str_replace("[+]-{+}", "\n\n\n", text);
+		}
 		return twexter.string.wordwrap(text,width,"\n",false);
 	}
 };
