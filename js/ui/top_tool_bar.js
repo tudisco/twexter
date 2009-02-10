@@ -62,7 +62,7 @@ twexter.top_tool_bar.prototype = {
             twidth+=w;
             var x = bwidth - twidth;
             item.setX(x);
-            console.debug("Going to tes button to ",x);
+            /*{*/console.debug("Going to tes button to ",x);/*}*/
 	    if(Ext.isArray(this.buttonMargins[idx])){
 		if(this.buttonMargins[idx]['l']){
 		    twidth+=Ext.num(this.buttonMargins[idx]['l'],0);

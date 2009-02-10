@@ -739,6 +739,8 @@ twexter.editor.prototype = {
             return;
         }
         
+	var failText = "This translation attempt has failed.\nPlease try again\n\nPress F4 to try again";
+	
         var trans = new twexter.translator({
             sourceLang: sourcecode,
             targetLang: langcode,
@@ -752,11 +754,11 @@ twexter.editor.prototype = {
                 this.EditMask.hide();
                 this.EditMask = null;
                 if(!text){
-                    text = "This translation attempt has failed.\nPlease try again";
+                    text = failText;
                 }
                 if(Ext.isArray(text)){
                     if(!text[1])
-                        text[1] = "This translation attempt has failed.\nPlease try again";
+                        text[1] = failText;
                     this.setTwxt(text[1]);
                 }else{
                     this.setTwxt(text);

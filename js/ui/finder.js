@@ -583,7 +583,7 @@ twexter.finder.prototype = {
     },
     
     sizeFileList: function(){
-        console.debug("**Size Finder Timed");
+        /*{*/console.debug("**Size Finder Timed");/*}*/
         var h = this.el.getHeight();
         var y = this.el.getY();
         

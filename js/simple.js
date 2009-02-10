@@ -1487,6 +1487,8 @@ twexter.xnavui.prototype = {
 		var o = this.editor_tools.getOptions();
 		var source, type;
 		
+		var newDoc = (!this.doc_id) ? true : false;
+		
 		switch(o.type){
 			case 'text':
 				type = 'source';
@@ -1506,7 +1508,17 @@ twexter.xnavui.prototype = {
 			break
 		}
 		
-		this.onNewChildDocument2(source, type);
+		if(newDoc){
+			o.type = 'text';
+			alert("Is New Doc");
+			var left = this.editor.getText();
+			var right = this.editor.getTwxt();
+			var style = twexter.detect_chunk_style(left,right);
+			
+		}else{
+			this.onNewChildDocument2(source, type);
+		}
+		
 		
 		/*{*/console.warn("SHould be chunk width ",o.cwidth)/*}*/
 		if(o.cwidth && o.cwidth != -1 && type=='source'){

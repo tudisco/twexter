@@ -219,6 +219,15 @@ twexter.tools_popup.prototype = {
     },
     
     show: function(btn){
+	var newDoc = (!SIMPLE.doc_id) ? true : false;
+	
+	if(newDoc){
+	    //this.comboType.dom.value = 'text';
+	    this.comboType.dom.disabled = true;
+	}else{
+	    this.comboType.dom.disabled = false;
+	}
+	
 	if(btn && btn.getX){
 	    this.el.alignTo(btn);
 	}
