@@ -51,7 +51,7 @@ if(!is_numeric($docid)) $docid = 'null';
 	?>
 </script>
 
-<script type="text/javascript" src="js/lib/ext_2.2b.js"></script>
+<script type="text/javascript" src="js/lib/ext_2.2.1.js"></script>
 <!-- <script type="text/javascript" src="../javascript/ext.js"></script> -->
 <script type="text/javascript" src="js/utils/debug.js"></script>
 

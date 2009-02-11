@@ -2,7 +2,7 @@
 $base = realpath(dirname(__FILE__));
 $groupsSources = array(
     'js' => array(
-        "{$base}/js/lib/ext_2.2.js"
+        "{$base}/js/lib/ext_2.2.1.js"
         ,"{$base}/js/utils/debug.js"
         ,"{$base}/js/settings.js"
         ,"{$base}/js/utils/util.js"
