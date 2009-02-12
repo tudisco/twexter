@@ -78,6 +78,7 @@ twexter.out_tools.prototype = {
     alignOptions: [
         ['left', 'Left'],['center','Center'],['right','Right']  
     ],
+    debug: false,
     
     init: function(){
         var nl = "\n";
@@ -213,10 +214,10 @@ twexter.out_tools.prototype = {
         try{
             var textInfo = this.output.getChunkTextInfo();
         }catch(e){
-            /*{*/console.error(e.message);/*}*/
+            /*{*/if(this.debug) console.error(e.message);/*}*/
             return;
         }
-        //console.dir(textInfo);
+        //if(this.debug) console.dir(textInfo);
         this.comboTextBold.dom.value = textInfo.weight;
         this.comboTextColor.dom.value = textInfo.color;
         this.comboTextFont.dom.value = textInfo.font;
@@ -285,16 +286,16 @@ twexter.out_tools.prototype = {
     
     doStyleChange: function(side, event, name, value){
         
-        /*{*/console.dir(this.schange);/*}*/
-        /*{*/console.debug("Style change on side: ", side, " for event ", event, " (", name, ":", value, ")");/*}*/
+        /*{*/if(this.debug) console.dir(this.schange);/*}*/
+        /*{*/if(this.debug) console.debug("Style change on side: ", side, " for event ", event, " (", name, ":", value, ")");/*}*/
         
         if(Ext.type(this.schange[side]) == 'object' && Ext.isArray(this.schange[side][event])){
             Ext.each(this.schange[side][event], function(i){
-                /*{*/console.log("Updating Css Rule ", i, " with ", name, " ", value);/*}*/
+                /*{*/if(this.debug) console.log("Updating Css Rule ", i, " with ", name, " ", value);/*}*/
                 try{
                     Ext.util.CSS.updateRule(i, name, value);
                 }catch(e){
-                    /*{*/console.error(e.message);/*}*/
+                    /*{*/if(this.debug) console.error(e.message);/*}*/
                 }
             }, this);   
         }
@@ -364,7 +365,7 @@ twexter.out_tools.prototype = {
         var tx = "text";
         var tw = "twxt";
         
-        /*{*/console.info("change style "+type+' '+data+' '+val);/*}*/
+        /*{*/if(this.debug) console.info("change style "+type+' '+data+' '+val);/*}*/
         
         if(data == 'font'){
             if(type==tx) { this.comboTextFont.dom.value = val; }

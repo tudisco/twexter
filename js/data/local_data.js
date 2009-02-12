@@ -90,6 +90,7 @@ twexter.data.prototype = {
     lastRightText: '',
     gotofinder: false,
     userId: null,
+    debug: false,
     
     /**
      * Creates the local store
@@ -130,7 +131,7 @@ twexter.data.prototype = {
         
         /**var stepForwardl = false, stepForwardr = false;
         var left, right;
-        console.debug('Loading Doc');
+        if(this.debug) console.debug('Loading Doc');
         
         this.store.get('editor_text_left', function(ok,val){
             if(ok){
@@ -147,7 +148,7 @@ twexter.data.prototype = {
         },this);
         
         while(!stepForwardl || !stepForwardr){
-            console.debug('wait...');
+            if(this.debug) console.debug('wait...');
         }
         
         if(Ext.type(left)=='string' || Ext.type(right)=='string'){
@@ -202,7 +203,7 @@ twexter.data.prototype = {
         type = this.fixType(type);
         var key = 'font_'+type;
         this.store.set(key, font);
-        /*{*/console.info("Saved font change (%s: %s)", key, font);/*}*/
+        /*{*/if(this.debug) console.info("Saved font change (%s: %s)", key, font);/*}*/
     },
     
     /**
@@ -212,7 +213,7 @@ twexter.data.prototype = {
         type = this.fixType(type);
         var key = 'fontsize_'+type;
         this.store.set(key, size);
-        /*{*/console.info("Saved font size (%s: %s)", key, size);/*}*/
+        /*{*/if(this.debug) console.info("Saved font size (%s: %s)", key, size);/*}*/
     },
     
     /**
@@ -222,7 +223,7 @@ twexter.data.prototype = {
         type = this.fixType(type);
         var key = 'fontcolor_'+type;
         this.store.set(key, color);
-        /*{*/console.info("Saved font color (%s: %s)", key, color);/*}*/
+        /*{*/if(this.debug) console.info("Saved font color (%s: %s)", key, color);/*}*/
     },
     
     /**
@@ -232,7 +233,7 @@ twexter.data.prototype = {
         type = this.fixType(type);
         var key = "fontweight_"+type;
         this.store.set(key, weight);
-        /*{*/console.info("Saved font weight (%s: %s)", key, weight);/*}*/
+        /*{*/if(this.debug) console.info("Saved font weight (%s: %s)", key, weight);/*}*/
     },
     
     /**
@@ -242,7 +243,7 @@ twexter.data.prototype = {
         type = this.fixType(type);
         var key = "fontspace_"+type;
         this.store.set(key, space);
-        /*{*/console.info("Saved font space (%s: %s)", key, weight);/*}*/
+        /*{*/if(this.debug) console.info("Saved font space (%s: %s)", key, weight);/*}*/
     },
     
     /**
@@ -252,7 +253,7 @@ twexter.data.prototype = {
         type = this.fixType(type);
         var key = "fontalign_"+type;
         this.store.set(key, align);
-        /*{*/console.info("Saved font align (%s: %s)", key, align);/*}*/
+        /*{*/if(this.debug) console.info("Saved font align (%s: %s)", key, align);/*}*/
     },
     
     /**
@@ -285,7 +286,7 @@ twexter.data.prototype = {
             this.store.clear('fontalign_'+i);
         }, this);
         
-        /*{*/console.log('all output toolbar options cleaned from local data');/*}*/
+        /*{*/if(this.debug) console.log('all output toolbar options cleaned from local data');/*}*/
     },
     
     /**
@@ -294,7 +295,7 @@ twexter.data.prototype = {
     sendDataOutToolbar: function(outToolbar){
         var t = ['text','twxt'];
         var o = ['font', 'fontsize', 'fontcolor', 'fontweight', 'fontspace', 'fontalign'];
-        /*{*/console.group("Loading default toolbar options");/*}*/
+        /*{*/if(this.debug) console.group("Loading default toolbar options");/*}*/
         
         var text_style = '.chunk .text';
         var twxt_style = '.chunk .twext';
@@ -304,20 +305,20 @@ twexter.data.prototype = {
             var ty = (i=='text') ? '.text' : '.twext';
             var cur = Ext.util.CSS.getRule('.chunk '+ty);
             if(Ext.isEmpty(cur)){
-                /*{*/console.warn("No style found for: .chunk "+ty); /*}*/   
+                /*{*/if(this.debug) console.warn("No style found for: .chunk "+ty); /*}*/   
                 return;
             }
             var sc = 0;
             Ext.each(o, function(x){
                 var tmp = cur.style[s[sc]];
-                /*{*/console.debug("--Local Data Defualt: ", x+'_'+i, ' ', tmp);/*}*/
+                /*{*/if(this.debug) console.debug("--Local Data Defualt: ", x+'_'+i, ' ', tmp);/*}*/
                 outToolbar.setData(i, x, this.store.get(x+'_'+i, tmp));
                 tmp = null;
                 sc++;
             }, this);
         }, this);
         
-        /*{*/console.groupEnd();/*}*/
+        /*{*/if(this.debug) console.groupEnd();/*}*/
         
         //** Obsolete **//
         /**Ext.each(t, function(i){
@@ -328,7 +329,7 @@ twexter.data.prototype = {
             },this);
         },this);**/
         
-        /*{*/console.debug("done");/*}*/
+        /*{*/if(this.debug) console.debug("done");/*}*/
     },
     
     /**
@@ -344,17 +345,17 @@ twexter.data.prototype = {
         //** Obsolete, Need to Fix.. Maybe Flash? **//
         //this.store.set('editor_text_left', left);
         //this.store.set('editor_text_right', right);
-        //console.debug("saved editor");
+        //if(this.debug) console.debug("saved editor");
     },
     
     setTranslationOptions: function(type,trans,chunkwidth,chunkoptions,lang){
-        /*{*/console.log("Setting Tranlsation Option With Language Setting: "+lang);/*}*/
+        /*{*/if(this.debug) console.log("Setting Tranlsation Option With Language Setting: "+lang);/*}*/
         var s = this.store;
         var b = 'trnsl_';
         var l = lang;
         /*{*/
-            console.dir(chunkoptions);
-            console.log(b+'co'+lang);
+            if(this.debug) console.dir(chunkoptions);
+            if(this.debug) console.log(b+'co'+lang);
             
         /*}*/
         s.set(b+'type', type);
@@ -367,7 +368,7 @@ twexter.data.prototype = {
     },
     
     getTranslationOptions: function(lang){
-        /*{*/console.log("Getting Tranlsation Option With Language Setting: "+lang);/*}*/
+        /*{*/if(this.debug) console.log("Getting Tranlsation Option With Language Setting: "+lang);/*}*/
         var b = 'trnsl_';
         var o = {};
         var s = this.store;
@@ -396,10 +397,10 @@ twexter.data.prototype = {
     },
     
     saveEditorUndo: function(left,right){
-          /*{*/console.log('Saving Undo Info.');/*}*/
+          /*{*/if(this.debug) console.log('Saving Undo Info.');/*}*/
         if(this.applyUndo){
             this.applyUndo=false;
-            console.log("Apply Undo");
+            /*{*/if(this.debug) console.log("Apply Undo");/*}*/
             return;
         }
         var s = this.makeXscroll(left, right);
@@ -420,18 +421,18 @@ twexter.data.prototype = {
             if(this.editor_undo.length > 25){
                 this.editor_undo.shift();
             }
-            /* console.dir(this.editor_undo); */
+            /* if(this.debug) console.dir(this.editor_undo); */
         }
         
     },
     
     doUndo: function(left,right){
-         /*{*/console.log('Doing UNDO.');/*}*/
+         /*{*/if(this.debug) console.log('Doing UNDO.');/*}*/
         if(this.editor_undo.length < 1){
-            /*{*/console.log('NO UNDOs.');/*}*/
+            /*{*/if(this.debug) console.log('NO UNDOs.');/*}*/
             return false;
         }
-        /*console.dir(this.editor_undo);*/
+        /*if(this.debug) console.dir(this.editor_undo);*/
         
         var ct = twexter.detect_chunk_style(left,right);
         var s = this.makeXscroll(left,right,ct);

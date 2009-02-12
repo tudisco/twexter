@@ -44,7 +44,7 @@ if($authSession->login && !empty($key) && $authSession->userID==$userid){
         if($res!=null){
             $res = $res->toArray();
         }
-        $data = array('success'=>true, 'settings'=>$res);
+        $data = array('success'=>true, 'setting'=>$res);
     }
     
     echo json_encode($data);

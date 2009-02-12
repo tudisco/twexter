@@ -39,9 +39,10 @@ twexter.out.prototype = {
 	chunkClass: 'chunk',
 	paraClass: 'para-break',
 	tpl_metrics: '<div class="{chunkClass}"><div id="metrics_text" class="text" style="display:none">&nbsp;</div></div>',
+	debug: false,
 	
 	init: function(){
-		/*{*/console.info("loading output");/*}*/
+		/*{*/if(this.debug) console.info("loading output");/*}*/
 		var tpl = new Ext.Template(this.tpl);
 		tpl.append(this.bodyId, {oid:this.id,oclass:this.className});
 		this.el = Ext.get(this.id);
@@ -71,7 +72,7 @@ twexter.out.prototype = {
 	calculateFontSpace: function(){
 		var m = Ext.util.TextMetrics.createInstance('metrics_text');
 		var w = m.getWidth('&nbsp;');
-		/*{*/console.info("Text Space Width: %s",w);/*}*/
+		/*{*/if(this.debug) console.info("Text Space Width: %s",w);/*}*/
 		Ext.util.CSS.updateRule('.'+this.chunkClass, 'padding-right', w+'px');
 	},
 	
@@ -202,7 +203,7 @@ twexter.out.prototype = {
 		if(obj.weight){
 			if(obj && Ext.type(obj.weight) == 'string'){
 				if(obj.weight != 'normal' && obj.weight != 'bold'){
-					/*{*/console.log("!!! obj.weight = "+obj.weight);/*}*/
+					/*{*/if(this.debug) console.log("!!! obj.weight = "+obj.weight);/*}*/
 					tmp = 'normal';
 				}else{
 					tmp = obj.weight;

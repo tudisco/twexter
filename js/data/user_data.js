@@ -33,6 +33,8 @@ twexter.user_data = function(config){
 twexter.user_data.prototype = {
     
     userid: null,
+    settings: {},
+    debug: true,
     
     init: function(){
         
@@ -40,9 +42,65 @@ twexter.user_data.prototype = {
     
     setUserId: function(id){
         this.userid = id;
+    },
+    
+    getAll: function(){
+        var ajaxObj = {
+            url: "/rpc/getusersetting.php",
+            success: this.getAllSuccess,
+            failure: this.getAllFail,
+            scope: this,
+            params: {userid:this.userid,key:"*ALL*"}
+        };
+        
+        Ext.Ajax.request(ajaxObj);
+    },
+    
+    getAllSuccess: function(rep){
+        try{
+            var text = rep.responseText;
+            var resp = Ext.decode(text);
+            if(resp.success == true){
+                Ext.each(resp.settings, function(i){
+                    /*{*/if(this.debug) console.log("User setting %s is\n %s", i.key,i.value);/*}*/
+                    this.settings[i.key] = i.value;
+                }, this);
+            }else{
+                throw resp.message;
+            }
+            
+        }catch(e){
+            alert("There was an error getting user settings: "+e);
+        }
+        
+        
+    },
+    
+    getAllFail: function(){
+        alert("Could not get user settings");
+    },
+    
+    set: function(key,value,callback,scope){
+        
+    },
+    
+    get: function(key,callback,scope,remoteCheck){
+        var value;
+        if(Ext.type(callback)!="function") return;
+        if(this.settings[key]){
+            if(scope){
+                callback.call(scope,value);
+            }else{
+                callback(value);
+            }
+        }else if(remoteCheck){
+            
+        }
+    },
+    
+    getRemoteValue: function(key,callback,scope){
+        
     }
-    
-    
     
 };
 

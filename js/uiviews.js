@@ -21,6 +21,7 @@ twexter.uiviews.prototype = {
     resizeTask: false,
     margins: {},
     currentlyWorking: false,
+    debug:false,
     
     init: function(){
         Ext.EventManager.onWindowResize(this.onResize, this);
@@ -65,7 +66,7 @@ twexter.uiviews.prototype = {
     },
     
     setView: function(view){
-        /*{*/console.info("Setting view to "+view);/*}*/
+        /*{*/if(this.debug) console.info("Setting view to "+view);/*}*/
         if(view == null || this.currentView==view) return false;
         if(view != 'finder') Ext.History.add('uiview:'+view);
         this.currentView = view;
@@ -81,9 +82,9 @@ twexter.uiviews.prototype = {
     },
     
     onResizeDelayed: function(){
-        /*{*/console.time("PositionTime")/*}*/
+        /*{*/if(this.debug) console.time("PositionTime")/*}*/
         this.positionControls();
-        /*{*/console.timeEnd("PositionTime");/*}*/
+        /*{*/if(this.debug) console.timeEnd("PositionTime");/*}*/
     },
     
     doResize: function(){
@@ -94,19 +95,21 @@ twexter.uiviews.prototype = {
 	if(this.currentlyWorking) return;
 	this.currentlyWorking = true;
 	
-        /*{*/console.debug("Going to position controls");/*}*/
+        /*{*/if(this.debug) console.debug("Going to position controls");/*}*/
         var view_name = this.currentView;
         var view = this.views[view_name];
         var gview = this.views.always;
         
         if(Ext.type(view)!='object' || Ext.type(gview)!='object'){
             /*{*/
-                console.trace();
-                console.log("The View is: "+this.currentView);
-                console.log("View:");
-                console.dir(view);
-                console.log("GView:");
-                console.dir(gview);
+                if(this.debug) {
+		    console.trace();
+		    console.log("The View is: "+this.currentView);
+		    console.log("View:");
+		    console.dir(view);
+		    console.log("GView:");
+		    console.dir(gview);
+		}
             /*}*/
             throw "General View or View is not an object";
         }
@@ -126,17 +129,17 @@ twexter.uiviews.prototype = {
         
         Ext.applyIf(view, gview);
         
-        /*{*/console.dir(view);/*}*/
+        /*{*/if(this.debug) console.dir(view);/*}*/
         
         for (var v in view){
             if(Ext.type(this.ctrls[v])=='object'){
                 this.currentControlName = v;
-                /*{*/console.group("Positioning "+v);/*}*/
+                /*{*/if(this.debug) console.group("Positioning "+v);/*}*/
                 var ctrl = this.ctrls[v]
                 var vs = view[v];
                 var vs_type = Ext.type(vs);
                 if(vs_type=='string'){
-                    /*{*/console.debug('going to show control');/*}*/
+                    /*{*/if(this.debug) console.debug('going to show control');/*}*/
                     ctrl.show();
                     this.posCtrlString(ctrl, vs);
                 }else if(vs_type=='object'){
@@ -144,7 +147,7 @@ twexter.uiviews.prototype = {
                 }else if(vs_type=='array'){
                     
                 }
-                /*{*/console.groupEnd();/*}*/
+                /*{*/if(this.debug) console.groupEnd();/*}*/
             }
         }
         this.currentControlName = '';
@@ -154,53 +157,53 @@ twexter.uiviews.prototype = {
     },
     
     posCtrlString: function(ctrl, str){
-        /*{*/console.assert(Ext.type(str)=='string', "Type is not a string.");/*}*/
+        /*{*/if(this.debug) console.assert(Ext.type(str)=='string', "Type is not a string.");/*}*/
         var el = ctrl.getEl();
         var m = {},x=0;
         
-        /*{*/console.group("Postion ctrl with string");/*}*/
+        /*{*/if(this.debug) console.group("Postion ctrl with string");/*}*/
         
         if(Ext.type(this.margins[this.currentControlName])=='object'){
             m = this.margins[this.currentControlName];
         }
         
         if(str.indexOf('t')!=-1){
-            /*{*/console.debug("Setting Top to 0");/*}*/
+            /*{*/if(this.debug) console.debug("Setting Top to 0");/*}*/
             x = (m.t) ? m.t : 0; 
             ctrl.setTop ? ctrl.setTop(x) : el.setTop(x);
         }
         
         if(str.indexOf('r')!=-1){
-            /*{*/console.debug("Setting Right to 0");/*}*/
+            /*{*/if(this.debug) console.debug("Setting Right to 0");/*}*/
             x = (m.r) ? m.r : 0; 
             ctrl.setRight ? ctrl.setRight(x) : el.setRight(x);
         }
         
         if(str.indexOf('l')!=-1){
-            /*{*/console.debug("Setting Left to 0");/*}*/
+            /*{*/if(this.debug) console.debug("Setting Left to 0");/*}*/
             x = (m.l) ? m.l : 0; 
             ctrl.setLeft ? ctrl.setLeft(x) : el.setLeft(x);
         }
         
         if(str.indexOf('b')!=-1){
-            /*{*/console.debug("Setting Bottom to 0");/*}*/
+            /*{*/if(this.debug) console.debug("Setting Bottom to 0");/*}*/
             x = (m.b) ? m.b : 0;
             ctrl.setBottom ? ctrl.setBottom(x) : el.setBottom(x);
         }
         
-        /*{*/console.groupEnd();/*}*/
+        /*{*/if(this.debug) console.groupEnd();/*}*/
     },
     
     posCtrlObject: function(ctrl, obj){
-        /*{*/console.group("Postion ctrl with object");/*}*/
+        /*{*/if(this.debug) console.group("Postion ctrl with object");/*}*/
         
         //first check is visible
         if(obj.visible!=undefined){
             if(obj.visible===true){
-                /*{*/console.debug("Going to show control");/*}*/
+                /*{*/if(this.debug) console.debug("Going to show control");/*}*/
                 ctrl.show();
             }else{
-                /*{*/console.debug("Going to hide control");/*}*/
+                /*{*/if(this.debug) console.debug("Going to hide control");/*}*/
                 ctrl.hide();
             }
         }
@@ -210,43 +213,43 @@ twexter.uiviews.prototype = {
         if(obj.dock){
             if(obj.dock == 'c'){
                 if(this.toolbar2space===true){
-                    /*{*/console.debug("Making room for 2nd tool bar");/*}*/
+                    /*{*/if(this.debug) console.debug("Making room for 2nd tool bar");/*}*/
                     ctrl.setTop ? ctrl.setTop(OUT_POS_TOP) : el.setTop(OUT_POS_TOP);
                 }else{
-                    /*{*/console.debug("No second tool bar");/*}*/
+                    /*{*/if(this.debug) console.debug("No second tool bar");/*}*/
                     ctrl.setTop ? ctrl.setTop(OUT_POS_TOP_FULL) : el.setTop(OUT_POS_TOP_FULL);
                 }
                 
                 if(!obj.part) obj.part='all';
                 if(obj.part == 'all'){
-                    /*{*/console.debug("Docking to client full");/*}*/
+                    /*{*/if(this.debug) console.debug("Docking to client full");/*}*/
                     ctrl.setLeft ? ctrl.setLeft(COL_LEFT_SIZE) : el.setLeft(COL_LEFT_SIZE);
                     ctrl.setRight ? ctrl.setRight(OUT_POS_MARGIN) : el.setRight(OUT_POS_MARGIN);
                 }else if(obj.part=='r'){
-                    /*{*/console.debug("Docking to client right");/*}*/
+                    /*{*/if(this.debug) console.debug("Docking to client right");/*}*/
                     var left = ((bwidth-COL_LEFT_SIZE)/2)+COL_LEFT_SIZE;
                     ctrl.setLeft ? ctrl.setLeft(left) : el.setLeft(left);
 		    ctrl.setRight ? ctrl.setRight(OUT_POS_MARGIN) : el.setRight(OUT_POS_MARGIN);
                 }else if(obj.part=='l'){
-                    /*{*/console.debug("Docking to client left");/*}*/
+                    /*{*/if(this.debug) console.debug("Docking to client left");/*}*/
                     right = ((bwidth-COL_LEFT_SIZE)/2)+10;
 		    ctrl.setRight ? ctrl.setRight(right) : el.setRight(right);
 		    ctrl.setLeft ? ctrl.setLeft(COL_LEFT_SIZE) : el.setLeft(COL_LEFT_SIZE);
-                    /*{*/console.debug("setting right "+right+" and left "+COL_LEFT_SIZE);/*}*/
+                    /*{*/if(this.debug) console.debug("setting right "+right+" and left "+COL_LEFT_SIZE);/*}*/
                 }
                 
                 ctrl.setBottom ? ctrl.setBottom(this.bottomMargin) : el.setBottom(this.bottomMargin);
-                /*{*/console.debug("set bottom to: "+this.bottomMargin);/*}*/
+                /*{*/if(this.debug) console.debug("set bottom to: "+this.bottomMargin);/*}*/
                 
             }else if(obj.dock == 'tr2'){
-                /*{*/console.debug("Docking to menu bar 2");/*}*/
+                /*{*/if(this.debug) console.debug("Docking to menu bar 2");/*}*/
                 ctrl.setTop ? ctrl.setTop(OUT_POS_TOP_FULL) : el.setTop(OUT_POS_TOP_FULL);
                 if(!obj.align) obj.align = 'l';
                 if(obj.align=='l'){
-                    /*{*/console.debug("Aligning Left");/*}*/
+                    /*{*/if(this.debug) console.debug("Aligning Left");/*}*/
                     ctrl.setLeft ? ctrl.setLeft(COL_LEFT_SIZE) :  el.setLeft(COL_LEFT_SIZE);
                 }else if(obj.align == 'r'){
-                    /*{*/console.debug("Aligning Right");/*}*/
+                    /*{*/if(this.debug) console.debug("Aligning Right");/*}*/
                     ctrl.setRight ? ctrl.setRight(10) : el.setRight(10);
                 }
             }else if(obj.dock == 'tr'){
@@ -272,7 +275,7 @@ twexter.uiviews.prototype = {
                     x = (m.l) ? m.l : 0;
                     ctrl.setLeft ? ctrl.setLeft(x) : el.setLeft(x);
                 }else{
-                    /*{*/console.debug("Setting Bottom and left to 0");/*}*/
+                    /*{*/if(this.debug) console.debug("Setting Bottom and left to 0");/*}*/
                     ctrl.setBottom ? ctrl.setBottom(0) : el.setBottom(0);
                     ctrl.setLeft ? ctrl.setLeft(0) : el.setLeft(0);
                 }
@@ -282,18 +285,18 @@ twexter.uiviews.prototype = {
         if(obj.callafter){
             if(Ext.type(obj.callafter)=='string'){
                 if(Ext.type(ctrl[obj.callafter])=='function'){
-                    /*{*/console.debug("Going to call method "+obj.callafter);/*}*/
+                    /*{*/if(this.debug) console.debug("Going to call method "+obj.callafter);/*}*/
                     try{
                         ctrl[obj.callafter].call(ctrl);
                     }catch(e){
-                       /*{*/console.error("Function could not be called");/*}*/
+                       /*{*/if(this.debug) console.error("Function could not be called");/*}*/
                     }
                     
                 }
             }
         }
     
-        /*{*/console.groupEnd();/*}*/
+        /*{*/if(this.debug) console.groupEnd();/*}*/
     },
     
     posCtrlArray: function(ctrl, arr){
