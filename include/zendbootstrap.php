@@ -192,4 +192,19 @@ class dbDocumentComments extends Zend_Db_Table_Abstract
             parent::_setupDatabaseAdapter();
     }
 }
+
+/**
+ * User Settings DB
+ */
+class dbUserSettings extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'user_settings';
+    protected $_primary = 'id';
+    protected $_sequence = true;
+    
+    protected function _setupDatabaseAdapter(){
+            $this->_db = self::_setupAdapter('dbTwext');
+            parent::_setupDatabaseAdapter();
+    }
+}
 ?>
