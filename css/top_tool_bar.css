@@ -1,6 +1,7 @@
 .top_menu {
     z-index: 550;
     position: absolute;
+    cursor: pointer;
 }
 
 .topButtonHi {
