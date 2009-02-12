@@ -81,7 +81,7 @@ twexter.savedlg.prototype = {
         this.form_cancel_button.on('click', this.onCancel, this);
         this.el.addKeyListener(Ext.EventObject.ESC, this.onCancel, this);
 	this.form_save_button.on('click', this.onSave, this);
-	
+	this.el.addKeyListener(Ext.EventObject.ENTER, this.onSave, this);
         //Comment this out so titles are editable
 	//this.form_title.on('focus', this.onTitleFocus, this);
     },
