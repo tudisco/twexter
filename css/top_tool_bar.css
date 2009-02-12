@@ -6,11 +6,12 @@
 .topButtonHi {
     color: #FFFFFF;
     background-color: grey;
+    cursor: pointer;
 }
 
 .TopFindButton{
     cursor: pointer;
-    width: 75px;
+    width: 65px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -25,7 +26,7 @@
 
 .TopNewButton {
     cursor: pointer;
-    width: 75px;
+    width: 65px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -40,7 +41,7 @@
 
 .TopPrintButton {
     cursor: pointer;
-    width: 75px;
+    width: 65px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -55,7 +56,7 @@
 
 .TopEditButton {
     cursor: pointer;
-    width: 75px;
+    width: 65px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -70,7 +71,7 @@
 
 .TopStyleButton {
     cursor: pointer;
-    width: 75px;
+    width: 65px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -85,7 +86,7 @@
 
 .TopTransButton {
     cursor: pointer;
-    width: 100px;
+    width: 90px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -100,7 +101,7 @@
 
 .TopHelpButton {
     cursor: pointer;
-    width: 100px;
+    width: 90px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;
@@ -115,7 +116,7 @@
 
 .TopViewButton {
     cursor: pointer;
-    width: 75px;
+    width: 65px;
     height: 20px;
     font-family: sans-serif;
     font-weight: bolder;

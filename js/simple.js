@@ -1133,6 +1133,7 @@ twexter.xnavui.prototype = {
 		
 		//send id to controls that need it
 		this.comments.setUserId(this.user_id);
+		this.data.setUserId(this.user_id);
 	},
 	
 	/**

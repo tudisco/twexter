@@ -89,12 +89,21 @@ twexter.data.prototype = {
     lastLeftText: '',
     lastRightText: '',
     gotofinder: false,
+    userId: null,
     
     /**
      * Creates the local store
     */
     init: function(){
         this.store = new Ext.state.CookieProvider();
+    },
+    
+    setUserId: function(id){
+        this.userId = id;
+    },
+    
+    serRemoteUserSetting: function(key, value){
+        
     },
     
     /**
