@@ -296,12 +296,13 @@ twexter.xnavui.prototype = {
 		this.editor_bar.on('translate_click', this.onEditorTools, this);
 		this.editor_bar.on('print_doc', this.onPrintDoc, this);
 		this.editor_bar.on('urllink_change', function(url){
+			this.doc_url = url;
 			this.urlDisplay.clearUrl();
 			this.urlDisplay.setUrl(url);
-			this.doc_url = url;
-			if(this.uiviews.setView('doc_url')){
+			//Moving to preview cuased a confusion on save so I am turing it off.
+			/*if(this.uiviews.setView('doc_url')){
 				this.uiviews.positionControls();
-			}
+			}*/
 			this.setMenuSelStyle(null);
 		}, this);
 		
@@ -1291,6 +1292,7 @@ twexter.xnavui.prototype = {
 		}
 		finally{
 			this.savedlg.saveCompleted(false);
+			this.finddlg.store.reload();
 		}
 		
 	},

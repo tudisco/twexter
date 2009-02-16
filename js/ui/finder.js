@@ -116,8 +116,8 @@ twexter.finder.prototype = {
                 '</tpl>',
                 '<div class="x-clear"></div>',
                 {
-                    uTubeRule1: /youtube\.com\/v\/([^&]+)/i,
-                    uTubeRule2: /youtube\.com\/watch\?v=([^&]+)/i,
+                    uTubeRule1: /youtube\.com\/v\/([^&#]+)/i,
+                    uTubeRule2: /youtube\.com\/watch\?v=([^&#]+)/i,
                     uTubeImage: "<img class=\"__img_l\" align=\"left\" hspace=\"5\" src=\"/thumb.php?src=http://i1.ytimg.com/vi/**ID**/1.jpg&x=100&y=100&f=0\" />",
                     imageRule: /^(http\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/\S*)?(?:[a-zA-Z0-9_])+\.(?:jpg|jpeg|gif|png))$/i,
                     imageThumb: "<img class=\"__img_l\" align=\"left\" hspace=\"5\" src=\"/thumb.php?src=**IMG**&x=100&y=100&f=0\" />",

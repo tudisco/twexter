@@ -293,12 +293,14 @@ twexter.editor.prototype = {
         if(mode == 1){
             this.TextAreaLeft.hide();
             this.td_left.hide();
-            this.td_left.setWidth("1%");
+            this.td_left.setWidth("0%");
             this.td_right.setWidth("100%");
+	    this.hideLeft = true;
         }else{
             if(vis){
                 this.TextAreaLeft.show();
                 this.td_left.show();
+		this.hideLeft = false;
             }
             this.td_left.setWidth("50%");
             this.td_right.setWidth("50%");
@@ -316,7 +318,8 @@ twexter.editor.prototype = {
             this.el.show();
             this.td_left.show();
             this.td_right.show();
-            this.TextAreaLeft.show();
+            if(this.hideLeft === false) this.TextAreaLeft.show();
+	    else this.TextAreaLeft.hide();
             this.TextAreaRight.show();
             //this.el.fadeIn();
         }else{
