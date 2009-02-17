@@ -221,10 +221,27 @@ twexter.editor.prototype = {
      * Switch Text Edit to Twxt Edit and Twxt to Text Editor
      */
     switchSides: function(){
-        var tmp = this.getText();
+        /*var tmp = this.getText();
         this.setText(this.getTwxt());
         this.setTwxt(tmp);
-        this.fireEditChange();
+        this.fireEditChange();*/
+	var tx, tw;
+	tx = this.getText();
+	tw = this.getTwxt();
+	switch(twexter.detect_chunk_style(tx,tw)){
+	    case twexter.CHUNKSTYLE_XSCROLL:
+		var tmp = this.getText();
+		this.setText(this.getTwxt());
+		this.setTwxt(tmp);
+	    break;
+	    case twexter.CHUNKSTYLE_FLOW:
+		var s = twexter.flowchunk_to_struct(tw);
+		var tw2 = twexter.struct_to_xscrollchunk(s);
+		s = twexter.parse_into_struct(tw2[1], tw2[0]);
+		var nfc = twexter.struct_to_flowchunk(s);
+		this.setTwxt(nfc);
+	    break;
+	}
     },
     
     
