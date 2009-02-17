@@ -346,7 +346,7 @@ twexter.url_link_display.prototype = {
                 frameborder: 0
             });
             elf.dom.src = url;*/
-            elf.show();
+            //elf.show();
             this.pos_iframe.defer(1000,this);
             
             this.el_autoscroll = Ext.get('ut_auto_scroll');
