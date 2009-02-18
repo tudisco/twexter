@@ -106,14 +106,40 @@ twexter.xnavui.prototype = {
 		//Cuasing to many errors
 		//this.init_finder();
 		
-		this.uiviews.positionControls();
+		
 		
 		if(USER_LOGED_IN){
 			this.onUserAuth(null, USER_DATA.userid, USER_DATA.name_first, USER_DATA.name_last);
 		}
 		
+		if(!this.finddlg){
+			
+			//Do not need to log in to get to finder.
+			//if(!this.user_id || this.user_id === 0 || Ext.isEmpty(this.user_id)){
+			//	/*{*/console.info("User not logged on. Need to be logged on to save: "+this.user_id);/*}*/
+			//	this.callAfterLogin = this.onXright;
+			//	this.onUserLogin();
+			//	return;
+			//}
+			
+			/*{*/console.debug("Loading Find Dialog");/*}*/
+			
+			if(this.user_id){
+				this.finddlg = new twexter.finder({user_id:this.user_id});
+			}
+			else{
+				this.finddlg = new twexter.finder();
+			}
+			this.uiviews.addCtrl('finder', this.finddlg);
+			//this.finddlg.on('hidden', this.onFindDlgHidden, this);
+			this.finddlg.on('document_selected', this.onLoadDocument, this);
+			this.finddlg.init();
+		}
+		
 		if(this.data.gotofinder === true){
 			this.xbutton.setButtonState('r', 1);
+		}else{
+			this.uiviews.positionControls();
 		}
 		
 		//Load Google Language API
