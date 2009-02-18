@@ -89,6 +89,9 @@ twexter.editor_tools.prototype = {
         this.init_events();
         
         this.fillLangCombos();
+	
+	this.linkInput.setWidth(300);
+        this.linkInput.show();
     },
     
     init_events: function(){
@@ -103,6 +106,7 @@ twexter.editor_tools.prototype = {
         //this.printButton = Ext.get(this.id_print);
         this.linkButton = Ext.get(this.id_linkbutt);
         this.linkInput = Ext.get(this.id_linkinput);
+	
         
         //this.buttNewDoc.on('click', this.onNewDocClick, this);
         this.buttSaveDoc.on('click', this.onSaveDocClick, this);
@@ -112,7 +116,7 @@ twexter.editor_tools.prototype = {
         this.comboRightLang.on('change', this.onLangChange, this);
         this.switchButton.on('click', this.onLangSwitch, this);
         //this.printButton.on('click', this.onPrint, this);
-        this.linkButton.on('click', this.onLinkButt, this);
+        //this.linkButton.on('click', this.onLinkButt, this);
         this.linkInput.on('change', this.onInputChange, this);
         
         if(Ext.isIE){
@@ -136,6 +140,7 @@ twexter.editor_tools.prototype = {
     setVisible: function(see){
         if(see){
             this.el.show();
+	    this.linkInput.show();
         }else{
             this.el.hide();
             this.linkInput.hide();

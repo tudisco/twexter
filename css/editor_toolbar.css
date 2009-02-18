@@ -28,10 +28,9 @@
 }
 
 #edit_toolbar #linkinput {
-    display:none;
-    width: 0px;
+    width: 300px;
     float: left;
-    margin-left: 10px;
+    margin-left: 3px;
 }
 
 /*#edit_toolbar #pref {*/
