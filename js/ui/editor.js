@@ -804,7 +804,7 @@ twexter.editor.prototype = {
             break;
             case twexter.CHUNKSTYLE_FLOW:
                 /*{*/console.info("Translating Flow");/*}*/
-                trans.setText(twexter.flowchunk_to_struct(this.getTwxt(), false), 'flow');
+                trans.setText(twexter.flowchunk_to_struct(this.getTwxt(), false), 'chunk');
             break;
             default:
                 /*{*/console.info("Translating Unknown");/*}*/

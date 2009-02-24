@@ -121,3 +121,35 @@
     background-color: white;
     border: solid 1px black;
 }
+
+.edit_toolbar_sep {
+    height:22px;
+    width: 1px;
+    background-color: grey;
+    margin-left: 10px;
+    margin-right: 10px;
+    z-index: 102;
+    display: none;
+}
+
+.edit_toolbar_tab_preview {
+    position: absolute;
+    height:22px;
+    display: none;
+    z-index: 103;
+}
+
+.edit_toolbar_tab_youtube {
+    position: absolute;
+    height:22px;
+    display: none;
+    z-index: 104;
+}
+
+.edit_toolbar_tab_trans {
+    position: absolute;
+    height:22px;
+    display: none;
+    z-index: 105;
+}
+

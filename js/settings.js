@@ -76,7 +76,8 @@ VIEW_STATES = {
         urldisplay: {visible: false},
         editor: {visible: false},
         stylecontrol: {visible: false},
-        comments: {visible: false}
+        comments: {visible: false},
+        transout: {visible: false}
     },
     doc_nourl:{
         settings: {topbar2space:false},
@@ -113,6 +114,21 @@ VIEW_STATES = {
         urldisplay: {visible: false},
         editortools: {visible: true, dock:'tr2', align:'l'},
         editor: {visible: true, dock:'c', part:'all', callafter:'positionEditors'}
+    },
+    edit_with_url: {
+        settings: {topbar2space:true},
+        output: {visible:false},
+        urldisplay: {visible: true, dock: 'c', part:'r',callafter:'pos_iframe'},
+        editortools: {visible: true, dock:'tr2', align:'l'},
+        editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}
+    },
+    edit_with_trans: {
+        settings: {topbar2space:true},
+        output: {visible:false},
+        urldisplay: {visible: false},
+        editortools: {visible: true},
+        transout: {visible: true, dock: 'c', part:'r'},
+        editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}  
     },
     finder: {
         settings: {topbar2space:false},

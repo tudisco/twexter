@@ -374,16 +374,15 @@ twexter.detect_chunk_style = function(text,twxt){
 		return twexter.CHUNKSTYLE_FLOW;
 	}else
 	if(!Ext.isEmpty(text) && !Ext.isEmpty(twxt)){
-		//NOTE: SPACE CHUNK DETECTION TURNED OFF
-		/*var find = '  ';
+		//NOTE: SPACE CHUNK DETECTION TURNED back on
+		var find = '  ';
 		if(Ext.type(text) == 'string'){
 			if(text.indexOf(find) != -1){
 				return twexter.CHUNKSTYLE_SPACE;
 			}else{
 				return twexter.CHUNKSTYLE_XSCROLL;
 			}
-		}*/
-		return twexter.CHUNKSTYLE_XSCROLL;
+		}
 	}
 	
 }

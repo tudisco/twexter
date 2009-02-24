@@ -82,6 +82,7 @@ if(!is_numeric($docid)) $docid = 'null';
 <script type="text/javascript" src="js/ui/comments.js"></script>
 <script type="text/javascript" src="js/ui/sidebar.js"></script>
 <script type="text/javascript" src="js/ui/common/popup.js"></script>
+<script type="text/javascript" src="js/ui/common/panel.js"></script>
 <script type="text/javascript" src="js/ui/output_contextmenu.js"></script>
 <script type="text/javascript" src="js/utils/clipboard.js"></script>
 <script type="text/javascript" src="js/ui/translation_selection.js"></script>

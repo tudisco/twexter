@@ -14,7 +14,7 @@
 
 .fkeys {
     color: #B5AA84;
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: 25px;
 }
 
@@ -25,8 +25,7 @@
 .fkeys .fkey {
     padding: 0px;
    /* background-color: #84794A; */
-    color: #84794A;
+    color: black;
     font-weight: bold;
-    font-size: 8px;
     margin-right: 0px;
 }

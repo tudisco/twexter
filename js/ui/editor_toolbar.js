@@ -67,6 +67,10 @@ twexter.editor_tools.prototype = {
                 '<div id="{id_linkbutt}"></div>',
                 '<input type="text" id="{id_linkinput}"></input>',
                 '<button id="{id_savedoc}">Save</button>',
+		'<div id="{id}_sep" class="{id}_sep"></div>',
+		'<div id="{id}_tab_preview" class="{id}_tab_preview">Preview</div>',
+		'<div id="{id}_tab_youtube" class="{id}_tab_youtube">YouTube</div>',
+		'<div id="{id}_tab_trans" class="{id}_tab_trans">Translation</div>',
             '</div>'
         );
         
@@ -232,6 +236,14 @@ twexter.editor_tools.prototype = {
             }
             
         }
+	
+	var sep = Ext.get(this.id+'_sep');
+	sep.setX(this.buttSaveDoc.getX()+300);
+	sep.setY(500);
+	
+	var preview = Ext.get(this.id+'_tab_preview');
+	preview.setX(sep.getX()+5);
+	
         /*if(this.buttNewDoc){
             this.buttNewDoc.setX(this.buttSaveDoc.getX()+this.buttNewDoc.getWidth());
         }*/

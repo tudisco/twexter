@@ -164,6 +164,12 @@ twexter.translator.prototype = {
             case 'flow':
                 var s = twexter.parse_into_struct(this.sourceText,trans);
                 tt = twexter.struct_to_flowchunk(s);
+                break;
+            case 'text':
+                tt = twexter.chunk_to_spacechunk(this.sourceText,trans);
+		tt = twexter.spacechunk_to_text(tt[1]);
+                break;
+                
         }
         
         if(Ext.type(this.callback) == 'function'){

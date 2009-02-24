@@ -382,6 +382,68 @@ twexter.xnavui.prototype = {
 		//this.output_bar.setVisible(false);
 	},
 	
+	init_translation_output: function(){
+		this.transout = new twexter.ui.panel({
+			id:'transout',
+			className:'panel_transout'
+		});
+		this.transout.init();
+		this.transout.hide();
+		this.uiviews.addCtrl('transout', this.transout);
+	},
+	
+	translation_output: function(){
+		this.transout.update('Trying to translate now...');
+		if(!this.transout) this.init_translation_output();
+		var failText = "This translation attempt has failed.\nPlease try again\n\nPress F4 to try again";
+		breakTag = '<br />';
+
+		var trans = new twexter.translator({
+			sourceLang: LANG_SOURCE_CODE,
+			targetLang: LANG_TRANS_CODE,
+			errorfn: function(){
+				/*{*/console.log("Translation Error Called");/*}*/
+				alert("Error en translation");
+			},
+			callback: function(text){
+				/*{*/console.log("Translation Done");/*}*/
+				if(!text){
+					text = failText;
+				}
+				if(Ext.isArray(text)){
+					if(!text[1]) text[1] = failText;
+					text[1].replace("\n", "<b />");
+					this.transout.update((text[1] + '').replace(/([^>]?)\n/g, '$1'+ breakTag +'\n'));
+				}else{
+					this.transout.update((text + '').replace(/([^>]?)\n/g, '$1'+ breakTag +'\n'));
+				}
+			},
+			scope:this
+		});
+		
+		var e = this.editor;
+		switch(twexter.detect_chunk_style(e.getText(), e.getTwxt())){
+			case twexter.CHUNKSTYLE_SPACE:
+			    /*{*/console.info("Translating Space");/*}*/
+			    trans.setText(twexter.spacechunk_to_struct(e.getText(), e.getTwxt(), false), 'text');
+			break;
+			case twexter.CHUNKSTYLE_XSCROLL:
+			    /*{*/console.info("Translating Xscroll");/*}*/
+			    trans.setText(twexter.parse_into_struct(e.getText(),e.getTwxt(), false), 'text');
+			break;
+			case twexter.CHUNKSTYLE_FLOW:
+			    /*{*/console.info("Translating Flow");/*}*/
+			    trans.setText(twexter.flowchunk_to_struct(e.getTwxt(), false), 'text');
+			break;
+			default:
+			    /*{*/console.info("Translating Unknown");/*}*/
+			    trans.setText(twexter.parse_into_struct(e.getText(),e.getTwxt(), false), 'text');
+			break;
+		}
+		trans.tranlate();
+		
+	},
+	
 	/** Initialize the local data storage control */
 	init_data: function(){
 		this.data = new twexter.data();
@@ -516,14 +578,22 @@ twexter.xnavui.prototype = {
 				this.onNewChildDocument();
 			},
 			scope: this,
-			storeEvent: true
+			stopEvent: true
+		}
+		
+		var switchEditPreview = {
+			key: Ext.EventObject.F3,
+			ctrl: false,
+			fn: this.onEditorDisplaySwitch,
+			scope:this,
+			stopEvent: true
 		}
 		
 		this.keyMapEditorl = new Ext.KeyMap(this.editor.TextAreaLeft.dom, undoEvent);
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
 		
 		this.keyMap = new Ext.KeyMap(document, [
-			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,goNewChildDoc,
+			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,goNewChildDoc,switchEditPreview,
 			{
 				key: Ext.EventObject.S,
 				ctrl: true,
@@ -558,23 +628,26 @@ twexter.xnavui.prototype = {
 						case twexter.CHUNKSTYLE_XSCROLL:
 							/*{*/console.log("Chunk to Spacechunk");/*}*/
 							s = twexter.parse_into_struct(t,w);
-							/*tw2 = twexter.struct_to_spacechunk(s);
+							tw2 = twexter.struct_to_spacechunk(s);
 							this.editor.setEditorMode(2);
 							this.editor.setText(tw2[0]);
-							this.editor.setTwxt(tw2[1]);*/
-							tw2 = twexter.struct_to_flowchunk(s);
+							this.editor.setTwxt(tw2[1]);
+							this.xbutton.setButtonState('l', 2)
+							/*tw2 = twexter.struct_to_flowchunk(s);
 							this.editor.setEditorMode(1);
 							this.editor.setText('');
-							this.editor.setTwxt(tw2);
+							this.editor.setTwxt(tw2);*/
 						break;
-						/*case twexter.CHUNKSTYLE_SPACE:
-							//console.log("Spacechunk to Flow");
+						case twexter.CHUNKSTYLE_SPACE:
+							/*{*/console.log("Spacechunk to Flow");/*}*/
 							s = twexter.spacechunk_to_struct(t,w);
 							tw2 = twexter.struct_to_flowchunk(s);
 							this.editor.setEditorMode(1);
 							this.editor.setText('');
 							this.editor.setTwxt(tw2);
-						break;*/
+							this.xbutton.setButtonState('l', 1)
+							
+						break;
 						case twexter.CHUNKSTYLE_FLOW:
 							/*{*/console.log("Flow to Chunk");/*}*/
 							s = twexter.flowchunk_to_struct(w);
@@ -582,6 +655,7 @@ twexter.xnavui.prototype = {
 							this.editor.setEditorMode(2);
 							this.editor.setText(tw2[0]);
 							this.editor.setTwxt(tw2[1]);
+							this.xbutton.setButtonState('l', 1)
 						break;
 						default:
 							tw2 = ['',''];
@@ -933,6 +1007,37 @@ twexter.xnavui.prototype = {
 		console.groupEnd();
 	},
 	
+	onEditorDisplaySwitch: function(){
+		var currentView = this.uiviews.getView();
+		var ui = this.uiviews;
+		
+		var isEdit = (currentView+'').indexOf( "edit", 0 );
+		isEdit = (isEdit===-1) ? false : true;
+		
+		if(isEdit && currentView!='edit_full'){
+			switch(currentView){
+				case 'edit_preview':
+					ui.setView('edit_with_url');
+				break;
+				case 'edit_with_url':
+					if(!this.transout){
+						this.init_translation_output();
+					}
+					ui.setView('edit_with_trans');
+					this.translation_output();
+				break;
+				case 'edit_with_trans':
+					ui.setView('edit_preview');
+				break;
+				default:
+					ui.setView('edit_preview');
+				break;
+			}
+			ui.positionControls();
+		}
+		
+	},
+	
 	/** Event fired when the editor has changed */
 	onEditorChange: function(left, right){
 		/*{*/
@@ -1059,6 +1164,7 @@ twexter.xnavui.prototype = {
 			if(confirm("This document will be lost if not saved. Are you sure you want to create a new document?")){
 				this.editor.clearEditors();
 				this.editor_has_changed = false;
+				this.editor.setEditorMode(1);
 				if(pageTracker){ pageTracker._trackPageview("/actions/new_doc"); }
 			}else{
 				this.editor_has_changed = true;
@@ -1067,6 +1173,7 @@ twexter.xnavui.prototype = {
 		}else{
 			this.editor.clearEditors();
 			this.editor_has_changed = false;
+			this.editor.setEditorMode(1);
 			if(pageTracker){ pageTracker._trackPageview("/actions/new_doc"); }
 		}
 		if(this.doc_id){ this.doc_id = null; }
@@ -1455,10 +1562,12 @@ twexter.xnavui.prototype = {
 			this.comments.setDocId(this.doc_id, this.doc_sha1);
 			
 			this.onXnone();
-			this.editor_has_changed = false;
+			
 			
 			/*{*/console.info("Chunk Style Loaded is: ", this.doc_chunk_style);/*}*/
 			this.setChunkStyle(this.doc_chunk_style);
+			
+			this.editor_has_changed = false;
 		}
 	},
 	
@@ -1476,17 +1585,17 @@ twexter.xnavui.prototype = {
 		var s;
 		
 		switch(style){
-			case 'space':
+			//case 'space':
 			case 'xscroll':
 				this.editor.setEditorMode(2, false);
 			break;
-			/*case 'space':
+			case 'space':
 				s = twexter.parse_into_struct(this.editor.getText(), this.editor.getTwxt());
 				s = twexter.struct_to_spacechunk(s);
 				this.editor.setText(s[0]);
 				this.editor.setTwxt(s[1]);
 				this.editor.setEditorMode(2, false);
-			break;*/
+			break;
 			case 'flow':
 				s = twexter.parse_into_struct(this.editor.getText(), this.editor.getTwxt());
 				s = twexter.struct_to_flowchunk(s);

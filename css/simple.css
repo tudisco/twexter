@@ -30,3 +30,19 @@
         z-index: 3999;
         position:absolute;
 }
+
+.panel_transout {
+	overflow: auto;
+    border: 2px solid lightgrey;
+    padding:15px;
+    bottom: 10px;
+    padding-top: 2px;
+    top: 55px;
+    z-index:133;
+    position: absolute;
+    overflowY: hidden;
+    -moz-border-radius : 7px;
+    -webkit-border-radius: 7px;
+    font-family: monospace;
+    font-size: 16px;
+}

@@ -73,6 +73,10 @@ twexter.uiviews.prototype = {
 	return true;
     },
     
+    getView: function(){
+	return this.currentView;
+    },
+    
     onResize: function(){
         if(!this.resizeTask){
 	    this.resizeTask = new Ext.util.DelayedTask(this.onResizeDelayed, this);

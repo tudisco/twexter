@@ -29,6 +29,7 @@ $groupsSources = array(
         ,"{$base}/js/uiviews.js"
         ,"{$base}/js/translator.js"
         ,"{$base}/js/ui/common/popup.js"
+        ,"{$base}/js/ui/common/panel.js"
         ,"{$base}/js/ui/output_contextmenu.js"
         ,"{$base}/js/utils/clipboard.js"
         ,"{$base}/js/ui/translation_selection.js"

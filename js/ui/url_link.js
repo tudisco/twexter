@@ -291,8 +291,14 @@ twexter.url_link_display.prototype = {
     show: function(){
         this.el.show();
         //this.iframe.show();
-        var ifr = Ext.fly(this.iframeId);
-        if(ifr) ifr.show();
+        if(Ext.isEmpty(this.url)){
+            this.el.update('<div id="url_no_youtube" style="font-size:18px;color:grey;text-align:center;font-weight:bold;">NO URL SET</div>');
+            Ext.get('url_no_youtube').center(this.el);
+        }else{
+            var ifr = Ext.fly(this.iframeId);
+            if(ifr) ifr.show();
+        }
+        
     },
     
     hide: function(){
