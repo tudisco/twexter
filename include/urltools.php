@@ -8,9 +8,11 @@ function docurl_type($path){
     if($count == 0) return false;
     
     if($count == 1){
-        if(strlen($parts[0])==40){
+        if(strlen($parts[0])==40 && strpos($parts[0], '.')==false){
             return 'doc_sha1';
-        }
+        }else{
+        	return 'doc_name';
+		}
     }else if($count == 2){
         if($parts[0]=='id' && is_numeric($parts[1])){
             return 'doc_id';
@@ -80,6 +82,30 @@ function docurl_get_id_docdated($path){
     return (isset($docid)) ? $docid : false; 
 }
 
+function docurl_get_id_docname($path){
+	$parts = explode('/', $path);
+	$name = $parts[0];
+	$parts = explode('#', $name);
+	$name = $parts[0];
+	$name = str_replace('.', ' ', $name);
+	
+	
+	$ddb = new dbDocument();
+	$sel = $ddb->select();
+	$sel->where("title = ?", $name)->order("version DESC");
+	
+	//We only need to detch one.. Fix this
+	$doc = $ddb->fetchAll($sel);
+	if($doc->count()>0){
+		foreach($doc as $d){
+			$docid = $d->id;
+			break;
+		}
+	}
+	
+	return (isset($docid)) ? $docid : false;
+}
+
 function docurl_get_id($path){
     $type = docurl_type($path);
     
@@ -93,6 +119,9 @@ function docurl_get_id($path){
         case 'doc_dated':
             $docid = docurl_get_id_docdated($path);
             break;
+        case 'doc_name':
+        	$docid = docurl_get_id_docname($path);
+        	break;
     }
     
     return (isset($docid)) ? $docid : false;

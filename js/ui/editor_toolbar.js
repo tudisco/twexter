@@ -32,7 +32,10 @@ twexter.editor_tools = function(config){
         "options_click" : true,
         "lang_change" : true,
         "print_doc" : true,
-        "urllink_change" : true
+        "urllink_change" : true,
+	"go_preview_url" : true,
+	"go_preview_out" : true,
+	"go_preview_trans" : true
     });
 };
 
@@ -67,11 +70,13 @@ twexter.editor_tools.prototype = {
                 '<div id="{id_linkbutt}"></div>',
                 '<input type="text" id="{id_linkinput}"></input>',
                 '<button id="{id_savedoc}">Save</button>',
-		'<div id="{id}_sep" class="{id}_sep"></div>',
-		'<div id="{id}_tab_preview" class="{id}_tab_preview">Preview</div>',
-		'<div id="{id}_tab_youtube" class="{id}_tab_youtube">YouTube</div>',
-		'<div id="{id}_tab_trans" class="{id}_tab_trans">Translation</div>',
-            '</div>'
+			
+	    '</div>',
+	    
+	    '<div id="{id}_sep" class="{id}_sep"></div>',
+	    '<div id="{id}_tab_preview" class="{id}_tab_preview">Preview</div>',
+	    '<div id="{id}_tab_youtube" class="{id}_tab_youtube">YouTube</div>',
+	    '<div id="{id}_tab_trans" class="{id}_tab_trans">Translation</div>'
         );
         
         this.tpl.append(MAIN_BODY,{
@@ -111,6 +116,21 @@ twexter.editor_tools.prototype = {
         this.linkButton = Ext.get(this.id_linkbutt);
         this.linkInput = Ext.get(this.id_linkinput);
 	
+	//Tabs
+	this.tabPreview = Ext.get(this.id+'_tab_preview');
+	this.tabUrl = Ext.get(this.id+'_tab_youtube');
+	this.tabTrans = Ext.get(this.id+'_tab_trans');
+	//Tab Events
+	this.tabPreview.on('click', function(){
+	    this.fireEvent('go_preview_out');
+	}, this);
+	this.tabUrl.on('click', function(){
+	    this.fireEvent('go_preview_url');
+	}, this);
+	this.tabTrans.on('click', function(){
+	    this.fireEvent('go_preview_trans');
+	}, this);
+	
         
         //this.buttNewDoc.on('click', this.onNewDocClick, this);
         this.buttSaveDoc.on('click', this.onSaveDocClick, this);
@@ -148,6 +168,10 @@ twexter.editor_tools.prototype = {
         }else{
             this.el.hide();
             this.linkInput.hide();
+	    this.tabTrans.hide();
+	    this.tabUrl.hide();
+	    Ext.fly(this.id+'_sep').hide();
+	    this.tabPreview.hide();
         }
     },
     
@@ -212,13 +236,15 @@ twexter.editor_tools.prototype = {
     },
     
     setRightButtonsTo: function(x){
-	return;
-        var rightC = this.comboRightLang.getX()+this.comboRightLang.getWidth();
+	
+	
+	
+        //var rightC = this.comboRightLang.getX()+this.comboRightLang.getWidth();
         
         /*if(this.printButton){
             this.printButton.setX(rightC+10);
         }*/
-        if(this.buttTrans){
+       /* if(this.buttTrans){
             //this.buttTrans.setX(this.buttSaveDoc.getX()-this.buttTrans.getWidth());
             this.buttTrans.setX(rightC+this.buttTrans.getWidth());
         }
@@ -235,21 +261,61 @@ twexter.editor_tools.prototype = {
                 this.buttSaveDoc.setX(this.linkButton.getX()+this.buttSaveDoc.getWidth()+100);
             }
             
-        }
-	
-	var sep = Ext.get(this.id+'_sep');
-	sep.setX(this.buttSaveDoc.getX()+300);
-	sep.setY(500);
-	
-	var preview = Ext.get(this.id+'_tab_preview');
-	preview.setX(sep.getX()+5);
-	
-        /*if(this.buttNewDoc){
-            this.buttNewDoc.setX(this.buttSaveDoc.getX()+this.buttNewDoc.getWidth());
         }*/
+	
+	
+	var sep = Ext.fly(this.id+'_sep');
+	sep.show();
+	//console.warn("Setting the position to:", this.buttSaveDoc.getX()+this.buttSaveDoc.getWidth());
+	sep.setX(this.buttSaveDoc.getX()+this.buttSaveDoc.getWidth()+5);
+	sep.setY(this.buttSaveDoc.getY());
+	
+	var preview = this.tabPreview;
+	preview.show();
+	preview.setX(sep.getX());
+	preview.setY(sep.getY());
+	
+       var utube = this.tabUrl;
+       utube.show();
+       utube.setX(preview.getX()+preview.getWidth());
+       utube.setY(sep.getY());
+       
+       var trans = this.tabTrans;
+       trans.show();
+       trans.setX(utube.getX()+utube.getWidth());
+       trans.setY(sep.getY());
         
         
-        
+    },
+    
+    view_preview: function(){
+	this.tab_clear();
+	this.color_tab('.'+this.id+'_tab_preview');
+	this.setRightButtonsTo();
+    },
+    
+    view_utube: function(){
+	this.tab_clear();
+	this.color_tab('.'+this.id+'_tab_youtube');
+	this.setRightButtonsTo();
+    },
+    
+    view_trans: function(){
+	this.tab_clear();
+	this.color_tab('.'+this.id+'_tab_trans');
+	this.setRightButtonsTo();
+    },
+    
+    color_tab: function(t){
+	Ext.util.CSS.updateRule(t,'background-color','#84794A');
+    },
+    
+    tab_clear: function(){
+	var c = 'background-color';
+	var v = '#FFF';
+	Ext.util.CSS.updateRule('.'+this.id+'_tab_preview', c, v);
+	Ext.util.CSS.updateRule('.'+this.id+'_tab_youtube', c, v);
+	Ext.util.CSS.updateRule('.'+this.id+'_tab_trans', c, v);
     },
     
     isUrl: function(s) {

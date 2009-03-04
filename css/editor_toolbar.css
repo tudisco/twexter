@@ -123,6 +123,7 @@
 }
 
 .edit_toolbar_sep {
+	position: absolute;
     height:22px;
     width: 1px;
     background-color: grey;
@@ -137,6 +138,13 @@
     height:22px;
     display: none;
     z-index: 103;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    border-right: solid 1px grey;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #FFF;
 }
 
 .edit_toolbar_tab_youtube {
@@ -144,6 +152,13 @@
     height:22px;
     display: none;
     z-index: 104;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    border-right: solid 1px grey;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #FFF;
 }
 
 .edit_toolbar_tab_trans {
@@ -151,5 +166,12 @@
     height:22px;
     display: none;
     z-index: 105;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    border-right: solid 1px grey;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #FFF;
 }
 

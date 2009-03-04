@@ -110,7 +110,9 @@ twexter.out_contextmenu.prototype = {
         var d = this.store.getAt(indx);
         if(d && d.get('action')=='urlcopy'){
             var url = this.parseURL();
-            var returl = 'http://'+url.host+'/open/'+SIMPLE.doc_sha1;
+            var name = SIMPLE.doc_title;
+            name = name.replace(/ /g,".");
+            var returl = 'http://'+url.host+'/'+name;
             var clip = new twexter.utils.clipBoard(returl, this.output.el);
         }else if(d && d.get('action')=='idcopy'){
             var clip = new twexter.utils.clipBoard(SIMPLE.doc_sha1, this.output.el);

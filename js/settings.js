@@ -105,7 +105,7 @@ VIEW_STATES = {
         settings: {topbar2space:true},
         output: {visible: true, dock: 'c', part:'r'},
         urldisplay: {visible: false},
-        editortools: {visible: true, dock:'tr2', align:'l'},
+        editortools: {visible: true, dock:'tr2', align:'l', callafter:'view_preview'},
         editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}
     },
     edit_full: {
@@ -119,14 +119,14 @@ VIEW_STATES = {
         settings: {topbar2space:true},
         output: {visible:false},
         urldisplay: {visible: true, dock: 'c', part:'r',callafter:'pos_iframe'},
-        editortools: {visible: true, dock:'tr2', align:'l'},
+        editortools: {visible: true, dock:'tr2', align:'l', callafter:'view_utube'},
         editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}
     },
     edit_with_trans: {
         settings: {topbar2space:true},
         output: {visible:false},
         urldisplay: {visible: false},
-        editortools: {visible: true},
+        editortools: {visible: true, dock:'tr2', align:'l', callafter:'view_trans'},
         transout: {visible: true, dock: 'c', part:'r'},
         editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}  
     },

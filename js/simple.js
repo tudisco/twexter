@@ -331,6 +331,22 @@ twexter.xnavui.prototype = {
 			}*/
 			this.setMenuSelStyle(null);
 		}, this);
+		this.editor_bar.on('go_preview_out', function(){
+			this.uiviews.setView('edit_preview');
+			this.uiviews.positionControls();
+		}, this);
+		this.editor_bar.on('go_preview_url', function(){
+			this.uiviews.setView('edit_with_url');
+			this.uiviews.positionControls();
+		}, this);
+		this.editor_bar.on('go_preview_trans', function(){
+			if(!this.transout){
+				this.init_translation_output();
+			}
+			this.uiviews.setView('edit_with_trans');
+			this.uiviews.positionControls();
+			this.translation_output();
+		}, this);
 		
 		this.editor_bar.comboLeftLang.on('change', this.switchSourceLanguage, this);
 		
@@ -1565,7 +1581,7 @@ twexter.xnavui.prototype = {
 			
 			
 			/*{*/console.info("Chunk Style Loaded is: ", this.doc_chunk_style);/*}*/
-			this.setChunkStyle(this.doc_chunk_style);
+			this.setChunkStyle('flow');
 			
 			this.editor_has_changed = false;
 		}
