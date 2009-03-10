@@ -9,22 +9,22 @@
 .chunk .text{
 	font-family: Arial;
 	white-space: nowrap;
-	font-size: 25px;
+	font-size: 22px;
 	color: darkblue;
 	font-weight: normal;
 	text-transform: none;
-	text-align:center;
+	text-align:left;
 }
 
 .chunk .twext{
 	font-family: Arial;
 	white-space: nowrap;
-	font-size: 11px;
-	color: lightgrey;
+	font-size: 10px;
+	color: goldenrod;
 	margin-top: -7px;
-	font-weight: normal;
+	font-weight: bold;
 	text-transform: uppercase;
-	text-align:center;
+	text-align:left;
 }
 
 .line-break {

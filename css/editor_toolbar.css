@@ -3,6 +3,7 @@
     z-index: 99;
     height: 32px;
     position:absolute;
+    display:none;
     /*width: 50%;*/
 }
 
@@ -24,13 +25,14 @@
     float: left;
     padding: 5px;
     margin-left: 10px;
-    background: transparent url(/images/edittools/youtube_small.gif) 0 0 no-repeat;
+    background: transparent url(/images/edittools/youtube.png) 0 0 no-repeat;
 }
 
 #edit_toolbar #linkinput {
-    width: 300px;
+    width: 150px;
     float: left;
     margin-left: 3px;
+    text-align: right;
 }
 
 /*#edit_toolbar #pref {*/
@@ -122,56 +124,63 @@
     border: solid 1px black;
 }
 
-.edit_toolbar_sep {
+.edit_toolbar_edit_tabs {
 	position: absolute;
-    height:22px;
-    width: 1px;
-    background-color: grey;
-    margin-left: 10px;
-    margin-right: 10px;
-    z-index: 102;
-    display: none;
+	display: none;
+	z-index: 102;
+	font-family: Ariel, sans-serif;
 }
 
+
 .edit_toolbar_tab_preview {
-    position: absolute;
-    height:22px;
-    display: none;
-    z-index: 103;
+    float:left;
+	height:22px;
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 3px;
     border-right: solid 1px grey;
+    border-left: solid 1px grey;
+    border-top: solid 1px grey;
     font-size: 12px;
     cursor: pointer;
     background-color: #FFF;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-radius-topright: 3px;
+    -webkit-border-radius-topleft: 3px;
 }
 
 .edit_toolbar_tab_youtube {
-    position: absolute;
+	float:left;
     height:22px;
-    display: none;
-    z-index: 104;
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 3px;
     border-right: solid 1px grey;
+    border-top: solid 1px grey;
     font-size: 12px;
     cursor: pointer;
     background-color: #FFF;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-radius-topright: 3px;
+    -webkit-border-radius-topleft: 3px;
 }
 
 .edit_toolbar_tab_trans {
-    position: absolute;
+    float:left;
     height:22px;
-    display: none;
-    z-index: 105;
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 3px;
     border-right: solid 1px grey;
+    border-top: solid 1px grey;
     font-size: 12px;
     cursor: pointer;
     background-color: #FFF;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-radius-topright: 3px;
+    -webkit-border-radius-topleft: 3px;
 }
 

@@ -59,7 +59,6 @@ twexter.editor_tools.prototype = {
     init: function(){
         var nl = "\n";
         this.tpl = new Ext.Template(
-            nl,
             '<div id="{id}">',
                 '<select id="{id_lang_left}" class="{id_lang_left}"></select>',
                 '<div id="{id_switch}"></div>',
@@ -71,12 +70,14 @@ twexter.editor_tools.prototype = {
                 '<input type="text" id="{id_linkinput}"></input>',
                 '<button id="{id_savedoc}">Save</button>',
 			
-	    '</div>',
-	    
-	    '<div id="{id}_sep" class="{id}_sep"></div>',
-	    '<div id="{id}_tab_preview" class="{id}_tab_preview">Preview</div>',
-	    '<div id="{id}_tab_youtube" class="{id}_tab_youtube">YouTube</div>',
-	    '<div id="{id}_tab_trans" class="{id}_tab_trans">Translation</div>'
+		    '</div>',
+		    
+		    //'<div id="{id}_sep" class="{id}_sep"></div>',
+		    '<div id="{id}_edit_tabs" class="{id}_edit_tabs">',
+				'<div id="{id}_tab_preview" class="{id}_tab_preview">Preview</div>',
+				'<div id="{id}_tab_youtube" class="{id}_tab_youtube">YouTube</div>',
+				'<div id="{id}_tab_trans" class="{id}_tab_trans">Translation</div>',
+			'</div>'
         );
         
         this.tpl.append(MAIN_BODY,{
@@ -99,7 +100,7 @@ twexter.editor_tools.prototype = {
         
         this.fillLangCombos();
 	
-	this.linkInput.setWidth(300);
+	this.linkInput.setWidth(150);
         this.linkInput.show();
     },
     
@@ -164,23 +165,21 @@ twexter.editor_tools.prototype = {
     setVisible: function(see){
         if(see){
             this.el.show();
-	    this.linkInput.show();
+	    	this.linkInput.show();
         }else{
             this.el.hide();
             this.linkInput.hide();
-	    this.tabTrans.hide();
-	    this.tabUrl.hide();
-	    Ext.fly(this.id+'_sep').hide();
-	    this.tabPreview.hide();
         }
     },
     
     show: function(){
         this.setVisible(true);
+        Ext.fly('edit_toolbar_edit_tabs').show();
     },
     
     hide: function(){
         this.setVisible(false);
+        Ext.fly('edit_toolbar_edit_tabs').hide();
     },
     
     setPosition: Ext.emptyFn,
@@ -264,77 +263,84 @@ twexter.editor_tools.prototype = {
         }*/
 	
 	
-	var sep = Ext.fly(this.id+'_sep');
-	sep.show();
 	//console.warn("Setting the position to:", this.buttSaveDoc.getX()+this.buttSaveDoc.getWidth());
-	sep.setX(this.buttSaveDoc.getX()+this.buttSaveDoc.getWidth()+5);
-	sep.setY(this.buttSaveDoc.getY());
 	
-	var preview = this.tabPreview;
+	/*var preview = this.tabPreview;
 	preview.show();
-	preview.setX(sep.getX());
-	preview.setY(sep.getY());
+	preview.setX(this.buttSaveDoc.getX()+this.buttSaveDoc.getWidth()+5);
+	preview.setY(this.buttSaveDoc.getY());
 	
-       var utube = this.tabUrl;
-       utube.show();
-       utube.setX(preview.getX()+preview.getWidth());
-       utube.setY(sep.getY());
-       
-       var trans = this.tabTrans;
-       trans.show();
-       trans.setX(utube.getX()+utube.getWidth());
-       trans.setY(sep.getY());
+	var utube = this.tabUrl;
+	utube.show();
+	utube.setX(preview.getX()+preview.getWidth());
+	utube.setY(sep.getY());
+	
+	var trans = this.tabTrans;
+	trans.show();
+	trans.setX(utube.getX()+utube.getWidth());
+	trans.setY(sep.getY());*/
+	var oel = SIMPLE.output.getEl();
+	var tb = Ext.fly('edit_toolbar_edit_tabs');
+	if(!this.editTabsSetSize){
+		tb.setWidth(this.tabPreview.getWidth()+this.tabUrl.getWidth()+this.tabTrans.getWidth()+5);
+		tb.setHeight(this.tabPreview.getHeight());
+		this.editTabsSetSize = true;
+	}
+	tb.setX(oel.getX()+oel.getWidth()-tb.getWidth()-10).setY(oel.getY()-tb.getHeight()).show();
         
         
     },
     
     view_preview: function(){
-	this.tab_clear();
-	this.color_tab('.'+this.id+'_tab_preview');
-	this.setRightButtonsTo();
+		this.tab_clear();
+		this.color_tab('.'+this.id+'_tab_preview');
+		this.setRightButtonsTo();
     },
     
     view_utube: function(){
-	this.tab_clear();
-	this.color_tab('.'+this.id+'_tab_youtube');
-	this.setRightButtonsTo();
+		this.tab_clear();
+		this.color_tab('.'+this.id+'_tab_youtube');
+		this.setRightButtonsTo();
     },
     
     view_trans: function(){
-	this.tab_clear();
-	this.color_tab('.'+this.id+'_tab_trans');
-	this.setRightButtonsTo();
+		this.tab_clear();
+		this.color_tab('.'+this.id+'_tab_trans');
+		this.setRightButtonsTo();
     },
     
     color_tab: function(t){
-	Ext.util.CSS.updateRule(t,'background-color','#84794A');
+		Ext.util.CSS.updateRule(t,'background-color','#84794A');
+		Ext.util.CSS.updateRule(t,'color','#FFFFFF');
+		Ext.util.CSS.updateRule(t,'font-weight','bold');
     },
     
     tab_clear: function(){
-	var c = 'background-color';
-	var v = '#FFF';
-	Ext.util.CSS.updateRule('.'+this.id+'_tab_preview', c, v);
-	Ext.util.CSS.updateRule('.'+this.id+'_tab_youtube', c, v);
-	Ext.util.CSS.updateRule('.'+this.id+'_tab_trans', c, v);
+		values = [['background-color','#FFF'],['color','#000'],['font-weight','normal']];
+		Ext.each(values, function(i){
+			Ext.util.CSS.updateRule('.'+this.id+'_tab_preview', i[0], i[1]);
+			Ext.util.CSS.updateRule('.'+this.id+'_tab_youtube', i[0], i[1]);
+			Ext.util.CSS.updateRule('.'+this.id+'_tab_trans', i[0], i[1]);
+		}, this);
     },
     
     isUrl: function(s) {
-        //var rule = "(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
-        var rule = "^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\#\?\/.=]+$";
-        //var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-        var regexp = new RegExp(rule, 'i');
-        return regexp.test(s);
+		//var rule = "(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
+		var rule = "^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\#\?\/.=]+$";
+		//var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+		var regexp = new RegExp(rule, 'i');
+		return regexp.test(s);
     },
     
     onInputChange: function(){
-        var url = this.linkInput.getValue();
-        if(this.isUrl(url)){
-            this.fireEvent('urllink_change', url);
-            this.url = url;
-        }else{
-            alert("Not a valid URL");
-        }
-        this.setRightButtonsTo();
+		var url = this.linkInput.getValue();
+		if(this.isUrl(url)){
+			this.fireEvent('urllink_change', url);
+			this.url = url;
+		}else{
+			alert("Not a valid URL");
+		}
+		this.setRightButtonsTo();
     },
     
     getURL: function(){

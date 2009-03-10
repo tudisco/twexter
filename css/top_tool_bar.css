@@ -1,5 +1,6 @@
 .top_menu {
-    z-index: 550;
+	display: none;
+    z-index: 198;
     position: absolute;
     cursor: pointer;
 }
@@ -19,7 +20,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3999;
+    z-index: 68;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -34,7 +35,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3999;
+    z-index: 69;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -49,7 +50,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3999;
+    z-index: 67;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -64,7 +65,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3401;
+    z-index: 66;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -79,7 +80,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3992;
+    z-index: 65;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -94,7 +95,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3990;
+    z-index: 64;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -109,7 +110,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3988;
+    z-index: 63;
     position:absolute;
     top: 2px;
     right: 10px;
@@ -124,7 +125,7 @@
     font-size: 14px;
     color: #D6D7BD;
     text-align: center;
-    z-index: 3988;
+    z-index: 62;
     position:absolute;
     top: 2px;
     right: 10px;

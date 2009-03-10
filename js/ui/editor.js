@@ -56,6 +56,7 @@ twexter.editor.prototype = {
     CHUNK_SLOP: 0,
     CHUNK_SPACE: 1,
     EDITOR_MODE: 2,
+    lastScrollHeight: 0,
     
     /**
      * Initialize Editor Control
@@ -102,6 +103,12 @@ twexter.editor.prototype = {
         
         // Position the editor.
         this.positionEditors();
+        
+        this.taskScroll = {
+			run: this.taskScrollCheck,
+			scope: this,
+			interval:200
+		};
         
     },
     
@@ -351,11 +358,26 @@ twexter.editor.prototype = {
     },
     
     hide : function(){
-        this.setVisible(false);  
+        this.setVisible(false);
+        try{
+        	this.scrollTaskObj.stopAll();
+        }catch(e){
+        	/*{*/console.warn(e);/*}*/
+        }
     },
     
     show : function(){
         this.setVisible(true);
+        if(!this.scrollTaskObj){
+        	this.scrollTaskObj = new Ext.util.TaskRunner();
+            this.scrollTaskObj.start(this.taskScroll);
+        }else{
+        	try{
+        		this.scrollTaskObj.start(this.taskScroll);
+        	}catch(e){
+        		/*{*/console.warn(e);/*}*/
+        	}
+        }
     },
     
     setPosition: Ext.emptyFn,
@@ -844,12 +866,36 @@ twexter.editor.prototype = {
         }
         
         if(this.chunkStyle == twexter.CHUNKSTYLE_FLOW || this.chunkStyle == twexter.CHUNKSTYLE_SPACE){
-            sp = /\s\s+/ig
+            sp = /\s\s+/ig;
             line1 = line1.replace(sp, ' ');
         }
         
         /*{*/console.debug("the text title is: %s", line1);/*}*/
         return line1;
+    },
+    
+    getScrollPercent: function(){
+    	if(this.el.isScrollable()){
+			var st = this.el.dom.scrollTop;
+			if(this.lastScrollHeight==st){
+				return false;
+			}else{
+				this.lastScrollHeight=st;
+			}
+			var sh = this.el.dom.scrollHeight-this.el.getHeight();
+			var prct = Math.round(((st*100)/sh));
+			return prct;
+		}else{
+			return false;
+		}
+    },
+    
+    taskScrollCheck: function(){
+    	var p = this.getScrollPercent();
+    	if(p!=false) {
+    		console.info("Running Editor Scroll Task");
+    		SIMPLE.output.autoscroll(p, false);
+		}
     }
     
 };

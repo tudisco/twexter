@@ -252,13 +252,14 @@ twexter.out.prototype = {
 		this.setVisible(true);
 	},
 	
-	autoscroll: function(percent){
+	autoscroll: function(percent, anim){
+		anim = (anim===true) ? true : false;
 		if(this.el.isScrollable()){
 			var sh = this.el.dom.scrollHeight;
 			var h = this.el.getHeight();
 			var s = sh-h;
 			var px = Math.round((s*percent)/100);
-			this.el.scrollTo('top', px);
+			this.el.scrollTo('top', px, anim);
 		}
 	}
 };

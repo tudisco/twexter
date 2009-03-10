@@ -1,6 +1,7 @@
 
 .twext_out {
     /*width: 48%;*/
+    display: none;
     overflow: auto;
     border: 2px solid lightgrey;
     padding:15px;

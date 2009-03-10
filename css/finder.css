@@ -1,5 +1,6 @@
 
 .finder {
+	display: none;
     z-index: 353;
     position: absolute;
     background-color: white;

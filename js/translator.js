@@ -179,5 +179,26 @@ twexter.translator.prototype = {
                 this.callback(tt);
             }
         }
-    }
-}
+    },
+    
+    detectLang: function(text, callback, scope){
+    	google.language.detect(text, function(result) {
+			if (!result.error) {
+			    var language = 'unknown';
+			    for (l in google.language.Languages) {
+			      if (google.language.Languages[l] == result.language) {
+			        language = l;
+			        break;
+			      }
+			    }
+			    if(Ext.type(callback) == 'function'){
+			    	if(Ext.type(scope) == 'object'){
+			    		callback.call(scope, result.language, language);
+			    	}else{
+			    		callback(l,language);
+			    	}
+			    }
+			}
+    	});
+	}
+};

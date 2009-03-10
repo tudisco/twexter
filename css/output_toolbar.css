@@ -1,5 +1,6 @@
 
 #output_tool {
+	display: none;
     position: absolute;
     bottom: 10px;
     left: 10px;

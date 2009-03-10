@@ -62,26 +62,26 @@ twexter.savedlg.prototype = {
             );
         }
     
-        this.tpl.append(this.bodyId, {id:this.id,title:"Save...",checked:'checked="checked"'});
-        
-        this.el = Ext.get(this.id);
-        this.form_title = Ext.get(this.id+"_title");
-	this.form_desc = Ext.get(this.id+"_desc");
-	this.form_global = Ext.get(this.id+"_global");
-        this.form_cancel_button = Ext.get(this.id+"_cancel_button");
-	this.form_save_button = Ext.get(this.id+"_save_button");
-        this.el.hide();
-        this.init_events();
+		this.tpl.append(this.bodyId, {id:this.id,title:"Save...",checked:'checked="checked"'});
+		
+		this.el = Ext.get(this.id);
+		this.form_title = Ext.get(this.id+"_title");
+		this.form_desc = Ext.get(this.id+"_desc");
+		this.form_global = Ext.get(this.id+"_global");
+		this.form_cancel_button = Ext.get(this.id+"_cancel_button");
+		this.form_save_button = Ext.get(this.id+"_save_button");
+		this.el.hide();
+		this.init_events();
     },
     
     /**
      * Init Event for this control
      */
     init_events: function(){
-        this.form_cancel_button.on('click', this.onCancel, this);
-        this.el.addKeyListener(Ext.EventObject.ESC, this.onCancel, this);
-	this.form_save_button.on('click', this.onSave, this);
-	this.el.addKeyListener(Ext.EventObject.ENTER, this.onSave, this);
+		this.form_cancel_button.on('click', this.onCancel, this);
+		this.el.addKeyListener(Ext.EventObject.ESC, this.onCancel, this);
+		this.form_save_button.on('click', this.onSave, this);
+		this.el.addKeyListener(Ext.EventObject.ENTER, this.onSave, this);
         //Comment this out so titles are editable
 	//this.form_title.on('focus', this.onTitleFocus, this);
     },
@@ -101,7 +101,7 @@ twexter.savedlg.prototype = {
             style:{
                visbility:"hidden",
                position:"absolute",
-               "z-index":"300",
+               "z-index":"400",
                "background-color":"black",
                top:"1px",
                left:"1px",

@@ -511,7 +511,7 @@ twexter.finder.prototype = {
         var val = this.searchfield.getValue();
         if(Ext.isEmpty(val)){
             this.searchcancel.dom.src = this.imageSearch;
-	    this.clearDataParams()
+	    this.clearDataParams();
 	    this.loadWithParams();
         }else{
             this.searchcancel.dom.src = this.imageSearchCancel;
@@ -632,6 +632,12 @@ twexter.finder.prototype = {
         if(Ext.isEmpty(this.taskRunner)){
             this.taskRunner = new Ext.util.TaskRunner();
             this.taskRunner.start(this.task);
+        }else{
+        	try{
+        		this.taskRunner.start(this.task);
+        	}catch(e){
+        		/*{*/console.warn("Error on Runtask Finder: "+e);/*}*/
+        	}
         }
     },
     
@@ -645,7 +651,7 @@ twexter.finder.prototype = {
         try{
             if(this.taskRunner) this.taskRunner.stopAll();
         }catch(e){
-            console.warn("Error on StopAll: "+e);
+            /*{*/console.warn("Error on StopAll: "+e);/*}*/
         }
         this.el.hide();
         //this.searchcancel.hide();

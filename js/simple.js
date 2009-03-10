@@ -84,7 +84,12 @@ twexter.xnavui.prototype = {
 		
 		//Create the layout class
 		this.uiviews = new twexter.uiviews({views:VIEW_STATES});
-		this.uiviews.setView("doc_nourl");
+		if(!Ext.isEmpty(LOAD_DOC)){
+			this.uiviews.setView("finder");
+		}else{
+			this.uiviews.setView("doc_nourl");
+		}
+		
 		
 		//Create the top tool bar
 		this.topButtonBar = new twexter.top_tool_bar();
@@ -595,7 +600,7 @@ twexter.xnavui.prototype = {
 			},
 			scope: this,
 			stopEvent: true
-		}
+		};
 		
 		var switchEditPreview = {
 			key: Ext.EventObject.F3,
@@ -603,7 +608,7 @@ twexter.xnavui.prototype = {
 			fn: this.onEditorDisplaySwitch,
 			scope:this,
 			stopEvent: true
-		}
+		};
 		
 		this.keyMapEditorl = new Ext.KeyMap(this.editor.TextAreaLeft.dom, undoEvent);
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
@@ -648,7 +653,7 @@ twexter.xnavui.prototype = {
 							this.editor.setEditorMode(2);
 							this.editor.setText(tw2[0]);
 							this.editor.setTwxt(tw2[1]);
-							this.xbutton.setButtonState('l', 2)
+							this.xbutton.setButtonState('l', 2);
 							/*tw2 = twexter.struct_to_flowchunk(s);
 							this.editor.setEditorMode(1);
 							this.editor.setText('');
@@ -661,7 +666,7 @@ twexter.xnavui.prototype = {
 							this.editor.setEditorMode(1);
 							this.editor.setText('');
 							this.editor.setTwxt(tw2);
-							this.xbutton.setButtonState('l', 1)
+							this.xbutton.setButtonState('l', 1);
 							
 						break;
 						case twexter.CHUNKSTYLE_FLOW:
@@ -671,7 +676,7 @@ twexter.xnavui.prototype = {
 							this.editor.setEditorMode(2);
 							this.editor.setText(tw2[0]);
 							this.editor.setTwxt(tw2[1]);
-							this.xbutton.setButtonState('l', 1)
+							this.xbutton.setButtonState('l', 1);
 						break;
 						default:
 							tw2 = ['',''];
@@ -1286,17 +1291,32 @@ twexter.xnavui.prototype = {
 		this.data.setUserId(this.user_id);
 	},
 	
+	checkLangResult: function(short, long){
+		if(short != LANG_TRANS_CODE){
+			alert('Google detacted that your twext language was: '+long+". which is not you setting. There migh be a problem with your language setting.");
+		}
+		this.onSaveDocument(true);
+	},
+	
 	/**
 	 *Call on the save document event
 	 */
-	onSaveDocument: function(){
+	onSaveDocument: function(skipLangCheck){
 		
+		skipLangCheck = (skipLangCheck===true) ? true : false;
 		//Testing now!---!Update Not supported yet... so check
 		/*if(this.doc_id){
 			alert("Updating still not supported. Comming soon");
 			this.savedlg.saveCompleted(false);
 			return;
 		}*/
+		if(LANG_TRANS_CODE != '' && skipLangCheck!=true && !Ext.isEmpty(this.user_id)){
+			var res = this.onSaveGetDocArray(this.editor.getText(), this.editor.getTwxt());
+			var trans = new twexter.translator();
+			trans.detectLang(res[1], this.checkLangResult, this);
+			return;
+		}
+		
 		this.hideUrlDisplay();
 		if(!this.user_id || this.user_id === 0 || Ext.isEmpty(this.user_id)){
 			/*{*/console.info("User not logged on. Need to be logged on to save: "+this.user_id);/*}*/
@@ -1326,33 +1346,25 @@ twexter.xnavui.prototype = {
 		}
 	},
 	
-	/** when the save docuemnt dialog fires the save_document event */
-	onSaveDocumentToServer: function(title, desc, global){
-		var data = {};
-		data.title = title;
-		data.description = desc;
-		data.text = this.editor.getText();
-		data.twxt = this.editor.getTwxt();
-		data.lang_text = this.editor_bar.getTextLang();
-		data.lang_twxt = this.editor_bar.getTwxtLang();
-		data.global = global;
+	onSaveGetDocArray: function(left, right){
 		
+		var data = {};
 		var s;
 		
-		switch(twexter.detect_chunk_style(data.text, data.twxt)){
+		switch(twexter.detect_chunk_style(left, right)){
 			case twexter.CHUNKSTYLE_XSCROLL:
 				data.chunk_style = 'xscroll';
 			break;
 			case twexter.CHUNKSTYLE_SPACE:
 				data.chunk_style = 'space';
-				s = twexter.spacechunk_to_struct(data.text, data.twxt);
+				s = twexter.spacechunk_to_struct(left, right);
 				s = twexter.struct_to_xscrollchunk(s);
 				data.text = s[0];
 				data.twxt = s[1];
 			break;
 			case twexter.CHUNKSTYLE_FLOW:
 				data.chunk_style = 'flow';
-				s = twexter.flowchunk_to_struct(data.twxt);
+				s = twexter.flowchunk_to_struct(right);
 				s = twexter.struct_to_xscrollchunk(s);
 				data.text = s[0];
 				data.twxt = s[1];
@@ -1362,14 +1374,28 @@ twexter.xnavui.prototype = {
 			break;
 		}
 		
+		return data;
+	},
+	
+	/** when the save docuemnt dialog fires the save_document event */
+	onSaveDocumentToServer: function(title, desc, global){
+		var data = {};
+		data.title = title;
+		data.description = desc;
+		var res = this.onSaveGetDocArray(this.editor.getText(), this.editor.getTwxt());
+		data.text = res.text;
+		data.twxt = res.twxt;
+		data.chunk_style = res.chunk_style;
+		data.lang_text = this.editor_bar.getTextLang();
+		data.lang_twxt = this.editor_bar.getTwxtLang();
+		data.global = global;
+		
 		//Check for URL
 		//var url = this.urlDisplay.getUrl();
 		var url = this.editor_bar.getURL();
 		if(!Ext.isEmpty(url)){
 			data.url = url;
 		}
-		
-		
 		
 		if(this.doc_id){
 			data.id = this.doc_id;
@@ -1659,7 +1685,7 @@ twexter.xnavui.prototype = {
 			default:
 				type = 'source';
 				source = 'text';
-			break
+			break;
 		}
 		
 		if(newDoc){
