@@ -1,11 +1,14 @@
 <?php
 define("ZENDAUTH_PATH", dirname(__FILE__).'/');
 require_once(ZENDAUTH_PATH."zendbootstrap.php");
-require_once 'Zend/Auth/Adapter/DbTable.php';
+//require_once 'Zend/Auth/Adapter/DbTable.php';
+require_once 'Zend/Auth.php';
 require_once 'Zend/Session/Namespace.php';
 
 // Configure the instance with constructor parameters...
-$authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbTwext'), 'users', 'username', 'password');
+//$authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbTwext'), 'users', 'username', 'password');
+
+$authAdapter = Zend_Auth::getInstance();
 
 //set up user session for twext
 $twextSession = new Zend_Session_Namespace('twext');
@@ -31,7 +34,7 @@ Zend_Registry::set('authAdapter', $authAdapter);
 Zend_Registry::set('session_twext', $twextSession);
 Zend_Registry::set('session_auth', $authSession);
 
-function log_into_text($login, $password){
+/*function log_into_text($login, $password){
     $a = Zend_Registry::get('authAdapter');
     $aSess = Zend_Registry::get('session_auth');
     $tSess = Zend_Registry::get('session_twext');
@@ -57,5 +60,5 @@ function log_into_text($login, $password){
 	$tSess->displayError = "Username and Password Failed";
 	return false;
     }
-}
+}*/
 ?>

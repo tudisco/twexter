@@ -1228,12 +1228,28 @@ twexter.xnavui.prototype = {
 	 */
 	onUserLogin: function(){
 		/*{*/console.debug("Doing login form");/*}*/
-		if(this.authinicated===false){
+		/*if(this.authinicated===false){
 			if(!this.loginform){
 				this.loginform = new twexter.userlogin();
 				this.loginform.on('user_authinicated', this.onUserAuth, this);
 				this.loginform.init();
 			}
+			this.loginform.show();
+		}*/
+		
+		if(this.authinicated===false){
+			if(!this.loginform){
+				/*{*/console.debug("Loading login form");/*}*/
+				this.loginform = new twexter.userLoginOpenid();
+				this.loginform.on('after_hide', function(){
+					var v = this.uiviews.getView();
+					if(v.indexOf('url')!=-1)
+						this.urlDisplay.show();
+				}, this);
+				this.loginform.init();
+			}
+			/*{*/console.debug("Showing login form");/*}*/
+			this.urlDisplay.hide();
 			this.loginform.show();
 		}
 	},

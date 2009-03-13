@@ -44,6 +44,7 @@ twexter.finder.prototype = {
     store_params: {},
     lastHistoryIdx: 0,
     firstLoad: true,
+    debug: false,
     
     init: function(){
         if(Ext.isEmpty(this.tpl)){
@@ -583,7 +584,7 @@ twexter.finder.prototype = {
     },
     
     sizeFileList: function(){
-        /*{*/console.debug("**Size Finder Timed");/*}*/
+        /*{*/if(this.debug) console.debug("**Size Finder Timed");/*}*/
         var h = this.el.getHeight();
         var y = this.el.getY();
         

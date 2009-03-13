@@ -45,6 +45,9 @@ twexter.ui.popup.prototype = {
     attachedCtrl: null,
     popAlign: 'tl-bl?',
     removeOnHide: false,
+    centerScreen: false,
+    showAnimation: false,
+    hideAnimation: false,
     
     init: function(){
         if(this.id === null){
@@ -95,6 +98,7 @@ twexter.ui.popup.prototype = {
         Ext.getDoc().un('click', this.collapseIf, this);
         this.hide();
         if(this.removeOnHide){
+	    this.fireEvent('on_destroy', this);
             this.el.remove();
         }
     },
@@ -103,12 +107,19 @@ twexter.ui.popup.prototype = {
 	if(this.attachedCtrl !== null){
 	    this.el.alignTo(this.attachedCtrl, this.popAlign);
 	}
-        this.el.show();
+	if(this.centerScreen === true){
+	    this.el.center();
+	}
+	this.fireEvent('before_show', this);
+        this.el.show(this.showAnimation);
+	this.fireEvent('after_show', this);
         this.init_global_events.defer(600, this);
     },
     
     hide: function(){
-        this.el.hide();
+	this.fireEvent('before_hide', this);
+        this.el.hide(this.hideAnimation);
+	this.fireEvent('after_hide', this);
     },
     
     getEl: function(){

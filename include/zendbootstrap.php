@@ -207,4 +207,18 @@ class dbUserSettings extends Zend_Db_Table_Abstract
             parent::_setupDatabaseAdapter();
     }
 }
+
+/**
+ * User Openid to normal id table
+ */
+class dbUserOpenidLink extends Zend_Db_Table_Abstract
+{
+    protected $_name = 'user_openid_link';
+    protected $_primary = 'open_id';
+    
+    protected function _setupDatabaseAdapter(){
+            $this->_db = self::_setupAdapter('dbTwext');
+            parent::_setupDatabaseAdapter();
+    }
+}
 ?>

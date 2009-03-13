@@ -40,6 +40,8 @@ if(!is_numeric($docid)) $docid = 'null';
 <link href="css/sidebar.css" rel="stylesheet" type="text/css">
 	
 <link href="css/translation_selection.css" rel="stylesheet" type="text/css">
+	
+<link href="css/user_login_openid.css" rel="stylesheet" type="text/css">
 
 <script src="http://www.google.com/jsapi?key=ABQIAAAAunEcMFDGHr_wmtu2XUug1BSMkLjG2dqjn9SZ4XtNlZnYQgQRQBQjPrVw2B4EL1mto37jy3sxhrl1Ag" type="text/javascript"></script>
 
@@ -88,6 +90,8 @@ if(!is_numeric($docid)) $docid = 'null';
 <script type="text/javascript" src="js/ui/translation_selection.js"></script>
 
 <script type="text/javascript" src="js/ui/history_list.js"></script>
+
+<script type="text/javascript" src="js/ui/user_login_openid.js"></script>
 
 
 <script type="text/javascript" language="javascript">
