@@ -1,14 +1,15 @@
 <?php
 define("ZENDAUTH_PATH", dirname(__FILE__).'/');
 require_once(ZENDAUTH_PATH."zendbootstrap.php");
-//require_once 'Zend/Auth/Adapter/DbTable.php';
+require_once 'Zend/Auth/Adapter/DbTable.php';
 require_once 'Zend/Auth.php';
 require_once 'Zend/Session/Namespace.php';
 
 // Configure the instance with constructor parameters...
 //$authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbTwext'), 'users', 'username', 'password');
+$authAdapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('dbTwext'), 'users', 'openid', 'password');
 
-$authAdapter = Zend_Auth::getInstance();
+//$authAdapter = Zend_Auth::getInstance();
 
 //set up user session for twext
 $twextSession = new Zend_Session_Namespace('twext');
@@ -27,6 +28,8 @@ $authSession = new Zend_Session_Namespace('auth_user');
 if(isset($_GET['logout']) && $_GET['logout']==1){
     $twextSession->unsetAll();
     $authSession->unsetAll();
+    header("location: /");
+    exit(0);
 }
 
 //Lets save the session in the registery
@@ -34,7 +37,7 @@ Zend_Registry::set('authAdapter', $authAdapter);
 Zend_Registry::set('session_twext', $twextSession);
 Zend_Registry::set('session_auth', $authSession);
 
-/*function log_into_text($login, $password){
+function log_into_text($login, $password){
     $a = Zend_Registry::get('authAdapter');
     $aSess = Zend_Registry::get('session_auth');
     $tSess = Zend_Registry::get('session_twext');
@@ -48,6 +51,8 @@ Zend_Registry::set('session_auth', $authSession);
 	$aSess->name_last = $ui->name_last;
 	$aSess->email = $ui->email;
 	$aSess->userID = $ui->id;
+        $aSess->nickname = $ui->username;
+        $aSess->fullname = $ui->fullname;
 	$aSess->login = true;
 	unset($ui);
 	return true;
@@ -56,9 +61,11 @@ Zend_Registry::set('session_auth', $authSession);
 	$aSess->name_last = '';
 	$aSess->email = '';
 	$aSess->userID = '';
+        $aSess->nickname = '';
+        $aSess->fullname = '';
 	$aSess->login = false;
 	$tSess->displayError = "Username and Password Failed";
 	return false;
     }
-}*/
+}
 ?>

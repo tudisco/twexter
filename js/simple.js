@@ -114,7 +114,7 @@ twexter.xnavui.prototype = {
 		
 		
 		if(USER_LOGED_IN){
-			this.onUserAuth(null, USER_DATA.userid, USER_DATA.name_first, USER_DATA.name_last);
+			this.onUserAuth(null, USER_DATA.userid, USER_DATA.nickname);
 		}
 		
 		if(!this.finddlg){
@@ -1255,23 +1255,25 @@ twexter.xnavui.prototype = {
 	},
 	
 	/** Called when user has been authinicated */
-	onUserAuth: function(user, id, first, last){
+	onUserAuth: function(user, id, nickname){
 		this.user_id = id;
-		this.user_first = first;
-		this.user_last = last;
+		this.user_first = '';
+		this.user_last = '';
+		this.user_nickname = nickname;
+		if(Ext.isEmpty(this.user_nickname)) this.user_nickname = "Anonymous User";
 		
 		this.userTag = Ext.get(this.bodyId).createChild({
 			id:'usertag'
 		});
-		var users_name = String.format('{0} {1}', first, last);
-		if(pageTracker){ pageTracker._trackPageview("/actions/login/"+users_name); }
-		var m = Ext.util.TextMetrics.measure(this.userTag, users_name);
-		this.userTag.update(users_name);
+		//var users_name = String.format('{0} {1}', first, last);
+		if(pageTracker){ pageTracker._trackPageview("/actions/login/"+this.user_nickname); }
+		var m = Ext.util.TextMetrics.measure(this.userTag, this.user_nickname);
+		this.userTag.update(this.user_nickname);
 		this.userTag.setWidth(m.width+USERTAG_W);
 		
 		this.userTag.on('click', function(){
 			confirm("Do you want to log out?");
-			window.location.href = "http://dev.read.fm/?logout=1";
+			window.location.href = "/?logout=1";
 		}, this);
 		
 		//Disable Selection
@@ -1307,9 +1309,9 @@ twexter.xnavui.prototype = {
 		this.data.setUserId(this.user_id);
 	},
 	
-	checkLangResult: function(short, long){
-		if(short != LANG_TRANS_CODE){
-			alert('Google detacted that your twext language was: '+long+". which is not you setting. There migh be a problem with your language setting.");
+	checkLangResult: function(shortl, longl){
+		if(shortl != LANG_TRANS_CODE){
+			alert('Google detacted that your twext language was: '+longl+". which is not you setting. There migh be a problem with your language setting.");
 		}
 		this.onSaveDocument(true);
 	},

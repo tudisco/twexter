@@ -118,7 +118,7 @@ twexter.userLoginOpenid.prototype = {
         Ext.each(this.providers_small, function(i){this.providers[this.providers.length] = i;}, this);
         
         var tpl = new Ext.Template(
-            '<form action="/openid_auth.php" method="post" id="{id}_form">',
+            '<form action="/openid_auth.php" method="get" id="{id}_form">',
                 '<input type="hidden" name="openid_action" value="login" />',
                 '<input id="openid_identifier" type="hidden" name="openid_identifier" value="" />',
                 '<input id="openid_sel_service" type="hidden" name="openid_sel_service" value="" />',

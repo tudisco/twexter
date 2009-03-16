@@ -99,7 +99,7 @@ if(!is_numeric($docid)) $docid = 'null';
 	echo "USER_LOGED_IN = true;";
 	$as = Zend_Registry::get('session_auth');
 	
-	$data = array('success'=>true, 'message'=>"success", 'userid'=>$as->userID, 'name_first'=>$as->name_first, 'name_last'=>$as->name_last);
+	$data = array('success'=>true, 'message'=>"success", 'userid'=>$as->userID, 'nickname'=>$as->nickname);
 	echo "USER_DATA = ",json_encode($data);
 }else{ 
 	echo "USER_LOGED_IN = false;";

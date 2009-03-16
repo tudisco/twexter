@@ -33,6 +33,7 @@ $groupsSources = array(
         ,"{$base}/js/ui/output_contextmenu.js"
         ,"{$base}/js/utils/clipboard.js"
         ,"{$base}/js/ui/translation_selection.js"
+        ,"{$base}/js/ui/user_login_openid.js"
         ,"{$base}/js/ui/history_list.js"
     )
     ,'css' => array(
@@ -54,6 +55,7 @@ $groupsSources = array(
         ,"{$base}/css/comments.css"
         ,"{$base}/css/sidebar.css"
         ,"{$base}/css/translation_selection.css"
+        ,"{$base}/css/user_login_openid.css"
     )
 );
 ?>
