@@ -55,6 +55,9 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 			$tdb->setParentId($p['parent_id']);
 			$tdb->setParentSha1($p['parent_sha1']);
 		}
+		if(!empty($p['tags'])){
+			$tdb->setTags($p['tags']);
+		}
 		
 		$struct = createTwextStruct(stripcslashes($p['text']), stripcslashes($p['twxt']));
 		

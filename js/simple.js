@@ -1349,15 +1349,14 @@ twexter.xnavui.prototype = {
 				this.savedlg.on('save_document', this.onSaveDocumentToServer, this);
 				this.savedlg.init();
 				
-				if(this.doc_desc){
-					this.savedlg.form_desc.dom.value = this.doc_desc;
-				}
+				
+				this.savedlg.form_desc.dom.value = this.doc_desc;
+				this.savedlg.form_tags.dom.value = this.doc_tags;
 				
 				this.savedlg.show(title);
 			}else{
-				if(this.doc_desc){
-					this.savedlg.form_desc.dom.value = this.doc_desc;
-				}
+				this.savedlg.form_desc.dom.value = this.doc_desc;
+				this.savedlg.form_tags.dom.value = this.doc_tags;
 				
 				this.savedlg.show(title);
 			}
@@ -1396,7 +1395,7 @@ twexter.xnavui.prototype = {
 	},
 	
 	/** when the save docuemnt dialog fires the save_document event */
-	onSaveDocumentToServer: function(title, desc, global){
+	onSaveDocumentToServer: function(title, desc, global, tags){
 		var data = {};
 		data.title = title;
 		data.description = desc;
@@ -1407,6 +1406,7 @@ twexter.xnavui.prototype = {
 		data.lang_text = this.editor_bar.getTextLang();
 		data.lang_twxt = this.editor_bar.getTwxtLang();
 		data.global = global;
+		data.tags = tags;
 		
 		//Check for URL
 		//var url = this.urlDisplay.getUrl();
@@ -1527,6 +1527,7 @@ twexter.xnavui.prototype = {
 		if(text.length > 3){
 			var doc = Ext.decode(text);
 			
+			this.doc_tags = doc.tags;
 			this.doc_title = doc.title;
 			this.doc_desc = doc.description;
 			this.doc_sha1 = doc.sha1;

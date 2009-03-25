@@ -22,6 +22,9 @@ if(!is_numeric($docid)) $docid = 'null';
 <head>
 <title>Twexter</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="shortcut icon" href="/images/twext.ico" />
+
 <script src="http://www.google.com/jsapi?key=ABQIAAAAunEcMFDGHr_wmtu2XUug1BSMkLjG2dqjn9SZ4XtNlZnYQgQRQBQjPrVw2B4EL1mto37jy3sxhrl1Ag" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo $cssBuild->uri('/m.php/css'); ?>" />

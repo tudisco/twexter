@@ -2,16 +2,18 @@
 .save_form {
     z-index: 551;
     position: absolute;
-    background-color: #D6D3BD;
-    border: solid medium #84794A;
+    width: 400px;
+    padding: 15px;
+    background-color: #FFF;
+    border: solid 3px #CCC;
     visibility: hidden;
-    -moz-border-radius : 4px;
-    -webkit-border-radius: 4px;
+    -moz-border-radius : 7px;
+    -webkit-border-radius: 7px;
 }
 
 .save_form .title {
-    background-color: #84794A;
-    color:white;
+    background-color: #CCC;
+    color:black;
     padding: 3px;
     padding-left: 30px;
     font-family: sans-serif;
@@ -20,7 +22,7 @@
 }
 
 .save_form .body {
-    background-color: #D6D3BD;
+    background-color: #FFF;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -36,9 +38,12 @@
     padding-right: 5px;
 }
 
-.save_form .body .field_textarea textarea {
-    right: 5px;
-    left: 5px;
+.save_form .body input {
+    width: 250px;
+}
+
+.save_form .body textarea {
+    width: 350px;
     height: 150px;
 }
 

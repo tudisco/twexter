@@ -52,6 +52,7 @@ twexter.savedlg.prototype = {
                             '<label for="{id}_desc">Description:</label>',
                             '<textarea id="{id}_desc">{doc_desc}</textarea>',
                         '</div>',
+			'<div class="field"><label for="{id}_tags">Tags:</label><input id="{id}_tags" type="text" value="{doc_tags}" /></div>',
                         '<div class="field"><label for="{id}_global">Public:</label><input id="{id}_global" type="checkbox" {checked} /></div>',
                         '<div align="center" class="buttons">',
                             '<button id="{id}_save_button" class="{id}_save_button"><img src="/images/save/dialog-apply.png" height="16" width="16" /></button>',
@@ -70,6 +71,7 @@ twexter.savedlg.prototype = {
 		this.form_global = Ext.get(this.id+"_global");
 		this.form_cancel_button = Ext.get(this.id+"_cancel_button");
 		this.form_save_button = Ext.get(this.id+"_save_button");
+		this.form_tags = Ext.get(this.id+"_tags");
 		this.el.hide();
 		this.init_events();
     },
@@ -180,6 +182,7 @@ twexter.savedlg.prototype = {
     clearFields: function(){
 	this.form_title.dom.value = '';
 	this.form_desc.dom.value = '';
+	this.form_tags.dom.value = '';
     },
     
     /**
@@ -189,8 +192,9 @@ twexter.savedlg.prototype = {
 	var title = this.form_title.getValue();
 	var desc = this.form_desc.getValue();
 	var global = this.form_global.dom.checked ? 'yes' : 'no';
+	var tags = this.form_tags.getValue();
 	/*{*/console.log("Save Document (%s|%s|%s)", title, desc, global);/*}*/
-	this.fireEvent('save_document', title, desc, global);
+	this.fireEvent('save_document', title, desc, global, tags);
 	Ext.get(this.id+'_titlebar').update("Saving...");
 	this.disableButtons();
     },

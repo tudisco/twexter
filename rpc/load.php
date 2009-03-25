@@ -49,7 +49,8 @@ if(is_numeric($docid)){
 		'version' => $doc->getVersion(),
 		'trans' => $doc->getTranslations(),
 		'url' => $doc->getUrlLink(),
-		'chunk_style' => $doc->getChunkStyle()
+		'chunk_style' => $doc->getChunkStyle(),
+		'tags' => $doc->getTags()
 	);
 	
 	echo json_encode($doc);

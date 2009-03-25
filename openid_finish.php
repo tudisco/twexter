@@ -144,6 +144,10 @@ function run() {
             }else{
                 displayError("Error adding user, please try again latter");
             }
+            
+            header('location: /user_info_form.php');
+            exit();
+            
         }else{
             //Ok.. the users exist do stupid zend auth trick
             log_into_text($openid,sha1(sha1($openid)));

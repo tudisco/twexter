@@ -123,6 +123,10 @@ class DbTwext {
 	 * Parent Doc SHA1
 	 */
 	protected $_document_parent_sha1;
+	/**
+	 * Document Tags
+	 */
+	protected $_document_tags;
 	
 	
 
@@ -332,6 +336,16 @@ class DbTwext {
 		$this->_document_creation_date = $time;
 	}
 	
+	function setTags($tags){
+		if(is_string($tags)){
+			$this->_document_tags = $tags;
+		}
+	}
+	
+	function getTags(){
+		return $this->_document_tags;
+	}
+	
 	/**
 	 * Set User ID
 	 *
@@ -498,8 +512,12 @@ class DbTwext {
 			
 			if(!empty($this->_document_url_link) && is_string($this->_document_url_link)){
 				if(!$this->_add_url()){
-					echo 'No URL!';
+					//echo 'No URL!';
 				}
+			}
+			
+			if(!empty($this->_document_tags)){
+				$this->_add_tags();
 			}
 			
 			return $this->_document_id;
@@ -599,6 +617,33 @@ class DbTwext {
 		$data['document_id'] = $this->_document_id;
 		
 		return $db->insert($data);
+	}
+	
+	protected function _add_tags(){
+		$tags = $this->_document_tags;
+		$dbt = new dbTags();
+		$dbtl = new dbTagsLink();
+		$dbtl->delete("doc_id = ".$this->_document_id);
+		if(is_string($tags) && strlen($tags)){
+			$tags = explode(',', $tags);
+			foreach($tags as $tag){
+				$tag = trim($tag);
+				if(empty($tag)) continue;
+				$sel = $dbt->select();
+				$sel->where("tag = ?", $tag);
+				$res = $dbt->fetchAll($sel);
+				if($res->count()>0){
+					$r = $res->toArray();
+					$tid = $r[0]['id'];
+				}else{
+					$data = array('tag'=>$tag);
+					$tid = $dbt->insert($data);
+					if(!is_numeric($tid)) $tid = $dbt->getAdapter()->lastInsertId();
+				}
+				
+				$dbtl->insert(array('tag_id'=>$tid, 'doc_id'=>$this->_document_id));
+			}
+		}
 	}
 	
 	/**
@@ -796,6 +841,24 @@ class DbTwext {
 				$this->_document_url_link = $url['url'];
 			}
 			
+			//load tags
+			$this->_document_tags = null;
+			$dbtl = new dbTagsLink();
+			$dbt = new dbTags();
+			$sel = $dbtl->select()->where("doc_id = ?", $this->_document_id);
+			$tids = $dbtl->fetchAll($sel);
+			
+			foreach($tids as $tid){
+				$id = $tid->tag_id;
+				$tag = $dbt->find($id);
+				foreach($tag as $t){
+					if($this->_document_tags==null){
+						$this->_document_tags.=$t->tag;
+					}else{
+						$this->_document_tags.= ', '.$t->tag;
+					}
+				}
+			}
 			
 		}else{
 			throw new DbTwextException("Document does not exist", DBTWEXT_DB_ERROR);

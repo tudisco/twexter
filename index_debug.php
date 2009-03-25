@@ -20,6 +20,9 @@ if(!is_numeric($docid)) $docid = 'null';
 <head>
 <title>Twexter</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="shortcut icon" href="/images/twext.ico" />
+
 <link href="css/simple.css" rel="stylesheet" type="text/css">
 <link href="css/x_button.css" rel="stylesheet" type="text/css">
 <link href="css/output.css" rel="stylesheet" type="text/css">
