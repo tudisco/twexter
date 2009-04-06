@@ -29,20 +29,18 @@ twexter.util.tagCloud.prototype = {
     }),
     
     init: function(){
-        console.log("***** INIT ****");
         twexter.util.tagCloud.superclass.init.call(this);
         this.init2();
     },
     
     init2: function(){
-        console.log("***** INIT2 ****");
         this.store.on('load', this.onTagsLoad, this);
         
         this.tpl = new Ext.XTemplate (
             '<div class="taglist">',
                 '<ul>',
                     '<tpl for=".">',
-                        '<li><span id="atag-{id}" class="atag" syle="font-size:{fontsize}px;">{tag}</span></li>',
+                        '<li><span id="atag-{id}" class="atag f{fontsize}">{tag}</span></li>',
                     '</tpl>',
                 '</ul>',
             '</div>'
@@ -58,15 +56,19 @@ twexter.util.tagCloud.prototype = {
         var data = [];
         
         Ext.each(recs, function(r){
-            var tc = r.get('tcount');
+            var tc = parseInt(r.get('tcount'));
+            console.log(tc);
             maxCount = Math.max(maxCount, tc);
             minCount = Math.min(minCount, tc);
         }, this);
         
-        var diff = maxCount - minCount;
+        var range = 10 / (Math.log(maxCount) - Math.log(minCount));
+        console.log("Range ",range," ",maxCount," ",minCount, " ", Math.log(maxCount), " ", Math.log(minCount));
         
         Ext.each(recs, function(r){
-            var fs = ((this.maxFontSize-this.minFontSize)*(r.get('tcount')*100/maxCount)/100)+this.minFontSize;
+            //var fs = ((this.maxFontSize-this.minFontSize)*(r.get('tcount')*100/maxCount)/100)+this.minFontSize;
+            var fs = parseInt((Math.log(r.get('tcount')) - Math.log(minCount)) * range);
+            fs = fs + this.minFontSize;
             data.push({id:r.get('id'),tag:r.get('tag'),tcount:r.get('tcount'),fontsize:fs});
         }, this);
         

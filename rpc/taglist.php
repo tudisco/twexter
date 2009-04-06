@@ -30,7 +30,12 @@ require_once HISTORYLIST_PATH.'../include/zendauth.php';
 $db = Zend_Registry::get('dbTwext');
 //$db->query('SELECT tag, count(tag) AS tcount FROM document_tags GROUP BY tag ORDER BY tag');
 
-$tags = $db->fetchAll('SELECT id, tag, count(tag) AS tcount FROM document_tags GROUP BY tag ORDER BY tag');
+$tags = $db->fetchAll("
+SELECT t2.id as id, t2.tag as tag, count(t1.tag_id) as tcount FROM document_tags_link AS t1,document_tags AS t2 
+WHERE t1.tag_id = t2.id 
+GROUP BY t2.tag
+ORDER BY tag                     
+");
 
 echo json_encode(array('data'=>$tags, 'total'=>count($tags)));
 ?>
