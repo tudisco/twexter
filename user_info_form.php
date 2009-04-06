@@ -6,14 +6,21 @@ Zend_Loader::registerAutoload();
 
 class Nickname_Validate extends Zend_Validate_Abstract
 {
+    const NOUSER = 'nouser';
+    
+    protected $_messageTemplates = array(
+        self::NOUSER => "The username '%value%' is taken, \n Please choose another"
+    );
+    
     function isValid($value){
+        $this->_setValue($value);
 	$db = Zend_Registry::get('dbTwext');
 	$as = Zend_Registry::get('session_auth');
 	$res = $db->fetchAll($db->select()->from('users')->where("username = ?", $value)->where("id <> ?", $as->userID));
 	if(count($res)<1){
 	    return true;
 	}else{
-	    $this->_error("The username is taken, Please choose another");
+	    $this->_error();
 	    return false;
 	}
     }
@@ -35,11 +42,11 @@ $form->setMethod('POST');
 
 $form->addElement('hidden', 'id');
 
-$form->addElement('text', 'name_first', array('label'=>'First Name'));
-$form->addElement('text', 'name_last', array('label'=>'Last Name'));
+$form->addElement('text', 'name_first', array('label'=>'First Name','required'=>true));
+$form->addElement('text', 'name_last', array('label'=>'Last Name','required'=>true));
 
 $form->addElement('text','username', array('label'=>'Nickname','required'=>true,'validators'=>array(new Nickname_Validate())));
-$form->addElement('text','email',array('label'=>'Email'));
+$form->addElement('text','email',array('label'=>'Email','required'=>true));
 
 $form->addDisplayGroup(array('name_first','name_last','username','email'), 'name', array("legend" => "Your Information"));
 
@@ -67,10 +74,17 @@ $form->submit->setValue("Save");
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && $form->isValid($_POST)){
     
+   
+    
     $values = $form->getValues();
     $alllangs = $values['lang_learning'];
     $alllangs[] = $values['lang_main'];
-    $values['lang_learning'] = implode(',',$values['lang_learning']);
+    if(is_array($values['lang_learning'])){
+        $values['lang_learning'] = implode(',',$values['lang_learning']);
+    }else{
+        $values['lang_learning'] = '';
+    }
+    
     
     $where = $_db->quoteInto('id = ?', $values['id']);
     $userid = $values['id'];
@@ -78,6 +92,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $form->isValid($_POST)){
     
     $udb = new dbUser();
     $udb->update($values, $where);
+    
+    $asess = Zend_Registry::get('session_auth');
+    $asess->nickname = $values['username'];
     
     //Lets Make sure they have some selected langs
     $rlangs = $_db->fetchAll($_db->select()->from('user_lang')->where("user_id = ?", $userid));

@@ -139,6 +139,7 @@ function run() {
             }
             
             $udb = new dbUser();
+            $data['datecreated'] = date('Y-m-d H:i:s');
             if($udb->insert($data)){
                 log_into_text($openid,sha1(sha1($openid)));
             }else{

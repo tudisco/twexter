@@ -24,8 +24,7 @@ if (isset($twextSession->numberOfPageRequests)) {
 //User session name space
 $authSession = new Zend_Session_Namespace('auth_user');
 //$authSession->user = "myusername";
-
-if(isset($_GET['logout']) && $_GET['logout']==1){
+if($_GET['logout']==1 || $_GET['logout']=='1'){
     $twextSession->unsetAll();
     $authSession->unsetAll();
     header("location: /");

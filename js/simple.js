@@ -1273,7 +1273,7 @@ twexter.xnavui.prototype = {
 		
 		this.userTag.on('click', function(){
 			confirm("Do you want to log out?");
-			window.location.href = "/?logout=1";
+			window.location.href = "/index.php?logout=1";
 		}, this);
 		
 		//Disable Selection
