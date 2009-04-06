@@ -35,6 +35,7 @@ $groupsSources = array(
         ,"{$base}/js/ui/translation_selection.js"
         ,"{$base}/js/ui/user_login_openid.js"
         ,"{$base}/js/ui/history_list.js"
+        ,"{$base}/js/utils/tagcloud.js"
     )
     ,'css' => array(
         "{$base}/css/simple.css"

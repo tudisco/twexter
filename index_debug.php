@@ -90,6 +90,7 @@ if(!is_numeric($docid)) $docid = 'null';
 <script type="text/javascript" src="js/ui/common/panel.js"></script>
 <script type="text/javascript" src="js/ui/output_contextmenu.js"></script>
 <script type="text/javascript" src="js/utils/clipboard.js"></script>
+<script type="text/javascript" src="js/utils/tagcloud.js"></script>
 <script type="text/javascript" src="js/ui/translation_selection.js"></script>
 
 <script type="text/javascript" src="js/ui/history_list.js"></script>

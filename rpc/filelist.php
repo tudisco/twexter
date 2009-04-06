@@ -54,6 +54,14 @@ function get_language_name($lang){
     return $db->fetchOne($sel);
 }
 
+function get_tag($tag){
+        $db = Zend_Registry::get('dbTwext');
+        $sel = $db->select();
+        $sel->from('document_tags',array('id'));
+        $sel->where("tag = ?",$tag);
+        return $db->fetchOne($sel);
+}
+
 function get_user_id($user){
     $db = Zend_Registry::get('dbTwext');
     $sel = $db->select();
@@ -171,6 +179,16 @@ if($search !== false){
                 echo json_encode($data);
                 exit();
             }
+        }
+        if(!empty($options['g'])){
+                $tagid = get_tag($options['g']);
+                $sel->join('document_tags_link', 'document_tags_link.doc_id = document.id');
+                $sel->where('document_tags_link.tag_id = ?', $tagid);
+        }
+        if(!empty($options['tagid'])){
+                $tagid = $options['tagid'];
+                $sel->join('document_tags_link', 'document_tags_link.doc_id = document.id');
+                $sel->where('document_tags_link.tag_id = ?', $tagid);
         }
     }
 }

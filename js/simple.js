@@ -521,6 +521,20 @@ twexter.xnavui.prototype = {
 	
 	init_keys: function(){
 		
+		var viewTags = {
+			key: Ext.EventObject.T,
+			ctrl: true,
+			fn: function(){
+				if(!this.tagCloud){
+					this.tagCloud = new twexter.util.tagCloud();
+					this.tagCloud.init();
+				}
+				this.tagCloud.show();
+			},
+			scope: this,
+			stopEvent: true
+		}
+		
 		var undoEvent = {
 			key: Ext.EventObject.Z,
 			ctrl: true,
@@ -614,7 +628,7 @@ twexter.xnavui.prototype = {
 		this.keyMapEditorr = new Ext.KeyMap(this.editor.TextAreaRight.dom, undoEvent);
 		
 		this.keyMap = new Ext.KeyMap(document, [
-			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,goNewChildDoc,switchEditPreview,
+			undoEvent,goToEdit,goToEditFull,goToView,goToFind,goToComments,goNewChildDoc,switchEditPreview,viewTags,
 			{
 				key: Ext.EventObject.S,
 				ctrl: true,

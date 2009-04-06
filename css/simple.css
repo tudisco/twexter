@@ -46,3 +46,23 @@
     font-family: monospace;
     font-size: 16px;
 }
+
+/* TAG LIST CSS */
+
+.out_taglist {
+        position: absolute;
+        z-index: 532;
+	background-color: white;
+	border: solid 2px grey;
+	width: 400px;
+	height: 400px;
+}
+
+.out_taglist .taglist ul li {
+        display: inline;
+        list-style-type: none;
+        padding-right: 8px;
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+}

@@ -298,6 +298,7 @@ twexter.finder.prototype = {
 	var to = this.store_params.start + this.store_params.limit;
 	to = Math.min(to, total);
 	var count = (this.store_params.start+1) + ' - ' + to + ' / ' + total;
+	
 	this.button_count.update(count);
 	
 	//now check buttons

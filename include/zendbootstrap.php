@@ -16,7 +16,15 @@ if(strpos($_SERVER['HTTP_HOST'],'read.fm')){
         'password'       => $dbconf['readfm']['password'],
         'dbname'         => $dbconf['readfm']['dbname'],
         'profiler' 		 => false
-    ); 
+    );
+}else if(strpos($_SERVER['HTTP_HOST'],'.cx')){
+    $_db_params = array(
+        'host'           => $dbconf['xcxc']['host'],
+        'username'       => $dbconf['xcxc']['username'],
+        'password'       => $dbconf['xcxc']['password'],
+        'dbname'         => $dbconf['xcxc']['dbname'],
+        'profiler' 	 => false
+    );
 }else{
     $_db_params = array(
         'host'           => $dbconf['local']['host'],

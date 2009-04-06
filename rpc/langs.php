@@ -1,4 +1,4 @@
-﻿<?php
+<?
 /**
 twexter helps you learn to read in any language
 Copyright © 2008 READ.FM http://license.read.fm
@@ -19,17 +19,14 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
-
 /**
  * Loads a list of languages available for current user
- */
-
+*/
 define("TWEXTERFILELIST_PATH", dirname(__FILE__).'/');
 require_once TWEXTERFILELIST_PATH.'../include/zendbootstrap.php';
 require_once TWEXTERFILELIST_PATH.'../include/zendauth.php';
 
 $query = (!empty($_REQUEST['query'])) ? $_REQUEST['query'] : false;
-
 
 $ldb = new dbLangs();
 $sel = $ldb->select();
@@ -70,5 +67,4 @@ $langs = $ldb->fetchAll($sel);
 $data = $langs->toArray();
 
 echo json_encode(array('success'=>true, 'total'=>count($data), 'langs'=>$data));
-
 ?>
