@@ -387,6 +387,55 @@ twexter.detect_chunk_style = function(text,twxt){
 	
 }
 
+twexter.struct_to_rtfspecial = function(s){
+	if(!(s instanceof Array)) {
+		throw "Struct not an array";
+	}
+	/*{*/console.log("Going to convert to Edit Chunk");/*}*/
+	var l = s.length;
+	var x=l-1;
+	var nt = [],nl=[],nr=[];
+	var cl,cr,m,ws;
+	var su = twexter.string;
+	
+	
+	for(var i=0; i<l; i++){
+		if(!(s[i] instanceof Array)){
+			nt.push(su.trim(nl.join('')), "\n", su.trim(nr.join('')));
+			nl = [], nr = [];
+			
+			if(s[i]==0){
+				nt.push("\n");
+			}else{
+				nt.push("\n\n");
+			}
+		}else{
+			cl = (!Ext.isEmpty(s[i][0])) ? su.trim(s[i][0]) : '--';
+			cr = (!Ext.isEmpty(s[i][1])) ? su.trim(s[i][1]) : '--';
+			ws = parseInt(cr.length/2);
+			m = Math.max(cl.length, ws);
+			m=m+1;
+			if(cl.length > ws){
+				cl = su.str_pad(cl, m, " ", 'R');
+				cr = su.str_pad(cr, m*2, " ", 'R');
+			}else{
+				cl = su.str_pad(cl, m, " ", 'R');
+				cr = su.str_pad(cr, m*2, " ", 'R');
+			}
+			
+			
+			nl.push(cl);
+			nr.push(cr);
+		}
+	}
+	
+	if(nl.length > 0 || nr.length > 0){
+		nt.push(su.trim(nl.join('')), "\n", su.trim(nr.join('')));
+	}
+	
+	return nt.join('');
+}
+
 twexter.struct_to_spacechunk = function(struct){
 	var su = twexter.string;
 	var l = struct.length;

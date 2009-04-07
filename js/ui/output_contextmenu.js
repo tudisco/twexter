@@ -123,6 +123,10 @@ twexter.out_contextmenu.prototype = {
             });
             hist.init();
             hist.load_with_sha1(SIMPLE.doc_sha1);
+        }else if(d && d.get('action')=='print'){
+            var url = this.parseURL();
+             var purl = 'http://'+url.host+'/rtf.php?docid='+SIMPLE.doc_id;
+            window.open(purl);
         }else{
             alert("Comming Soon!");
         }
