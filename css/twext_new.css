@@ -20,7 +20,8 @@
 	font-family: Arial;
 	white-space: nowrap;
 	font-size: 10px;
-	color: goldenrod;
+	/*color: goldenrod;*/
+	color: #cccc99;
 	margin-top: -7px;
 	font-weight: bold;
 	text-transform: uppercase;

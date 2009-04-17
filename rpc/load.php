@@ -37,6 +37,7 @@ $docid = (is_numeric($_REQUEST['docid'])) ? $_REQUEST['docid'] : false;
 if(is_numeric($docid)){
 	$doc = new DbTwext();
 	$doc->load($docid);
+	$wa = $doc->getWordAssoc();
 	
 	$doc = array(
 		'title' => $doc->getTitle(),
@@ -50,7 +51,9 @@ if(is_numeric($docid)){
 		'trans' => $doc->getTranslations(),
 		'url' => $doc->getUrlLink(),
 		'chunk_style' => $doc->getChunkStyle(),
-		'tags' => $doc->getTags()
+		'tags' => $doc->getTags(),
+		'assoc_text' => $wa[0],
+		'assoc_twxt' => $wa[1]
 	);
 	
 	echo json_encode($doc);

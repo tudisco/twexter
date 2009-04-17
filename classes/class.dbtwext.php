@@ -127,6 +127,14 @@ class DbTwext {
 	 * Document Tags
 	 */
 	protected $_document_tags;
+	/**
+	 * Document Assoc Text
+	 */
+	protected $_dodument_assoc_text;
+	/**
+	 * Document Assoc Twxt
+	 */
+	protected $_document_assoc_twxt;
 	
 	
 
@@ -470,6 +478,25 @@ class DbTwext {
 	}
 	
 	/**
+	 * set word assoc
+	 */
+	function setWordAssoc($text, $twxt){
+		if(is_string($text)){
+			$this->_document_assoc_text = $text;
+		}
+		if(is_string($twxt)){
+			$this->_document_assoc_twxt = $twxt;
+		}
+	}
+	
+	/**
+	 * Get word assoc
+	 */
+	function getWordAssoc(){
+		return array($this->_document_assoc_text,$this->_document_assoc_twxt);
+	}
+	
+	/**
 	 * Set Last Chunk Style
 	 *
 	 * @param string chunk style used
@@ -513,6 +540,12 @@ class DbTwext {
 			if(!empty($this->_document_url_link) && is_string($this->_document_url_link)){
 				if(!$this->_add_url()){
 					//echo 'No URL!';
+				}
+			}
+			
+			if(!empty($this->_document_assoc_text) || !empty($this->_document_assoc_twxt)){
+				if(!$this->_add_assoc()){
+					
 				}
 			}
 			
@@ -615,6 +648,18 @@ class DbTwext {
 		$data['type'] = 'url';
 		$data['url'] = $this->_document_url_link;
 		$data['document_id'] = $this->_document_id;
+		
+		return $db->insert($data);
+	}
+	
+	protected function _add_assoc(){
+		$db = new dbDocumentAssoc();
+		$data = array();
+		
+		$data['text'] = $this->_document_assoc_text;
+		$data['twxt'] = $this->_document_assoc_twxt;
+		$data['doc_id'] = $this->_document_id;
+		$data['doc_sha1'] = $this->_document_sha1;
 		
 		return $db->insert($data);
 	}
@@ -841,6 +886,16 @@ class DbTwext {
 				$this->_document_url_link = $url['url'];
 			}
 			
+			
+			//load assoc
+			$assoc = $this->_load_assoc($this->_document_id);
+			
+			if(is_array($assoc)){
+				$this->_document_assoc_text = $assoc[0]['text'];
+				$this->_document_assoc_twxt = $assoc[0]['twxt'];
+			}
+			
+			
 			//load tags
 			$this->_document_tags = null;
 			$dbtl = new dbTagsLink();
@@ -893,6 +948,22 @@ class DbTwext {
 		$db = new dbDocumentTrans();
 		$select = $db->select();
 		$select->where("document_id = ?", $doc_id)->order('language');
+		$rowset = $db->fetchAll($select);
+		
+		if(is_object($rowset)){
+			if($rowset->count()==0){
+				return false;
+			}
+			return $rowset->toArray();
+		}else{
+			throw new DbTwextException("Rowset is not an object doc $doc_id", DBTWEXT_DB_ERROR);
+		}
+	}
+	
+	protected function _load_assoc($doc_id){
+		$db = new dbDocumentAssoc();
+		$select = $db->select();
+		$select->where("doc_id = ?", $doc_id);
 		$rowset = $db->fetchAll($select);
 		
 		if(is_object($rowset)){

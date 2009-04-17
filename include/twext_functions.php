@@ -101,6 +101,72 @@ function rtfGen($tree){
 		return $rtf;
 }
 
+function ooGen($tree){
+		if(!is_array($tree)) return false;
+		
+		require_once(dirname(__FILE__).'/../libs/phpDocWriter/lib/include.php');
+		import('phpdocwriter.pdw_document');
+		
+		$sxw = new pdw_document;
+		$sxw->SetLanguage('en', 'US');
+		$sxw->SetStdFont('Courier New', 16.1);
+		//$sxw->Write('Hello World!');
+		
+		
+		$l = count($tree);
+		$x = $l-1;
+		$nt = array();
+		$nl = array();
+		$nr = array();
+		
+		for($i = 0 ; $i<$l ; $i++){
+				if(!is_array($tree[$i])){
+						$sxw->SetFont(array('family'=>'Courier New', 'size'=>16.1));
+						$sxw->Write(trim(implode('',$nl)));
+						$sxw->ln();
+						$sxw->SetFont(array('family'=>'Courier New', 'size'=>16.1));
+						$sxw->Write(trim(implode('',$nr)));
+						$sxw->ln();
+						
+						$nl = array();
+						$nr = array();
+						
+						if($tree[$i]==0){
+								//$sect->writeText("\n",$font13,$parFormat);
+						}else{
+								$sxw->ln();
+								//$sect->writeText("\n",$font13,$parFormat);
+						}
+				}else{
+						$cl = (!empty($tree[$i][0])) ? trim($tree[$i][0]) : '--';
+						$cr = (!empty($tree[$i][1])) ? trim($tree[$i][1]) : '--';
+						
+						$ws = round(strlen($cr)/2);
+						$m = max(strlen($cl), $ws);
+						$m=$m+1;
+						
+						$cl = str_pad($cl,$m,' ',STR_PAD_RIGHT);
+						$cr = str_pad($cr,$m*2,' ',STR_PAD_RIGHT);
+						
+						array_push($nl,$cl);
+						array_push($nr,$cr);
+				}
+		}
+		
+		if(count($nl) > 0 || count($nr) > 0){
+				$sxw->SetFont(array('family'=>'Courier New', 'size'=>16.1));
+				$sxw->Write(trim(implode('',$nl)));
+				$sxw->ln();
+				$sxw->SetFont(array('family'=>'Courier New', 'size'=>16.1));
+				$sxw->Write(trim(implode('',$nr)));
+				$sxw->ln();
+		}
+		
+		
+		//$rtf->save($filename);
+		return $sxw;
+}
+
 function getTwextBreakCode($breakCount){
 		if($breakCount==1) return 0;
 		else return 1;

@@ -134,53 +134,70 @@
 
 .edit_toolbar_tab_preview {
     float:left;
-	height:22px;
+    height:12px;
+    font-size: 10px;
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 3px;
     border-right: solid 1px grey;
     border-left: solid 1px grey;
     border-top: solid 1px grey;
-    font-size: 12px;
     cursor: pointer;
     background-color: #FFF;
     -moz-border-radius-topright: 3px;
     -moz-border-radius-topleft: 3px;
-    -webkit-border-radius-topright: 3px;
-    -webkit-border-radius-topleft: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
 }
 
 .edit_toolbar_tab_youtube {
 	float:left;
-    height:22px;
+    height:12px;
+    font-size: 10px;
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 3px;
     border-right: solid 1px grey;
     border-top: solid 1px grey;
-    font-size: 12px;
     cursor: pointer;
     background-color: #FFF;
     -moz-border-radius-topright: 3px;
     -moz-border-radius-topleft: 3px;
-    -webkit-border-radius-topright: 3px;
-    -webkit-border-radius-topleft: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
 }
 
 .edit_toolbar_tab_trans {
     float:left;
-    height:22px;
+    height:12px;
+    font-size: 10px;
     padding-right: 5px;
     padding-left: 5px;
     padding-top: 3px;
     border-right: solid 1px grey;
     border-top: solid 1px grey;
-    font-size: 12px;
     cursor: pointer;
     background-color: #FFF;
     -moz-border-radius-topright: 3px;
     -moz-border-radius-topleft: 3px;
-    -webkit-border-radius-topright: 3px;
-    -webkit-border-radius-topleft: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+}
+
+.edit_toolbar_tab_assoc {
+    float:left;
+    height:12px;
+    font-size: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    border-right: solid 1px grey;
+    border-top: solid 1px grey;
+    cursor: pointer;
+    background-color: #FFF;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
 }
 

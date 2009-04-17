@@ -201,17 +201,6 @@ twexter.uiviews.prototype = {
     posCtrlObject: function(ctrl, obj){
         /*{*/if(this.debug) console.group("Postion ctrl with object");/*}*/
         
-        //first check is visible
-        if(obj.visible!=undefined){
-            if(obj.visible===true){
-                /*{*/if(this.debug) console.debug("Going to show control");/*}*/
-                ctrl.show();
-            }else{
-                /*{*/if(this.debug) console.debug("Going to hide control");/*}*/
-                ctrl.hide();
-            }
-        }
-        
         var bwidth = Ext.getBody().getWidth();
         var el = ctrl.getEl();
         if(obj.dock){
@@ -283,6 +272,17 @@ twexter.uiviews.prototype = {
                     ctrl.setBottom ? ctrl.setBottom(0) : el.setBottom(0);
                     ctrl.setLeft ? ctrl.setLeft(0) : el.setLeft(0);
                 }
+            }
+        }
+	
+	//first check is visible
+        if(obj.visible!=undefined){
+            if(obj.visible===true){
+                /*{*/if(this.debug) console.debug("Going to show control");/*}*/
+                ctrl.show();
+            }else{
+                /*{*/if(this.debug) console.debug("Going to hide control");/*}*/
+                ctrl.hide();
             }
         }
         

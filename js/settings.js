@@ -65,6 +65,9 @@ CHUNKTOOLS_TOP = 170;
 HISTORY_COUNT = 0;
 
 
+ASSOC_EDITOR_SETTINGS = {id:'edit_assoc',rightTextId:'assoc_text',leftTextId:'assoc_twxt'};
+
+
 VIEW_STATES = {
     always:{
         menubar: {dock:'tr', callafter:'posButtons'},
@@ -77,7 +80,8 @@ VIEW_STATES = {
         editor: {visible: false},
         stylecontrol: {visible: false},
         comments: {visible: false},
-        transout: {visible: false}
+        transout: {visible: false},
+        edit_assoc: {visible: false}
     },
     doc_nourl:{
         settings: {topbar2space:false},
@@ -129,6 +133,14 @@ VIEW_STATES = {
         editortools: {visible: true, dock:'tr2', align:'l', callafter:'view_trans'},
         transout: {visible: true, dock: 'c', part:'r'},
         editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}  
+    },
+    edit_with_assoc:{
+        settings: {topbar2space:true},
+        output: {visible:false},
+        edit_assoc: {visible: true, dock: 'c', part:'r', callafter:'positionEditors'},
+        urldisplay: {visible: false},
+        editortools: {visible: true, dock:'tr2', align:'l', callafter:'view_assoc'},
+        editor: {visible: true, dock:'c', part:'l', callafter:'positionEditors'}
     },
     finder: {
         settings: {topbar2space:false},

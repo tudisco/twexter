@@ -53,7 +53,7 @@ twexter.out_tools.prototype = {
     twxtLineSpaceMin: -10,
     twxtLineSpaceMax: 7,
     schange: {},
-    colors: [['black','Black'],
+    colors: [['black','Black'],['#cccc99','Twext Grey'],
              ['darkgrey','Dark Grey'],['grey','Grey'],
              ['lightgrey','Light Grey'],['darkblue','Dark Blue'],
              ['blue','Blue'],['lightblue','Light Blue'],

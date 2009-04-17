@@ -77,6 +77,10 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 		$tdb->addTranslation($p['lang_text'], $s1, 'text');
 		$tdb->addTranslation($p['lang_twxt'], $s2, 'twxt');
 		
+		if(!empty($p['assoc_text']) || !empty($p['assoc_twxt'])){
+			$tdb->setWordAssoc($p['assoc_text'],$p['assoc_twxt']);
+		}
+		
 		$tdb->setGlobal($p['global']);
 		
 		if(!empty($p['url'])){

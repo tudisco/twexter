@@ -352,6 +352,13 @@ twexter.xnavui.prototype = {
 			this.uiviews.positionControls();
 			this.translation_output();
 		}, this);
+		this.editor_bar.on('go_preview_assoc', function(){
+			if(!this.editor_assoc){
+				this.init_assoc_editor();
+			}
+			this.uiviews.setView('edit_with_assoc');
+			this.uiviews.positionControls();
+		}, this);
 		
 		this.editor_bar.comboLeftLang.on('change', this.switchSourceLanguage, this);
 		
@@ -385,6 +392,13 @@ twexter.xnavui.prototype = {
 		o.setStyleChange(t,s, 'font_color_change');
 		o.setStyleChange(t,s, 'font_weight_change');
 		o.setStyleChange(t,s, 'font_cap_change');
+	},
+	
+	init_assoc_editor: function(){
+		this.editor_assoc = new twexter.editor(ASSOC_EDITOR_SETTINGS);
+		this.editor_assoc.init();
+		this.editor_assoc.setEditorMode(2);
+		this.uiviews.addCtrl('edit_assoc',this.editor_assoc);
 	},
 	
 	/** Initialize the output control */
@@ -1422,6 +1436,11 @@ twexter.xnavui.prototype = {
 		data.global = global;
 		data.tags = tags;
 		
+		if(this.editor_assoc){
+			data.assoc_text = this.editor_assoc.getText();
+			data.assoc_twxt = this.editor_assoc.getTwxt();
+		}
+		
 		//Check for URL
 		//var url = this.urlDisplay.getUrl();
 		var url = this.editor_bar.getURL();
@@ -1552,6 +1571,15 @@ twexter.xnavui.prototype = {
 			this.doc_chunk_style = doc.chunk_style;
 			this.doc_parent_id = doc.parent_id;
 			this.doc_parent_sha1 = doc.parent_sha1;
+			
+			if(doc.assoc_text || doc.assoc_twxt){
+				if(!this.editor_assoc){
+					this.init_assoc_editor();
+				}
+				this.editor_assoc.setText(doc['assoc_text']);
+				this.editor_assoc.setTwxt(doc['assoc_twxt']);
+			}
+			
 			delete this.loading_doc_id;
 			if(pageTracker){ pageTracker._trackPageview("/actions/open_doc/"+this.doc_id+"/"+this.doc_title); }
 			

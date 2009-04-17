@@ -288,21 +288,33 @@ twexter.editor.prototype = {
         
         if(this.EDITOR_MODE == 2){
             
-            this.getClientSize();
+            /*this.getClientSize();
             
             var x = this.el.getX();
-            var h = this.wHeight-10-x;
+            var h = this.wHeight-10-x;*/
+	    
+	    
+	    var x = this.el.getX();
+	    //var h = pel.getHeight();
+	    var h = this.el.getHeight();
+	    var b = h-x-10;
             
-            this.el_table.setBottom(h);
+            this.el_table.setBottom(b);
+	    //this.el_table.setHeight(h);
             this.TextAreaLeft.setHeight(h);
             this.TextAreaRight.setHeight(h);
             this.orig_editor_height = h;
             this.adjustTwextEditorSize();
             
         }else if(this.EDITOR_MODE == 1){
-            this.getClientSize();
+            /*this.getClientSize();
             var x = this.el.getX();
-            var h = this.wHeight-10-x;
+            var h = this.wHeight-10-x;*/
+	    var x = this.el.getX();
+	    var h = this.el.getHeight();
+	    var b = h-x-10;
+	    
+	    this.TextAreaLeft.setHeight(h);
             this.TextAreaRight.setHeight(h);
             this.orig_editor_height = h;
             this.adjustTwextEditorSize();
@@ -486,7 +498,7 @@ twexter.editor.prototype = {
         
         var num = Math.max(numl,numr);
         num = num * this.editor_line_height;
-        num+=5;
+        num+=20;
         
         if(num > this.orig_editor_height){
                 this.TextAreaLeft.setHeight(num);

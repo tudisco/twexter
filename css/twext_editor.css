@@ -11,6 +11,21 @@
     overflowY: hidden;
     -moz-border-radius : 7px;
     -webkit-border-radius: 7px;
+    display:none;
+}
+
+.edit_assoc{
+    overflow: auto;
+    border: 2px solid lightgrey;
+    padding:0px;
+    bottom: 10px;
+    top: 55px;
+    z-index:136;
+    position: absolute;
+    overflowY: hidden;
+    -moz-border-radius : 7px;
+    -webkit-border-radius: 7px;
+    display:none;
 }
 
 .twext_editor .etable {
@@ -20,6 +35,7 @@
 
 .twext_editor .etable .left {
     background: black;
+    padding-right: 3px;
 }
 
 .twext_editor .etable .left .edit {

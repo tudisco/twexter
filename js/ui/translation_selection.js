@@ -23,7 +23,7 @@ twexter.translation_selection.prototype = {
     store: null,
     
     init: function(){
-        twexter.out_contextmenu.superclass.init.call(this);
+        twexter.translation_selection.superclass.init.call(this);
         this.init2();
     },
     

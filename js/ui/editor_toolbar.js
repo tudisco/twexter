@@ -77,6 +77,7 @@ twexter.editor_tools.prototype = {
 				'<div id="{id}_tab_preview" class="{id}_tab_preview">Preview</div>',
 				'<div id="{id}_tab_youtube" class="{id}_tab_youtube">YouTube</div>',
 				'<div id="{id}_tab_trans" class="{id}_tab_trans">Translation</div>',
+				'<div id="{id}_tab_assoc" class="{id}_tab_assoc">Assc.</div>',
 			'</div>'
         );
         
@@ -121,6 +122,7 @@ twexter.editor_tools.prototype = {
 	this.tabPreview = Ext.get(this.id+'_tab_preview');
 	this.tabUrl = Ext.get(this.id+'_tab_youtube');
 	this.tabTrans = Ext.get(this.id+'_tab_trans');
+	this.tabAssoc = Ext.get(this.id+'_tab_assoc');
 	//Tab Events
 	this.tabPreview.on('click', function(){
 	    this.fireEvent('go_preview_out');
@@ -131,6 +133,10 @@ twexter.editor_tools.prototype = {
 	this.tabTrans.on('click', function(){
 	    this.fireEvent('go_preview_trans');
 	}, this);
+	this.tabAssoc.on('click', function(){
+	    this.fireEvent('go_preview_assoc');
+	}, this);
+	
 	
         
         //this.buttNewDoc.on('click', this.onNewDocClick, this);
@@ -282,7 +288,7 @@ twexter.editor_tools.prototype = {
 	var oel = SIMPLE.output.getEl();
 	var tb = Ext.fly('edit_toolbar_edit_tabs');
 	if(!this.editTabsSetSize){
-		tb.setWidth(this.tabPreview.getWidth()+this.tabUrl.getWidth()+this.tabTrans.getWidth()+5);
+		tb.setWidth(this.tabPreview.getWidth()+this.tabUrl.getWidth()+this.tabTrans.getWidth()+this.tabAssoc.getWidth()+8);
 		tb.setHeight(this.tabPreview.getHeight());
 		this.editTabsSetSize = true;
 	}
@@ -309,6 +315,12 @@ twexter.editor_tools.prototype = {
 		this.setRightButtonsTo();
     },
     
+    view_assoc: function(){
+	this.tab_clear();
+	this.color_tab('.'+this.id+'_tab_assoc');
+	this.setRightButtonsTo();
+    },
+    
     color_tab: function(t){
 		Ext.util.CSS.updateRule(t,'background-color','#84794A');
 		Ext.util.CSS.updateRule(t,'color','#FFFFFF');
@@ -321,6 +333,7 @@ twexter.editor_tools.prototype = {
 			Ext.util.CSS.updateRule('.'+this.id+'_tab_preview', i[0], i[1]);
 			Ext.util.CSS.updateRule('.'+this.id+'_tab_youtube', i[0], i[1]);
 			Ext.util.CSS.updateRule('.'+this.id+'_tab_trans', i[0], i[1]);
+			Ext.util.CSS.updateRule('.'+this.id+'_tab_assoc', i[0], i[1]);
 		}, this);
     },
     
